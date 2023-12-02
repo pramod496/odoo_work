@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+        <record id="invoice_form_dceway_inherit" model="ir.ui.view">
+            <field name="name">invoice.form.dceway.inherit</field>
+            <field name="model">stock.picking</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="stock.view_picking_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="/form/sheet/notebook/page[3]" position="after">
+                    <page string="Eway-Bill Details">
+                        <group>
+                            <group>
+                                <field name= "vehicleNo" string="Vehicle Number"/>
+                                <field name="transMOde" string="Transport Mode"/>
+                                <field name="transporterName" string="Transporter Name"/>
+                                <field name="transDocDate" string="Transportation Date"/>
+                            </group>
+                            <group>
+                                <field name ="vehicletype" string="Vehicle Type"/>
+                                <field name ="transDocNo" string="Document Number"/>
+                                <field name="transporterId" string="Transportation ID"/>
+                                <field name="transDistance" string="Distance"/>
+                            </group>
+                        </group>
+                    </page>
+                </xpath>
+                <xpath expr="//button[@name='button_scrap']" position="after">
+                    <button name="jscall" type="object" string="E-Way Bill" class="oe_highlight" attrs="{'invisible': [('picking_type_code', 'in', ('incoming','internal','mrp_operation'))]}"/>
+                    <a href="https://ewaybill.nic.in/" target="blank">E-Way bill</a>
+                </xpath>
+                <xpath expr="//notebook/page/field/tree/field[@name='product_uom']" position="after">
+                    <field name="total_val"/>
+                </xpath>
+            </field>
+        </record>
+        <record id="stock_move_inheritde" model="ir.ui.view">
+            <field name="name">stock.move.form</field>
+            <field name="model">stock.move</field>
+            <field name="inherit_id" ref="stock.view_move_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='location_dest_id']" position="after">
+                    <field name="total_val"/>
+                </xpath>
+            </field>
+        </record>
+
+        <!-- <record id="invoice_supplier_reopen_form_inherit" model="ir.ui.view">
+            <field name="name">invoice.supplier.reopen.form.inherit</field>
+            <field name="model">account.move</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="account.move_supplier_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="/form/header/button[@name='action_invoice_draft']" position="after">
+                    <button name="action_reopen" type="object" states="open" string="Reset To Draft" icon="gtk-convert" groups="account.group_account_invoice,eon_invoice_reopen.display_reopen_invoice_button"/>
+                </xpath>
+            </field>
+        </record> -->
+	</data>
+</openerp>

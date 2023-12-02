@@ -1,0 +1,824 @@
+<odoo>
+
+<!--    <template id="report_purchase_order_template">-->
+<!--        <t t-call="web.html_container">-->
+<!--            <t t-foreach="docs" t-as="doc">-->
+<!--                <t t-call="purchase_order_template.report_purchase_order_template_document" t-lang="doc.partner_id.lang"/>-->
+<!--            </t>-->
+<!--        </t>-->
+<!--    </template>-->
+
+	<template id="report_purchase_order_template_document">
+		<t t-call="web.basic_layout">
+			<t t-call="web.html_container">
+				<t t-foreach="docs" t-as="doc">
+					<t t-set="doc" t-value="doc.with_context({'lang':doc.partner_id.lang})"/>
+					<div class="footer" style="text-align:right;">
+						Page
+						<span class="page"/>
+						of
+						<span class="topage"/>
+						<p>
+							<center>This is a System Generated Document</center>
+						</p>
+					</div>
+
+					<div class="page">
+						<style type="text/css">
+							.table, tr,td{
+							border: 1px solid black;
+							padding:1px;
+							font-size:15px;
+							}
+
+							table, th, td {
+							border: 1px solid black;
+							border-collapse: collapse;
+							}
+
+							th, td {
+							padding: 6px;
+							}
+
+							.tleft{
+							border-left: 1px solid black;
+							border-right: 1px solid black;
+							}
+						</style>
+
+						<div class="row">
+							<div class="col-15">
+								<table cellpadding="0" cellspacing="0" width="100%">
+									<tr>
+										<td style="text-align:left;">
+											<b>
+												<t t-if="doc.company_id.name">
+													<t t-esc="doc.company_id.name"/>
+												</t>
+												<br/>
+												<b>
+													<t t-if="doc.company_id.street">
+														<t t-esc="doc.company_id.street"/>
+													</t>
+												</b>
+												<br/>
+												<t t-if="doc.company_id.street2">
+													<t t-esc="doc.company_id.street2"/>
+												</t>
+												<t t-if="doc.company_id.city">
+													<t t-esc="doc.company_id.city"/>
+												</t>
+												<t t-if="doc.company_id.zip">
+													-
+													<t t-esc="doc.company_id.zip"/>
+												</t>
+												<br/>
+												<t t-if="doc.company_id.state_id.name">
+													<t t-esc="doc.company_id.state_id.name"/>
+												</t>
+												<t t-if="doc.company_id.country_id">
+													<t t-esc="doc.company_id.country_id.name"/>
+												</t>
+												<br/>
+												<t t-if="doc.company_id.phone">
+													<b>Phone:</b>
+													<t t-esc="doc.company_id.phone "/>
+												</t>
+												<t t-if="doc.company_id.fax">
+													Fax:
+													<t t-esc="doc.company_id.fax "/>
+												</t>
+												<br/>
+												<t t-if="doc.company_id.email">
+													Email:
+													<t t-esc="doc.company_id.email "/>
+												</t>
+												<br/>
+												<t t-if="doc.company_id.vat">
+													GST IN:
+													<t t-esc="doc.company_id.vat "/>
+												</t>
+											</b>
+										</td>
+
+										<td width="30%"
+											style="text-align:left;border-right: 1px solid;padding-left: 20px;">
+											<img t-if="doc.company_id.logo"
+												 t-att-src="image_data_uri(doc.company_id.logo)"
+												 style="max-height: 60px;" alt="Logo"/>
+										</td>
+									</tr>
+
+									<tr>
+										<t t-if="doc.po_type=='po'">
+											<td colspan="8" style="width:10%;font-weight:bold;text-align:center;">
+												PURCHASE
+												ORDER
+											</td>
+										</t>
+										<t t-if="doc.po_type=='spo'">
+											<td colspan="8" style="width:10%;font-weight:bold;text-align:center;">
+												SERVICE
+												PURCHASE ORDER
+											</td>
+										</t>
+									</tr>
+
+									<tr>
+										<td width="55%" style="padding-left:6px;">
+											<b>To,</b>
+											<br/>
+											<t t-if="doc.partner_id.name">
+												<t t-esc="doc.partner_id.name"/>
+												<br/>
+												<t t-esc="doc.partner_id.street"/>
+												<br/>
+												<t t-esc="doc.partner_id.street2 or ''"/>
+												<br/>
+												<t t-esc="doc.partner_id.city"/>
+												<t t-esc="doc.partner_id.state_id.name"/>
+												<t t-esc="doc.partner_id.zip"/>
+												<br/>
+												<t t-esc="doc.partner_id.country_id.name"/>
+												<br/>
+												<t t-if="doc.partner_id.phone">
+													Tel:
+													<t t-esc="doc.partner_id.phone"/>
+													<br/>
+												</t>
+												<t t-if="doc.partner_id.email">
+													Email:
+													<t t-esc="doc.partner_id.email"/>
+												</t>
+												<br/>
+											</t>
+											<br/>
+										</td>
+
+										<td width="45%" valign="top" style="border-left:hidden;">
+											<span style="text-align:right;">PURCHASE ORDER NO:
+												<t t-esc="doc.name"/>
+											</span>
+											<br/>
+
+											<span style="text-align:right;">Date:</span>
+											<span t-field="doc.date_order" t-options='{"format": "dd-MM-y"}'/>
+											<br/>
+
+											<t t-if="doc.revision_no">
+												<span style="text-align:right;">Revision No:
+													<t t-esc="doc.revision_no"/>
+												</span>
+												<br/>
+											</t>
+										</td>
+									</tr>
+
+									<tr>
+										<td width="55%" style="border-top:hidden;padding-left:12px;">
+											<p>GST IN:
+												<t t-esc="doc.partner_id.vat"/>
+											</p>
+											<p>Kind Attn:
+												<t t-esc="doc.kind_attn.title.name"/>
+												<t t-esc="doc.kind_attn.name"/>
+											</p>
+											<p>Fax:
+												<t t-esc="doc.partner_id.fax"/>
+											</p>
+										</td>
+
+										<td width="45%" style="border-left:hidden;border-top:hidden;">
+											<p>Your Quotation No :
+												<t t-esc="doc.partner_ref"/>
+											</p>
+
+											<p>Contact Person:
+												<t t-esc="doc.kind_attn.title.name"/>
+												<t t-esc="doc.kind_attn.name"/>
+											</p>
+
+											<p>Phone Number:
+												<t t-esc="doc.partner_id.phone"/>
+											</p>
+										</td>
+									</tr>
+
+									<tr>
+										<td colspan="9" style="border-top:hidden;border-bottom:hidden;">
+											<span>We are pleased to place an order on you for the supply of following
+												items
+												to
+												the terms and conditions mentioned below :-
+											</span>
+										</td>
+									</tr>
+
+								</table>
+
+								<table cellspacing="0" width='100%'>
+									<tr>
+										<th>Sl. No.</th>
+										<th>Item Code</th>
+										<th>Item Description</th>
+										<th>HSN/SAC Code</th>
+										<th>Quantity</th>
+										<th>UoM</th>
+										<th>Rate(<span t-field="doc.currency_id.name"/>)
+										</th>
+										<th>Disc(%)</th>
+										<th>Amount(<span t-field="doc.currency_id.name"/>)
+										</th>
+									</tr>
+
+									<tr t-foreach="doc.order_line"
+										t-as="l">
+										<div>
+											<td style="text-align:center;">
+												<t t-esc="l_index+1"/>
+											</td>
+										</div>
+
+										<div>
+											<td style="text-align:center;">
+												<span t-field="l.product_id.default_code"/>
+											</td>
+										</div>
+
+										<div>
+											<td style="text-align:center;">
+												<span t-esc="l.name[l.name.find('] ')+2:]"/>
+											</td>
+										</div>
+
+										<div>
+											<td style="text-align:center;">
+												<t t-esc="l.product_id.product_tmpl_id.l10n_in_hsn_code"/>
+											</td>
+										</div>
+
+										<div>
+											<td style="text-align:center;">
+												<span t-esc="'%.2f'%(l.product_uom_qty)"/>
+											</td>
+										</div>
+
+										<div>
+											<td style="text-align:center;">
+												<span t-esc="l.product_uom.name"/>
+											</td>
+										</div>
+
+										<div>
+											<td style="text-align:right;">
+												<span t-esc="'%.2f'%(l.price_unit)"/>
+											</td>
+										</div>
+
+										<div>
+											<td style="text-align:center;">
+												<span t-esc="'%.2f'%(l.discount)"/>
+											</td>
+										</div>
+
+										<div>
+											<td style="text-align:right;">
+												<span t-esc="'%.2f'%(l.price_subtotal)"/>
+											</td>
+										</div>
+									</tr>
+
+									<tr>
+										<td colspan="8" style="text-align:right;">
+											<b>Untaxed Amount</b>
+										</td>
+
+										<td style="text-align:right;">
+											<t t-esc="'%.2f'%(doc.amount_untaxed)"/>
+										</td>
+									</tr>
+
+									<t t-if="doc.sgst_rate or doc.igst_rate">
+										<tr>
+											<td colspan="8" style="text-align:right;">
+												<t t-if="doc.cgst_rate">
+													Total CGST
+													<br/>
+												</t>
+												<t t-if="doc.sgst_rate">
+													Total SGST
+													<br/>
+												</t>
+												<t t-if="doc.igst_rate">
+													Total IGST
+												</t>
+											</td>
+
+											<td style="text-align:right;">
+												<t t-if="doc.cgst_rate">
+													<span t-esc="'%.2f'%(doc.amount_tax/2)"/>
+													<br/>
+												</t>
+
+												<t t-if="doc.sgst_rate">
+													<span t-esc="'%.2f'%(doc.amount_tax/2)"/>
+													<br/>
+												</t>
+
+												<t t-if="doc.igst_rate">
+													<span t-esc="'%.2f'%(doc.amount_tax)"/>
+												</t>
+											</td>
+										</tr>
+									</t>
+
+									<tr>
+										<td colspan="5" style="border-right:hidden;">
+											<span>
+												<b>Total Amount in Words</b>
+											</span>
+											<br/>
+											<span t-esc="doc.amount_to_text(float(doc.amount_total))"/>
+										</td>
+
+										<td colspan="3" style="text-align:right;">
+											<b>Total Amount</b>
+										</td>
+
+										<td style="font-size:18px;text-align:right;">
+											<b>
+												<span t-esc="'%.2f'%(doc.amount_total)"/>
+											</b>
+										</td>
+									</tr>
+
+									<t t-if="doc.notes">
+										<tr>
+											<td colspan="9" width="100%">
+												<span t-field="doc.notes"/>
+											</td>
+										</tr>
+									</t>
+								</table>
+
+								<table cellspacing="0" width="100%">
+									<tr>
+										<td style="border-top:hidden;">
+											<span style="padding-left:570px;">For SHRIDHAN AUTOMATION PVT. LTD</span>
+											<br>
+												<br>
+													<br></br>
+												</br>
+											</br>
+											<br/>
+											Doc No :
+											<t t-esc="doc.company_id.doc_num_po"/>
+											<span style="padding-left:510px;">Authorized Signatory</span>
+											<br/>
+										</td>
+									</tr>
+								</table>
+
+								<p style="page-break-before:always;"></p>
+
+								<table style="border: hidden;" cellpadding="0" cellspacing="0" width="100%">
+									<tr>
+										<td style="text-align:left;">
+											<h4>
+												<b>
+													<u>
+														<center>TERMS AND CONDITIONS ANNEXURE TO THE PURCHASE ORDER
+														</center>
+													</u>
+												</b>
+											</h4>
+
+											<p>
+												<b>
+													<u>1.CONTRACT:</u>
+												</b>
+												This Purchase Order (order) shall constitute a contract between Shridhan
+												Automation Pvt Ltd (Buyer) and the Supplier (Seller) on whom this order
+												is
+												placed for delivery of goods and immediately upon its dispatch by the
+												Buyer
+												it
+												shall be binding on the Seller.
+											</p>
+											<p>
+												<b>
+													<u>2.ACCEPTANCE:</u>
+												</b>
+												Acceptance of this order must be given by the Seller in writing within 7
+												(Seven)
+												days of receipt of this order failing which the Seller will be deemed to
+												have accepted this order upon the terms and conditions stated herein and
+												overleaf.
+											</p>
+											<p>
+												<b>
+													<u>3.TAXES:</u>
+												</b>
+												All taxes and duties will applicable as per government of India notified
+												time to
+												time.
+											</p>
+											<p>
+												<b>
+													<u>4.INSURANCE:</u>
+												</b>
+												Insurance to be arranged by supplier at own cost.
+											</p>
+											<p>
+												<b>
+													<u>5.FREIGHT:</u>
+												</b>
+												Unless mentioned separately , freight to be borne by the supplier
+											</p>
+											<p>
+												<b>
+													<u>6.DELIVERY TIME:</u>
+												</b>
+												Delivery of goods in time is the essence of this contract and must be
+												strictly
+												adhered to by the Seller. The Buyer shall be entitled to rescind the
+												contract wholly or in part if delivery of the goods are not made in
+												accordance
+												with the terms of this contract without taking any formal step such as
+												providing
+												a notice or
+												otherwise,. However in the event of the Seller's failure to deliver the
+												goods in
+												time the Buyer shall at its sole discretion shall be entitled either;
+											</p>
+											<p style="padding-left:50px"><b>(a)</b>to purchase goods from other sources
+												on
+												the
+												Seller's account in which case the Seller shall be liable to pay to the
+												Buyer
+												the difference between the price at
+												which such goods have been actually purchased and the price calculated
+												at
+												the
+												rate set out in this order, or
+											</p>
+											<p style="padding-left:50px"><b>(b)</b>to hold the Seller liable to pay to
+												the
+												Buyer
+												damages for non-delivery of goods in time and on the basis of the
+												difference
+												between the market rate and the
+												contract rate
+											</p>
+											<p>
+												<b>
+													<u>4.DOCUMENTATION:</u>
+												</b>
+												The goods should accompanied by original and duplicate for Transporter
+												copy,
+												order reference must be mentioned on the invoice, for goods
+												dispatched by Public Carriers, Railway Receipt or Transport Delivery
+												Receipt
+												(G.C Note) must be prepared in favour of the Buyer and a copy must be
+												promptly
+												sent to the
+												destination address mentioned in this order through registered post
+												Failure
+												on
+												the part of the Seller to comply with the above requirements shall
+												result in
+												noncompliance
+												of the terms of this order and the buyer shall have the right to
+												forthwith
+												reject the goods supplied.
+											</p>
+
+											<p>
+												<b>
+													<u>5.PROPERTY:</u>
+												</b>
+												The property of the goods shall pass to the Buyer only upon delivery at
+												the
+												premises mentioned in this order and accepted by the Buyer.
+											</p>
+											<p>
+												<b>
+													<u>6.QUALITY:</u>
+												</b>
+												The goods shall correspond with the description or the sample or the
+												original
+												specifications thereof in all details. Otherwise the same shall be
+												liable to
+												be
+												rejected by the Buyer and the Seller shall be deemed to have wrongfully
+												neglected to deliver the goods according to this order /contract. The
+												Buyer's
+												decision in matter
+												of assessing the quality of the goods ordered will be final and binding.
+												<b>Supplier shall provide necessary quality document/certificate as per
+													PO
+													without fail.
+												</b>
+											</p>
+											<p>
+												<b>
+													<u>7.INSPECTION OF GOODS:</u>
+												</b>
+												The Buyer reserves the right of inspection of goods at the points of
+												assembly
+												and/or delivery. Routine and type tests shall be performed at
+												the manufacturer’s works and test certificates furnished. If desired by
+												the
+												Buyer the Seller will permit or arrange the Buyer's authorized
+												representative to
+												be present
+												during any of the tests to be performed to assess the quality of the
+												goods
+												to be
+												delivered by the Seller. If the goods delivered are not in accordance
+												and or
+												conformity
+												with this order, the Buyer may reject the goods in whole or in part. In
+												such
+												an
+												event the Buyer shall be free to buy the goods from any other source and
+												the
+												Sellers will
+												be liable to reimburse the Buyer of any additional costs incurred in
+												doing
+												so.
+											</p>
+											<p>
+												<b>
+													<u>8.ACCEPTANCE OF GOODS:</u>
+												</b>
+												Acceptance of the goods by the Buyer shall not discharge the Seller form
+												the
+												liability for damages or for any condition or warranty
+												contained herein or implied by law and if after accepting the goods or
+												any
+												of
+												them are found to have any defect/s therein either in material,
+												workmanship
+												or
+												otherwise
+												become known to the Buyer and such defects amount to breach of any
+												condition
+												or
+												warranty herein or implied by law, the Buyer shall forthwith notify the
+												Seller
+												of such
+												of such defects and shall ( In additions to any other rights or remedies
+												that
+												the Buyer may possess ) be entitled to reject such goods ordered in part
+												or
+												in
+												full and hold
+												the same at the Seller's risk cost and consequence. The Seller shall be
+												responsible and be liable to forthwith replace or to repair at the
+												options
+												of
+												the Buyer, free of cost
+												goods delivered under this order or any part thereof if any defect and /
+												or
+												deficiency in the composition or a substance or material or workmanship
+												or
+												process or
+												manufacture or in the design of the goods is brought to the notice of
+												the
+												Seller
+												within 12 (Twelve) calendar months from the date or delivery.
+											</p>
+											<p>
+												<b>
+													<u>9.REMOVAL OF REJECTED GOODS:</u>
+												</b>
+												Within 10 (Ten) days from the date of intimation from the Buyer of their
+												refusal
+												to accept the goods the Seller shall immediately
+												remove the rejected goods from the Buyer's godown or site at their own
+												cost.
+												The
+												Buyer shall not be responsible or held liable for any loss or
+												deterioration
+												of
+												such
+												rejected goods. The Seller shall pay to the Buyer storage charges @ Rs
+												500/-
+												(Five Hundred) per day for such rejected goods for the period exceeding
+												15
+												(Fifteen) days
+												as aforesaid.
+											</p>
+											<p>
+												<b>
+													<u>10.EXCESS DELIVERIES:</u>
+												</b>
+												Goods must not be delivered by the Seller in excess of the quantity
+												ordered.
+												The
+												Buyer assumes no obligation to accept such goods and / or
+												make payment in relation of such excess quantity delivered. The Seller
+												must
+												remove such express deliveries at their own risk and cost.
+											</p>
+											<p>
+												<b>
+													<u>11.CANCELLATION AND /OR AMENDMENT:</u>
+												</b>
+												The Buyer reserves the right to cancel and / or amend this order or any
+												part
+												thereof without assigning any reason to the
+												Seller whatsoever.
+											</p>
+											<p>
+												<b>
+													<u>12.PACKING:</u>
+												</b>
+												Goods to be delivered against this order must be properly packed for the
+												transport by road / rail / air / water to the place stipulated in this
+												order
+												to
+												avoid
+												any damage during transit. No additional charges will be accepted or
+												paid
+												for
+												packing unless specifically agreed upon by the Buyer. The packaging
+												norms
+												shall
+												be
+												compliant with the Standards of Weights and Measures Act, Packages
+												Commodities
+												Rules and such other legislations as may be applicable.
+											</p>
+											<p>
+												<b>
+													<u>13.CONSEQUENTIAL LOSS:</u>
+												</b>
+												The Buyer shall in no event be liable for loss of profit, loss of
+												revenue,
+												loss
+												of use, loss of production, loss of capital or cost connected with
+												interruption of operation, loss of anticipated saving, indirect or
+												consequential
+												damage or loss of any nature which the Seller may have suffered.
+											</p>
+											<p>
+												<b>
+													<u>14.LIMITATION OF LIABILITY:</u>
+												</b>
+												Notwithstanding anything contained in this contract / order / amendments
+												to
+												the
+												contrary with respect to any and all claims arising
+												out of the performance or non-performance of the obligations under this
+												contract
+												/ order / amendments, whether arising in contract, tort warranty, strict
+												liability or
+												otherwise, the Buyers liability shall not exceed in the aggregate 100%
+												(Hundred
+												Percent) of this order value or deliveries made whichever is
+											</p>
+											<p>
+												<b>
+													<u>15.PAYMENTS:</u>
+												</b>
+												Payments terms will be mentioned in the PO. All bills/invoices for
+												deliveries
+												made by the Seller shall bear the sales tax/VAT / Service Tax
+												registration
+												number of the Seller and should be submitted in duplicate bearing the
+												order
+												No.
+												and the date as reference along with receipted invoices at the office
+												specified
+												in this
+												order Seller should strictly adhere to the instructions contained in
+												this
+												order
+												failing which payment is liable to be delayed. No interest shall be paid
+												under
+												by the Buyer to
+												the Seller under any circumstances for such delayed payment if made.
+											</p>
+											<p>
+												<b>
+													<u>16.RIGHT OF SETOFF:</u>
+												</b>
+												The Buyer shall be entitled to recover from the Seller any sum due to
+												the
+												Buyer
+												on account of damages penalty or otherwise whether in respect
+												of deliveries under this order or under any of its previous purchase
+												orders
+												by
+												deducting such sums from the amount payable to the Seller in respect of
+												deliveries made
+												under this order or under any of the prior or subsequent order. The
+												right of
+												setoff shall be at the sole discretion of the Buyer.
+											</p>
+											<p>
+												<b>
+													<u>17.INDEMNITY:</u>
+												</b>
+												The Seller shall indemnify the Buyer for loss of profit, loss of
+												revenue,
+												loss
+												of use, loss of production, loss of capital or cost connected with
+												interruption
+												of operation, loss of anticipated saving, indirect or consequential
+												damage
+												or
+												loss of any nature which the Buyer may have suffered and from all claims
+												for
+												injury that may
+												be caused to any person by any act of the Seller or his agents or
+												servants
+												whether employed by him or not while in or upon the Buyer's premises and
+												in
+												respect of any
+												other damages that may be caused to any property including plant and
+												machinery
+												of the Buyer in course of delivery of the goods.
+											</p>
+											<p>
+												<b>
+													<u>18.WARRANTY:</u>
+												</b>
+												The Seller shall ensure that all goods delivered are free from any
+												defects
+												and
+												bad workmanship and that the good /equipment delivered shall operate
+												satisfactorily. Unless mentioned separately the agreed warranty period
+												which
+												shall be 24 (Twenty Four) calendar months from the date of acceptance by
+												the
+												Buyer. The
+												Seller will be the responsible for free replacement or repairs in case
+												of
+												defective goods and / or non-satisfactory performance of the equipment
+												delivered.
+											</p>
+											<p>
+												<b>
+													<u>19.FORCE MAJEURE:</u>
+												</b>
+												The Seller shall be under no liability for failure to deliver and the
+												Buyer
+												for
+												accepting delivery of goods or any part thereof when such failure is
+												due to fire, earthquakes, fire, floods, strikes, lock-outs,
+												transportation,
+												embargoes, act or God, State enemies, or any other causes whatsoever
+												beyond
+												the
+												control of the
+												Seller or the Buyer.
+											</p>
+											<p>
+												<b>
+													<u>20.INTELECTUAL PROPERTY RIGHTS:</u>
+												</b>
+												The Seller shall indemnify the Buyer against any claim for infringement
+												of
+												any
+												patents, registered design, trade mark or trade
+												name on sale of goods to the Buyer.
+											</p>
+											<p>
+												<b>
+													<u>21.CONFIDENTIALITY:</u>
+												</b>
+												The Seller agrees that he/they will not use, sell, loan or publicise any
+												of
+												the
+												specifications blue prints or designs, delivered or paid for by the
+												Buyer for fulfillment of the order without prior written consent from
+												the
+												Buyer.
+											</p>
+											<p>
+												<b>
+													<u>22.JURISDICTION:</u>
+												</b>
+												Any suit or other proceedings to enforce the rights or either party
+												shall
+												only
+												be instituted in and tried by the Courts of ordinary civil jurisdiction
+												in
+												Bangalore city, Karnataka state.
+											</p>
+
+										</td>
+									</tr>
+								</table>
+							</div>
+						</div>
+					</div>
+				</t>
+			</t>
+		</t>
+	</template>
+</odoo>
+

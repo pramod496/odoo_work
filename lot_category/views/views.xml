@@ -1,0 +1,60 @@
+<odoo>
+  <data>
+    <!-- explicit list view definition -->
+    <!--
+    <record model="ir.ui.view" id="lot_category.list">
+      <field name="name">lot_category list</field>
+      <field name="model">lot_category.lot_category</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="name"/>
+          <field name="value"/>
+          <field name="value2"/>
+        </tree>
+      </field>
+    </record>
+    -->
+
+    <!-- actions opening views on models -->
+    <!--
+    <record model="ir.actions.act_window" id="lot_category.action_window">
+      <field name="name">lot_category window</field>
+      <field name="res_model">lot_category.lot_category</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+    -->
+
+    <!-- server action to the one above -->
+    <!--
+    <record model="ir.actions.server" id="lot_category.action_server">
+      <field name="name">lot_category server</field>
+      <field name="model_id" ref="model_lot_category_lot_category"/>
+      <field name="state">code</field>
+      <field name="code">
+        action = {
+          "type": "ir.actions.act_window",
+          "view_mode": "tree,form",
+          "res_model": self._name,
+        }
+      </field>
+    </record>
+    -->
+
+    <!-- Top menu item -->
+    <!--
+    <menuitem name="lot_category" id="lot_category.menu_root"/>
+    -->
+    <!-- menu categories -->
+    <!--
+    <menuitem name="Menu 1" id="lot_category.menu_1" parent="lot_category.menu_root"/>
+    <menuitem name="Menu 2" id="lot_category.menu_2" parent="lot_category.menu_root"/>
+    -->
+    <!-- actions -->
+    <!--
+    <menuitem name="List" id="lot_category.menu_1_list" parent="lot_category.menu_1"
+              action="lot_category.action_window"/>
+    <menuitem name="Server to list" id="lot_category" parent="lot_category.menu_2"
+              action="lot_category.action_server"/>
+    -->
+  </data>
+</odoo>

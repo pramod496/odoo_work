@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data noupdate="1">
+        <!-- Reopen invoice button security-->
+        <record id="groups_reopen_invoice_security" model="ir.module.category">
+            <field name="name">Re-Open Invoice</field>
+            <field name="sequence">1</field>
+        </record>
+
+        <record id="display_reopen_invoice_button" model="res.groups">
+            <field name="name">Re-open Invoice</field>
+            <field name="category_id" ref="reopen_invoice.groups_reopen_invoice_security" />
+        </record>
+    </data>
+</openerp>

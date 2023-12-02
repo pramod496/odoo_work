@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_lot_category_lot_category,lot_category.lot_category,model_lot_category_lot_category,,1,0,0,0

@@ -1,0 +1,413 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+
+
+<!--        #workaROUND-->
+        <record id="email_template_edi_invoice_pro_1" model="mail.template">
+            <field name="name">PRO-FORMA: Send by email</field>
+            <field name="model_id" ref="model_account_move"/>
+            <field name="body_html" type="html">
+                <div style="margin: 0px; padding: 0px;">
+                    <p style="margin: 0px; padding: 0px; font-size: 13px;">
+                        Dear
+                        <t t-if="object.partner_id.parent_id">
+                            <t t-out="object.partner_id.name or ''">
+
+                            </t>,
+                        </t>
+                        <t t-else="">
+                            <t t-out="object.partner_id.name or ''">
+
+                            </t>,
+                        </t>
+                        <br/>
+                        <br/>
+                        Here is your
+                        <t t-if="object.name">
+                            invoice
+                            <strong t-out="object.name or ''">
+
+                            </strong>
+                        </t>
+                        <t t-else="">
+                            invoice
+                        </t>
+                        <t t-if="object.invoice_origin">
+                            (with reference: <t t-out="object.invoice_origin or ''">
+
+                        </t>)
+                        </t>
+                        amounting in
+                        <strong t-out="format_amount(object.amount_total, object.currency_id) or ''">
+                        </strong>
+                        from <t t-out="object.company_id.name or ''">
+
+                    </t>.
+                        <t t-if="object.payment_state in ('paid', 'in_payment')">
+                            This invoice is already paid.
+                        </t>
+                        <t t-else="">
+                            Please remit payment at your earliest convenience.
+                            <t t-if="object.payment_reference">
+                                <br/>
+                                <br/>
+                                Please use the following communication for your payment: <strong
+                                    t-out="object.payment_reference or ''">
+
+                            </strong>.
+                            </t>
+                        </t>
+                        <br/>
+                        <br/>
+                        Do not hesitate to contact us if you have any questions.
+                        <t t-if="object.invoice_user_id.signature">
+                            <br/>
+                            <t t-out="object.invoice_user_id.signature or ''">
+                                <br/>
+                            </t>
+                        </t>
+                    </p>
+                </div>
+            </field>
+<!--            <field name="report_template" ref="account.account_invoices"/>-->
+<!--            <field name="report_name">PRO-FORMA_${(object.number or '').replace('/','_')}${object.state == 'draft' and '_draft' or ''}</field>-->
+<!--            <field name="lang">${object.partner_id.lang}</field>-->
+<!--            <field name="signature" eval="False"/>-->
+<!--            <field name="auto_delete" eval="True"/>-->
+        </record>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+         <record id="sale.action_orders" model="ir.actions.act_window">
+            <field name="name">Sales Orders</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">sale.order</field>
+<!--            <field name="view_type">form</field>-->
+            <field name="view_mode">tree,kanban,form,calendar,pivot,graph,activity</field>
+            <field name="search_view_id" ref="sale.sale_order_view_search_inherit_sale"/>
+            <field name="context">{'ordertype':'order'}</field>
+            <field name="domain">[('state', 'not in', ('draft', 'sent', 'draft_confirmed','revised'))]</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create a new quotation, the first step of a new sale!
+                </p><p>
+                    Once the quotation is confirmed, it becomes a sales order.<br/> You will be able to create an invoice and collect the payment.
+                </p>
+            </field>
+        </record>
+         <record id="quotation_only_menu" model="ir.actions.act_window">
+            <field name="name">Quotations</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">sale.order</field>
+<!--            <field name="view_type">form</field>-->
+            <field name="view_id" ref="sale.view_quotation_tree_with_onboarding"/>
+            <field name="view_mode">tree,kanban,form,calendar,pivot,graph,activity</field>
+            <field name="search_view_id" ref="sale.sale_order_view_search_inherit_quotation"/>
+            <field name="context">{'search_default_my_quotation': 1,'ordertype':'quotation'}</field>
+            <field name="domain">[('state', 'not in', ('sale','cancel','confirm_sale','hold'))]</field>
+            <field name="help" type="html">
+              <p class="o_view_nocontent_smiling_face">
+                Create a new quotation, the first step of a new sale!
+              </p><p>
+                Once the quotation is confirmed by the customer, it becomes a sales order.<br/> You will be able to create an invoice and collect the payment.
+              </p>
+            </field>
+        </record>
+        <menuitem id="sale.menu_sale_quotations"
+                action="quotation_only_menu"
+                parent="sale.sale_order_menu"
+                sequence="1" groups="sales_team.group_sale_salesman"/>
+
+        <record id="account_invoice_import_wizard_form_view" model="ir.ui.view">
+            <field name="name">sale.order.import.wizard.form</field>
+            <field name="model">sale.order.import.wizard</field>
+            <field name="arch" type="xml">
+                <form>
+
+                    <group>
+                        <field name="attachment_ids" widget="many2many_binary" colspan="2"
+                               string="Upload Files" nolabel="1"/>
+                    </group>
+                    <footer>
+                        <button string="Import" name="add_product_lines" type="object" class="oe_highlight"/>
+                        <button string="Cancel" class="btn btn-default" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="sale_attach_wizard_action" model="ir.actions.act_window">
+            <field name="name">Import Sale Order</field>
+            <field name="res_model">sale.order.import.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+
+
+
+        <record id="sale_inherited_form_view" model="ir.ui.view">
+            <field name="name">sale.order.inherit.form</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//form/header" position="replace">
+                    <header>
+                        <field name="authorized_transaction_ids" invisible="1"/>
+                        <button name="payment_action_capture" type="object"
+                                string="Capture Transaction" class="oe_highlight"
+                                attrs="{'invisible': [('authorized_transaction_ids', '=', [])]}"/>
+                        <button name="payment_action_void" type="object"
+                                string="Void Transaction"
+                                confirm="Are you sure you want to void the authorized transaction? This action can't be undone."
+                                attrs="{'invisible': [('authorized_transaction_ids', '=', [])]}"/>
+
+                        <button name="%(sale.action_view_sale_advance_payment_inv)d" string="Create Invoice"
+                        type="action" class="btn-primary"
+                        attrs="{'invisible': [('invoice_status', '!=', 'to invoice')]}"/>
+                        <button name="%(sale.action_view_sale_advance_payment_inv)d" string="Create Invoice"
+                        type="action" context="{'default_advance_payment_method': 'percentage'}"
+                        attrs="{'invisible': ['|',('invoice_status', '!=', 'no'), ('state', 'not in', ['sale','confirm_sale'])]}"/>
+                        <button name="action_quotation_send" string="Send by Email" type="object" states="draft" class="btn-primary"/>
+                        <button name="action_quotation_send" invisible="1" type="object" string="Send PRO-FORMA Invoice" groups="sale.group_proforma_sales" class="btn-primary" attrs="{'invisible': ['|', ('state', '!=', 'draft'), ('invoice_count','&gt;=',1)]}" context="{'proforma': True}"/>
+    <!--                    <button name="print_quotation" string="Print" type="object" states="draft" invisible ="1" class="btn-primary o_sale_print"/>-->
+                        <button name="action_confirm" id="action_confirm"
+                            string="Confirm" class="btn-primary" type="object"
+                            attrs="{'invisible': [('state', 'not in', ['sent'])]}"/>
+                        <button name="action_confirm"
+                            string="Confirm" type="object"
+                            attrs="{'invisible': [('state', 'not in', ['draft'])]}"/>
+                        <button name="preview_sale_order" type="object" string="Preview"/>
+
+<!--                        <button name="action_quotation_send" type="object" invisible="1" string="Send PRO-FORMA Invoice" groups="sale.group_proforma_sales" attrs="{'invisible': ['|', ('state', '=', 'draft'), ('invoice_count','&gt;=',1)]}" context="{'proforma': True}"/>-->
+    <!--                    <button name="print_quotation" string="Print" type="object" invisible ="1" states="sent,sale,confirm_sale" class="o_sale_print"/>-->
+<!--                        <button name="action_quotation_send" string="Send by Email" type="object" states="sent,sale,confirm_sale"/>-->
+                        <button name="action_cancel" states="draft,sent,sale,confirm_sale,hold" type="object" string="Cancel"/>
+                        <button name="action_hold" states="sale" type="object" string="Hold"/>
+                        <button name="action_unhold" states="hold" type="object" string="Unhold"/>
+                        <button name="action_draft"  invisible="1" type="object" string="Set to Quotation"/>
+                        <button name="make_amendment" type="object" string="AMENDMENT" states="draft,sent,draft_confirmed"/>
+                        <button name="action_done" type="object" string="Lock" states="sale,confirm_sale"
+                            help="If the sale is locked, you can not modify it anymore. However, you will still be able to invoice or deliver."/>
+                        <button name="action_unlock" type="object" string="Unlock" states="done" groups="sales_team.group_sale_manager"/>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,sent"/>
+
+                    </header>
+                </xpath>
+
+
+                <xpath expr="//form/header/button[@name='action_confirm']" position="before">
+                    <button name="iwo_confirm_button" type="object" string="Confirm for IWO" class="oe_highlight"
+                            attrs="{'invisible': [('state', 'not in', ['sale','confirm_sale'])]}" groups="sales_team.group_sale_manager"/>
+                    <button name="custom_confirm_button" type="object" string="Confirm Quotation" class="oe_highlight"
+                            attrs="{'invisible': [('state', 'not in', ['draft','sent'])]}" groups="sales_team.group_sale_manager"/>
+                    <button name="action_proforma_invoice" type="object" string="PRO-FORMA Invoice" groups="sale.group_proforma_sales" class="btn-primary" />
+
+                </xpath>
+                <xpath expr="//form/header/button[@id='action_confirm']" position="replace">
+                <button name="action_confirm"
+                        string="Confirm" class="btn-primary" type="object"
+                        attrs="{'invisible': [('state', 'in', ['draft','sent','sale'])]}"  invisible="1"/>
+                </xpath>
+                <xpath expr="//form/header/button[@name='action_confirm'][2]" position="replace">
+                <button name="action_confirm"
+                        string="Confirm" class="btn-primary" type="object"
+                        attrs="{'invisible': [('state', 'in', ['draft','sent','sale'])]}" invisible="1"/>
+                </xpath>
+                 <xpath expr="//field[@name='order_line']/tree/field[@name='product_uom']" position="after">
+                        <field name="approve_need" string ='Drawing approval needed?'/>
+                        <field name="bom_type"/>
+                 </xpath>
+
+                <xpath expr="//form/sheet/div/button[@name='action_view_invoice']" position="before">
+                    <button name="%(sale_attach_wizard_action)d"
+                            type="action"
+                            class="oe_stat_button"
+                            icon="fa-pencil-square-o"
+                     string="Import">
+                    </button>
+
+                </xpath>
+
+                <xpath expr="//form/sheet/div/button[@name='action_view_invoice']" position="before">
+                    <button name="action_proforma_view_invoice"
+                            type="object"
+                            class="oe_stat_button"
+                            icon="fa-pencil-square-o"
+                            attrs="{'invisible': [('proforma_count_value', '=', 0)]}">
+                            <field name="proforma_count_value" widget="statinfo" string="Proforma Invoices"/>
+
+                    </button>
+
+                </xpath>
+
+                <xpath expr="//form/sheet/notebook/page[@name='customer_signature']" position="after">
+                    <page string="Product Specification" name="product_specification">
+                        <!-- Tab Space for Product Specification -->
+                         <widget name="signature"/>
+<!--                         <widget name = "spec_view"/>-->
+                    </page>
+                </xpath>
+                <xpath expr="//form/sheet/notebook/page[@name='other_information']/group/group[@name='sale_info']" position="inside">
+                    <field name="date_order"/>
+                </xpath>
+                <xpath expr="//page[@name='order_lines']/field[@name='order_line']/tree" position="attributes">
+                    <attribute name="editable"></attribute>
+                </xpath>
+                <xpath expr="//page[@name='order_lines']/field[@name='order_line']/form/group/group/field[@name='product_id']"
+                       position="after">
+                    <field name="approve_need" string ='Drawing approval needed?'/>
+                    <field name="bom_type"/>
+                </xpath>
+                <xpath expr="//page[@name='order_lines']/field[@name='order_line']/form/group/group[2]/div" position="after">
+                    <field name="desired_delivery_date"/>
+                </xpath>
+
+<!--                <xpath expr="//form/sheet/notebook/page[@name='order_lines']/form/group/group[2]/div/label[@for='Lead']" position="attributes">-->
+<!--                    <attribute name="string">Delivery Lead Time</attribute>-->
+<!--                </xpath>-->
+                <!-- <xpath expr="//field[@name='invoice_payment_term_id']" position="after">
+                <field name="terms_condition" />
+            </xpath> -->
+                 <!-- <xpath expr="//field[@name='note']" position="replace">
+                <field name="descr_terms_condition" />
+            </xpath> -->
+                <xpath expr="//field[@name='payment_term_id']" position="after">
+                    <field name="iwo_id" string="IWO Ref." readonly="1"/>
+                    <field name="confirm_by" readonly="1" invisible="1"/>
+                    <field name="revised_date" readonly="1"/>
+                 </xpath>
+                <field name = "name" position="replace">
+                    <h1>
+                    <group>
+                        <group>
+                                <field name="name" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="revision_no" readonly = "1" attrs="{'invisible': [ ('revision_no', '=', False)]}" />
+                        </group>
+                    </group>
+                    </h1>
+                </field>
+            </field>
+        </record>
+        <record id="view_order_line_tree_inherit_sale_mrp" model="ir.ui.view">
+            <field name="name">sale.order.line.tree.sale.stock.location</field>
+            <field name="inherit_id" ref="sale.view_order_line_tree"/>
+            <field name="model">sale.order.line</field>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='price_subtotal']" position="after">
+                    <field name="approve_need" string="Drawing Approval Needed?"/>
+                    <field name="bom_type"/>
+                </xpath>
+<!--                <xpath expr="//form/group/group[2]/label[@for='analytic_tag_ids']" position="before">-->
+<!--                    <field name="desired_delivery_date" widget="date"/>-->
+<!--                </xpath>-->
+<!--                <xpath expr="//form/group/group[2]/div" position="replace">-->
+<!--                    <div>-->
+<!--                        <field name="customer_lead" attrs="{'readonly': [('state', '=','draft_confirmed')]}" class="oe_inline"/> working days-->
+<!--                    </div>-->
+<!--                </xpath>-->
+            </field>
+        </record>
+
+        <!-- <record id="invoice_form_button_show" model="ir.ui.view">
+            <field name="name">account.move.form</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.move_form"/>
+            <field name="arch" type="xml">
+                <button name="action_invoice_draft" position="replace">
+                    <button name="action_invoice_draft" states="cancel,open" string="Reset to Draft" type="object" groups="account.group_account_invoice"/>
+                </button>
+            </field>
+        </record> -->
+        <!-- <record id="create_invoice_button_extnd" model="ir.ui.view">
+            <field name="name">sale.order.form</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale_management.sale_order_view_form"/>
+            <field name="arch" type="xml">
+                 <xpath expr="//button[@name='%(sale.action_view_sale_advance_payment_inv)d']" position="replace">
+                    
+                </xpath>
+            </field>
+        </record> -->
+          <!--<record id="accont_invoice_inherited_form_view" model="ir.ui.view">-->
+            <!--<field name="name">accont.invoice.inherit.form</field>-->
+            <!--<field name="model">account.move</field>-->
+            <!--<field name="inherit_id" ref="account.move_form"/>-->
+            <!--<field name="arch" type="xml">-->
+                <!--<xpath expr="//form/field[@name='has_outstanding']" position="after">-->
+                    <!--<field name="bool_sale_proforma" invisible="1"/>-->
+                    <!--<field name="sale_id" invisible="1"/>-->
+                <!--</xpath>-->
+                <!--<xpath expr="//form/header" position="attributes">-->
+                    <!--<attribute name="attrs">{'invisible': [('bool_sale_proforma', '=', True)]}</attribute>-->
+                <!--</xpath>-->
+                <!--<xpath expr="//form/sheet/h1[@class='mt0']" position="attributes">-->
+                    <!--<attribute name="attrs">{'invisible': [('bool_sale_proforma', '=', True)]}</attribute>-->
+                <!--</xpath>-->
+                <!--<xpath expr="//form/sheet/div" position="after">-->
+                    <!--<h1><field name="seq_pro_forma" readonly="1" /></h1>-->
+                <!--</xpath>-->
+
+            <!--</field>-->
+        <!--</record>-->
+
+        <record id="view_order_tree_inherited" model="ir.ui.view">
+            <field name="name">sale.order.tree</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_tree"/>
+            <field name="priority">2</field>
+            <field name="arch" type="xml">
+                    <field name="invoice_status" position="replace" >
+                        <field name="invoice_status" invisible="1"/>
+                    </field>
+                    <field name="state" position="replace">
+                        <field name="state"/>
+                    </field>
+            </field>
+        </record>
+
+        <record id="invoice_supplier_form_inherited" model="ir.ui.view">
+            <field name="name">account.move.supplier.form</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_move_form"/>
+            <field name="priority">2</field>
+            <field name="arch" type="xml">
+
+                <xpath expr="//form/sheet/div[2]" position="replace">
+                    <div>
+                        <span class="o_form_label" attrs="{'invisible': ['|',('state','!=','draft'), ('move_type','!=','in_invoice')]}">Draft Bill</span>
+<!--                        <span class="o_form_label" attrs="{'invisible': [('','=',False)]}">- First Number:</span>-->
+                        <span class="o_form_label" attrs="{'invisible': ['|',('state','!=','draft'), ('move_type','!=','in_refund')]}">Draft Debit Note</span>
+                        <span class="o_form_label" attrs="{'invisible': ['|',('state', '=', 'draft'), ('move_type','!=','in_invoice')]}">Bill </span>
+                        <span class="o_form_label" attrs="{'invisible': ['|',('state', '=', 'draft'), ('move_type','!=','in_refund')]}">Debit Note </span>
+                    </div>
+
+                </xpath>
+                <xpath expr="//field[@name='currency_id']" position="after">
+                    <field name="po_ref" attrs="{'invisible': [('move_type','!=','in_refund')]}" />
+                </xpath>
+
+
+            </field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,26 @@
+<odoo>
+    <data>
+        <record id="e_invoice_inherit" model="ir.ui.view">
+            <field name="name">account.move.form.einvoice.inherit</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_move_form"/>
+<!--            <field name="inherit_id" ref="sale_to_mrp.account_inherited_form_view"/>-->
+            <field name="arch" type="xml">
+	            <xpath expr="//page[@name='other_info']" position="after">
+		           <page name="e_invoice" string="E-Invoice Details">
+                       <group>
+                           <group>
+                               <field name="irn_no"/>
+                               <field name="ack_no"/>
+                               <field name="ack_date"/>
+                           </group>
+                           <group>
+                               <field name="qr_image" widget="image"/>
+                           </group>
+                       </group>
+                   </page>
+		        </xpath>
+    		</field>
+		</record>
+  	</data>
+</odoo>

@@ -1,0 +1,59 @@
+
+{
+    "billLists": [
+        {
+            "actualFromStateCode": "29",
+            "actualToStateCode": false,
+            "cessValue": 0.0,
+            "cgstValue": 0.0,
+            "docDate": "24-04-2019",
+            "docNo": "WH/OUT/00061",
+            "docType": "INV",
+            "fromAddr1": "#B-54, KSSIDC  Industrial Estate",
+            "fromAddr2": " ",
+            "fromGstin": "29AAICS2464D1ZA",
+            "fromPinCode": "560074",
+            "fromPlace": "Bengaluru",
+            "fromStateCode": "29",
+            "fromTrdName": "SHRIDHAN AUTOMATION PVT. LTD.",
+            "igstValue": 0.0,
+            "itemList": [
+                {
+                    "cessRate": 0.0,
+                    "cgstRate": 0.0,
+                    "igstRate": 0.0,
+                    "itemNo": 1,
+                    "productDesc": "Subcontract Raw Product",
+                    "productName": "Subcontract Raw Product",
+                    "qtyUnit": " ",
+                    "quantity": 1.0,
+                    "sgstRate": 0.0,
+                    "taxableAmount": 0
+                }
+            ],
+            "sgstValue": 0.0,
+            "subSupplyType": 1,
+            "supplyType": "O",
+            "toAddr1": "B - 3, Plot No. 12 & 13, Sahana Appts, ",
+            "toAddr2": " ",
+            "toGstin": false,
+            "toPinCode": "600 091 \n",
+            "toPlace": "chennai",
+            "toStateCode": false,
+            "toTrdName": " CCK Systems & Control",
+            "totInvValue": 0,
+            "totalValue": 0,
+            "transDistance": "200",
+            "transDocDate": "25/04/2019",
+            "transDocNo": " ",
+            "transMode": "Lory",
+            "transType": 1,
+            "transporterId": "1345",
+            "transporterName": "Vehicle",
+            "userGSTIN": "29AAICS2464D1ZA",
+            "vehicleNo": "KA12MH2",
+            "vehicleType": "R"
+        }
+    ],
+    "version": "1.0.1118"
+}

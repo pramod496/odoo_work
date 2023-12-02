@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+  <!-- Inherit title from portal my home changed title name "Your Purchase Order" -->
+
+    <template id="portal_my_home_sale" name="Portal My Home : sales entries" inherit_id="sale.portal_my_home_sale"
+              priority="20">
+        <xpath expr="//t[@t-call='portal.portal_docs_entry']" position="replace">
+
+            <t t-if="order_count" t-call="portal.portal_docs_entry">
+                <t t-set="title">Customer Orders</t>
+                <t t-set="url" t-value="'/my/orders'"/>
+                <t t-set="count" t-value="order_count"/>
+            </t>
+
+        </xpath>
+    </template>
+
+<!-- Inherit title from portal status and added two fields -->
+
+    <template id="portal_my_orders_status" inherit_id="sale.portal_my_orders">
+       <xpath expr="//t[@t-if='orders']" position="replace">
+            <t t-if="orders" t-call="portal.portal_table">
+                <thead>
+                    <tr class="active">
+                        <th>
+                            <span class='d-none d-md-inline'>Customer Reference </span>
+                            <!-- <span class='d-block d-md-none'>Ref.</span> -->
+                        </th>
+                        <th class="text-right">Customer PO Date </th>
+                    </tr>
+                </thead>
+                <t t-foreach="orders" t-as="order">
+                    <tr>
+                       <td><a t-att-href="order.get_portal_url()"><t t-esc="order.client_order_ref"/></a></td>
+                       <td class="text-right"><span t-field="order.po_date" t-options='{"format": "dd/MM/yyyy"}'/></td>
+
+                    </tr>
+                </t>
+            </t>
+       </xpath>
+   </template>
+
+   <!-- created a new template when clicking PO ref number it will fetch the data from sale order status -->
+   
+   <template id="portal_orders_status" name="My Sales Orders Status">
+        <t t-call="portal.portal_layout">
+            <t t-set="breadcrumbs_searchbar" t-value="False"/>
+            
+            <t t-call="portal.portal_searchbar">
+              <t t-set="title">Customer Orders</t>
+                
+            </t>
+            <t t-if="sale_order" t-call="portal.portal_table">
+	        	<thead>
+	               <tr class="active">
+	                   <th>
+	                       <span class='d-none d-md-inline'>Serial Number </span>
+	                   </th>
+	                   <th class="text-center">Description</th>
+	                   <th class="text-right">Status</th>
+	                   <th class="text-right">Remark</th>
+	               </tr>
+	           	</thead>
+	           	<t t-set="i" t-value="1" />
+	           	<t t-foreach="sale_order" t-as="line">
+	            	<t t-foreach="sale_order.demo_line" t-as="line">
+	                	<tr>
+	                    	<td><span t-esc="i"/><t t-set="i" t-value="i+1"/> </td>
+	                     	<td class="text-center"><t t-esc="line.description.name"/></td>
+	                     	<td class="text-right"><t t-esc="line.status"/></td>
+	                     	<td class="text-right"><t t-esc="line.remark"/></td>
+	                 	</tr>
+	              	</t>
+	           	</t>  							
+       		</t>
+			<t t-if="sale_order.attach_file_ids">
+			<div class="mt8">
+				<h4>Attached Documents</h4><hr/>
+				<div class="row mb16 mt8">                            	                        
+		           <div t-foreach="sale_order.attach_file_ids" t-as="attachment" class="col-lg-2 col-md-3 col-sm-6">
+		               <div class="o_portal_chatter_attachment mb-2 position-relative text-center" t-att-data-id="attachment.id">
+		                   <a t-attf-href="/attach/download?attachment_id={{attachment.id}}" target="_blank">
+		                       <div class='oe_attachment_embedded o_image' t-att-title="attachment.name" t-att-data-mimetype="attachment.mimetype"/>
+		                       <div class='o_portal_chatter_attachment_name'><t t-esc='attachment.name'/></div>
+		                   </a>
+		               </div>
+		           </div>					        
+				</div>
+			</div>
+			</t>       		
+			<div class="mt8">
+       		    <h2>Leave a comment</h2><hr/>
+				<div class="media">											                   
+                    <div class="media-body">
+                    	<form t-attf-action="/SO/chatter_post" method="POST" enctype="multipart/form-data">                    	                        
+                            <input type="hidden" class="optional" name="csrf_token" t-att-value="request.csrf_token()"/>
+                            <div class="mb32">
+                                <textarea rows="4" name="message" class="form-control optional" placeholder="Write a message..."></textarea>
+								<input type="hidden" name="res_model" t-att-value="model"/>
+                                <input type="hidden" name="res_id" t-att-value="sale_order.id"/>                              
+                                <div class="chatter_attachments mt-3"/>
+                                <div class="mt8">
+                                	<button type="submit" class="btn btn-primary" id="submit_comment">Send</button>	    
+                                	<input name="files" class="btn btn-secondary optional" type="file" title="Add attachment" multiple="true"/>                                
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+	        </div>
+			<hr/>
+			<t t-foreach="msg_ids" t-as="message">
+				<div class="o_portal_chatter_messages">
+	                <div class="media o_portal_chatter_message" t-att-id="message.id">                    
+	                    <div class="media-body">
+	                        <div class="o_portal_chatter_message_title">
+	                            <h5><t t-esc="message.author_id.name"/></h5>
+	                            <p style="font-size: 85%;color: #a8a8a8;margin: 0px;">
+	                            <t t-esc="message.date.strftime('%Y-%m-%d %H:%M:%S %p')"/></p>
+	                        </div>
+	                        <p><t t-raw="message.body"/></p>
+	                        <t t-if="message.attachment_ids">
+		                        <div class="row">                            	                        
+						            <div t-foreach="message.attachment_ids" t-as="attachment" class="col-lg-2 col-md-3 col-sm-6">
+						                <div class="o_portal_chatter_attachment mb-2 position-relative text-center" t-att-data-id="attachment.id">
+						                    <a t-attf-href="/web/content/#{attachment.id}?download=true&amp;access_token=#{attachment.access_token}" target="_blank">
+						                        <div class='oe_attachment_embedded o_image' t-att-title="attachment.name" t-att-data-mimetype="attachment.mimetype"/>
+						                        <div class='o_portal_chatter_attachment_name'><t t-esc='attachment.name'/></div>
+						                    </a>
+						                </div>
+						            </div>					        
+		                        </div>
+		                	</t>
+	                    </div>
+	                </div>
+	        	</div>
+            </t>
+    	</t>
+	</template>
+
+    
+    <template id="portal_my_home_invoice" name="Portal My Home : invoice entries" inherit_id="account.portal_my_home_invoice" priority="30">
+        <xpath expr="//t[@t-call='portal.portal_docs_entry']" position="replace">
+        </xpath>
+    </template>
+
+    <template id="portal_my_home_purchase" name="Portal My Home : purchase entry" inherit_id="purchase.portal_my_home_purchase" priority="25">
+      <xpath expr="//t[@t-call='portal.portal_docs_entry']" position="replace">
+      </xpath>
+  </template>
+<!-- 
+    <template id="portal_my_home_work_order" name="Portal My Home : workorder entries" inherit_id="send_mail.portal_my_home_sale" priority="20">
+        <xpath expr="//t[@t-if='workorder_count']" position="replace">
+        </xpath>
+    </template>
+ -->
+  <template id="portal_my_home_menu_sale1" name="Portal layout : sales menu entries" inherit_id="sale.portal_my_home_menu_sale" priority="20">
+        <xpath expr="//ol/li[4]" position="replace">
+            <li t-if="page_name == 'order' or sale_order and sale_order.state not in ('sent', 'cancel')" t-attf-class="breadcrumb-item #{'active ' if not sale_order else ''}">
+                <a t-if="sale_order" t-attf-href="/my/orders?{{ keep_query() }}">Customer Orders</a>
+                <t t-else="">Customer Orders</t>
+            </li>
+          </xpath>
+          <xpath expr="//ol/li[5]" position="replace">
+            <li t-if="sale_order" class="breadcrumb-item active">
+                <span/>
+                <t t-esc="sale_order.client_order_ref"/>
+             </li>   
+        </xpath>
+    </template>
+
+    <template id="portal_searchbar" name="Portal Search Bar" inherit_id="portal.portal_searchbar">
+        <xpath expr="//div[@class='nav flex-column flex-lg-row ml-auto p-0 mb-3 mb-lg-0 mt-1 mt-lg-0']" position="replace">
+        </xpath>
+    </template>
+
+</odoo>

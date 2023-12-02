@@ -1,0 +1,59 @@
+
+{
+    "billLists": [
+        {
+            "actualFromStateCode": "KA",
+            "actualToStateCode": false,
+            "cessValue": 0.0,
+            "cgstValue": 0.0,
+            "docDate": "04-08-2019",
+            "docNo": "WH/OUT/00916",
+            "docType": "INV",
+            "fromAddr1": "#B-54, KSSIDC  Industrial Estate",
+            "fromAddr2": " ",
+            "fromGstin": "29AAICS2464D1ZA",
+            "fromPinCode": "560074",
+            "fromPlace": "Bengaluru",
+            "fromStateCode": "KA",
+            "fromTrdName": "SHRIDHAN AUTOMATION PVT. LTD.",
+            "igstValue": 0.0,
+            "itemList": [
+                {
+                    "cessRate": 0.0,
+                    "cgstRate": 0.0,
+                    "igstRate": 0.0,
+                    "itemNo": 1,
+                    "productDesc": "Magnetic Level Indicator ",
+                    "productName": "Magnetic Level Indicator ",
+                    "qtyUnit": " ",
+                    "quantity": 4.0,
+                    "sgstRate": 0.0,
+                    "taxableAmount": 0
+                }
+            ],
+            "sgstValue": 0.0,
+            "subSupplyType": 1,
+            "supplyType": "O",
+            "toAddr1": "327, Providence, 7th Main, 7th Cross, ",
+            "toAddr2": " ",
+            "toGstin": false,
+            "toPinCode": "560 072 \n",
+            "toPlace": "Bangalore",
+            "toStateCode": false,
+            "toTrdName": " Annpab Technologies",
+            "totInvValue": 0,
+            "totalValue": 0,
+            "transDistance": false,
+            "transDocDate": "05/08/2019",
+            "transDocNo": " ",
+            "transMode": false,
+            "transType": 1,
+            "transporterId": false,
+            "transporterName": false,
+            "userGSTIN": "29AAICS2464D1ZA",
+            "vehicleNo": false,
+            "vehicleType": false
+        }
+    ],
+    "version": "1.0.1118"
+}

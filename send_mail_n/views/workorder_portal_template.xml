@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="portal_my_home_sale" name="Portal My Home : workorder entries" inherit_id="portal.portal_my_home"
+              priority="20">
+        <xpath expr="//div[hasclass('o_portal_docs')]" position="inside">
+            <t t-if="workorder_count" t-call="portal.portal_docs_entry">
+                <t t-set="title">Work Order</t>
+                <t t-set="url" t-value="'/my/workorders'"/>
+                <t t-set="count" t-value="workorder_count"/>
+            </t>
+        </xpath>
+    </template>
+    
+    <template id="portal_work_orders" name="My Work Orders">
+        <t t-call="portal.portal_layout">
+            <t t-set="breadcrumbs_searchbar" t-value="True"/>
+
+            <t t-call="portal.portal_searchbar">
+                <t t-set="title">Work Order</t>
+            </t>
+            <t t-if="not orders">
+                <p>There are currently no orders for your account.</p>
+            </t>
+            <t t-if="orders" t-call="portal.portal_table">
+                <thead>
+                    <tr class="active">
+                        <th>
+                            <span class='d-none d-md-inline'>Work Order Name</span>
+<!--                             <span class='d-block d-md-none'>Ref.</span> -->
+                            
+                        </th>
+                        <th class="text-left">Work Order Ref</th>
+                        <th class="text-right">Work Order Date</th>
+                        <th class="text-center"/>
+                        <th class="text-right">Quantity</th>
+                        
+                        <th class="text-right">Status</th>
+                    </tr>
+                </thead>
+                <t t-foreach="orders" t-as="order">
+                    <tr>
+                        <td><a ><t t-esc="order.name"/></a></td>
+                        <td><a ><t t-esc="order.production_id.name"/></a></td>
+                        <td class="text-right">
+                            <span t-field="order.date_finished" t-options="{'widget': 'date'}"/>&amp;nbsp;
+                            <span class='d-none d-md-inline' t-field="order.date_finished" t-options="{'time_only': True}"/>
+                        </td>
+                        <td class="text-center">
+                            <span t-if="order.state == 'done'"  class="badge badge-pill badge-success">
+                                <i class="fa fa-fw fa-check" role="img" aria-label="Done" title="Done"/>Done
+                            </span>
+                        </td>
+                        <td class="text-right"><span t-field="order.qty_produced"/></td>
+                        
+                        <td class="text-right"><span t-field="order.state"/></td>
+                    </tr>
+                </t>
+            </t>
+        </t>
+    </template>
+    
+</odoo>

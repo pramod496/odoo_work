@@ -1,0 +1,938 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!--MOC -->
+
+    <record id="view_moc_tree" model="ir.ui.view">
+        <field name="name">moc.tree</field>
+        <field name="model">moc</field>
+        <field name= "arch" type = "xml">
+            <tree string="MOC">
+                <field name="moc"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="view_moc_form">
+        <field name="name">moc.form</field>
+        <field name="model">moc</field>
+        <field name="arch" type="xml">
+            <form string="MOC">
+                <sheet>
+                    <group>
+                        <field name="moc"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_moc" model="ir.actions.act_window">
+        <field name="name">MOC</field>
+        <field name="res_model">moc</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+
+    <!-- Stem MOC -->
+
+    <record id="view_stem_moc_tree" model="ir.ui.view">
+        <field name="name">stem.moc.tree</field>
+        <field name="model">stem.moc</field>
+        <field name= "arch" type = "xml">
+            <tree string="Stem MOC">
+                <field name="stem_moc"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="view_stem_moc_form">
+        <field name="name">stem.moc.form</field>
+        <field name="model">stem.moc</field>
+        <field name="arch" type="xml">
+            <form string="Stem MOC">
+                <sheet>
+                    <group>
+                        <field name="stem_moc"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_stem_moc" model="ir.actions.act_window">
+        <field name="name">Stem MOC</field>
+        <field name="res_model">stem.moc</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- Float MOC -->
+
+    <record id="view_float_moc_tree" model="ir.ui.view">
+        <field name="name">float.moc.tree</field>
+        <field name="model">float.moc</field>
+        <field name= "arch" type = "xml">
+            <tree string="float MOC">
+                <field name="float_moc"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="view_float_moc_form">
+        <field name="name">float.moc.form</field>
+        <field name="model">float.moc</field>
+        <field name="arch" type="xml">
+            <form string="Float MOC">
+                <sheet>
+                    <group>
+                        <field name="float_moc"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_float_moc" model="ir.actions.act_window">
+        <field name="name">Float MOC</field>
+        <field name="res_model">float.moc</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- Flange MOC -->
+
+    <record id="view_flange_moc_tree" model="ir.ui.view">
+        <field name="name">flange.moc.tree</field>
+        <field name="model">flange.moc</field>
+        <field name= "arch" type = "xml">
+            <tree string="Flange MOC">
+                <field name="flange_moc"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="view_flange_moc_form">
+        <field name="name">flange.moc.form</field>
+        <field name="model">flange.moc</field>
+        <field name="arch" type="xml">
+            <form string="Flange MOC">
+                <sheet>
+                    <group>
+                        <field name="flange_moc"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_flange_moc" model="ir.actions.act_window">
+        <field name="name">Flange MOC</field>
+        <field name="res_model">flange.moc</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- Fasteners MOC -->
+
+    <record id="view_fasteners_moc_tree" model="ir.ui.view">
+        <field name="name">fasteners.moc.tree</field>
+        <field name="model">fasteners.moc</field>
+        <field name= "arch" type = "xml">
+            <tree string="Fasteners MOC">
+                <field name="fasteners_moc"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="view_flange_moc_form">
+        <field name="name">fasteners.moc.form</field>
+        <field name="model">fasteners.moc</field>
+        <field name="arch" type="xml">
+            <form string="Fasteners MOC">
+                <sheet>
+                    <group>
+                        <field name="fasteners_moc"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_fasteners_moc" model="ir.actions.act_window">
+        <field name="name">Fasteners MOC</field>
+        <field name="res_model">fasteners.moc</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+
+    <!-- Stem Dia -->
+
+    <record id="view_stem_dia_tree" model="ir.ui.view">
+        <field name="name">stem.dia.tree</field>
+        <field name="model">stem.dia</field>
+        <field name= "arch" type = "xml">
+            <tree string="Stem Dia">
+                <field name="stem_dia"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="view_stem_dia_form">
+        <field name="name">stem.dia.form</field>
+        <field name="model">stem.dia</field>
+        <field name="arch" type="xml">
+            <form string="Stem Dia">
+                <sheet>
+                    <group>
+                        <field name="stem_dia"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_stem_dia" model="ir.actions.act_window">
+        <field name="name">Stem Dia</field>
+        <field name="res_model">stem.dia</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- Gasket MOC -->
+
+    <record id="view_gasket_moc_tree" model="ir.ui.view">
+        <field name="name">gasket.moc.tree</field>
+        <field name="model">gasket.moc</field>
+        <field name= "arch" type = "xml">
+            <tree string="Gasket MOC">
+                <field name="gasket_moc"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="view_gasket_moc_form">
+        <field name="name">gasket.moc.form</field>
+        <field name="model">gasket.moc</field>
+        <field name="arch" type="xml">
+            <form string="Gasket MOC">
+                <sheet>
+                    <group>
+                        <field name="gasket_moc"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_gasket_moc" model="ir.actions.act_window">
+        <field name="name">Gasket MOC</field>
+        <field name="res_model">gasket.moc</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- Packing Details -->
+
+    <record id="view_packing_details_tree" model="ir.ui.view">
+        <field name="name">packing.details.tree</field>
+        <field name="model">packing.details</field>
+        <field name= "arch" type = "xml">
+            <tree string="Packing Details">
+                <field name="packing_details"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="view_packing_details_form">
+        <field name="name">packing.details.form</field>
+        <field name="model">packing.details</field>
+        <field name="arch" type="xml">
+            <form string="Packing Details">
+                <sheet>
+                    <group>
+                        <field name="packing_details"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_packing_details" model="ir.actions.act_window">
+        <field name="name">Packing Details</field>
+        <field name="res_model">packing.details</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- Enclosure -->
+
+    <record id="view_enclosure_tree" model="ir.ui.view">
+        <field name="name">enclosure.tree</field>
+        <field name="model">enclosure</field>
+        <field name= "arch" type = "xml">
+            <tree string="Enclosure">
+                <field name="enclosure"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="view_enclosure_form">
+        <field name="name">enclosure.form</field>
+        <field name="model">enclosure</field>
+        <field name="arch" type="xml">
+            <form string="Enclosure">
+                <sheet>
+                    <group>
+                        <field name="enclosure"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_enclosure" model="ir.actions.act_window">
+        <field name="name">Enclosure</field>
+        <field name="res_model">enclosure</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- Potting -->
+
+    <record id="view_potting_tree" model="ir.ui.view">
+        <field name="name">potting.tree</field>
+        <field name="model">potting</field>
+        <field name= "arch" type = "xml">
+            <tree string="Potting">
+                <field name="potting"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="view_potting_form">
+        <field name="name">potting.form</field>
+        <field name="model">potting</field>
+        <field name="arch" type="xml">
+            <form string="Potting">
+                <sheet>
+                    <group>
+                        <field name="potting"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_potting" model="ir.actions.act_window">
+        <field name="name">Potting</field>
+        <field name="res_model">potting</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- Magnetic Switches -->
+
+    <record id="view_magnetic_switches_tree" model="ir.ui.view">
+        <field name="name">magnetic.switches.tree</field>
+        <field name="model">magnetic.switches</field>
+        <field name= "arch" type = "xml">
+            <tree string="Magnetic Switches">
+                <field name="magnetic_switches"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="view_magnetic_switches_form">
+        <field name="name">magnetic.switches.form</field>
+        <field name="model">magnetic.switches</field>
+        <field name="arch" type="xml">
+            <form string="Magnetic Switches">
+                <sheet>
+                    <group>
+                        <field name="magnetic_switches"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_magnetic_switches" model="ir.actions.act_window">
+        <field name="name">Magnetic Switches</field>
+        <field name="res_model">magnetic.switches</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- Magnetic Switches -->
+
+    <record id="view_level_transmitter_tree" model="ir.ui.view">
+        <field name="name">level.transmitter.tree</field>
+        <field name="model">level.transmitter</field>
+        <field name= "arch" type = "xml">
+            <tree string="level Transmitter">
+                <field name="level_transmitter"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="view_level_transmitter_form">
+        <field name="name">level.transmitter.form</field>
+        <field name="model">level.transmitter</field>
+        <field name="arch" type="xml">
+            <form string="level Transmitter">
+                <sheet>
+                    <group>
+                        <field name="level_transmitter"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_level_transmitter" model="ir.actions.act_window">
+        <field name="name">Level Transmitter</field>
+        <field name="res_model">level.transmitter</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+
+    <!-- Chamber MOC -->
+
+    <record id="view_chamber_moc_tree" model="ir.ui.view">
+        <field name="name">chamber.moc.tree</field>
+        <field name="model">chamber.moc</field>
+        <field name= "arch" type = "xml">
+            <tree string="Chamber MOC">
+                <field name="chamber_moc"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="view_chamber_moc_form">
+        <field name="name">chamber.moc.form</field>
+        <field name="model">chamber.moc</field>
+        <field name="arch" type="xml">
+            <form string="Chamber MOC">
+                <sheet>
+                    <group>
+                        <field name="chamber_moc"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_chamber_moc" model="ir.actions.act_window">
+        <field name="name">Chamber MOC</field>
+        <field name="res_model">chamber.moc</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+
+    <!-- Adaptor MOC -->
+
+    <record id="view_adaptor_moc_tree" model="ir.ui.view">
+        <field name="name">adaptor.moc.tree</field>
+        <field name="model">adaptor.moc</field>
+        <field name= "arch" type = "xml">
+            <tree string="Adaptor MOC">
+                <field name="adaptor_moc"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="view_adaptor_moc_form">
+        <field name="name">adaptor.moc.form</field>
+        <field name="model">adaptor.moc</field>
+        <field name="arch" type="xml">
+            <form string="Adaptor MOC">
+                <sheet>
+                    <group>
+                        <field name="adaptor_moc"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+
+    <record id="action_adaptor_moc" model="ir.actions.act_window">
+        <field name="name">Adaptor MOC</field>
+        <field name="res_model">adaptor.moc</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+
+    <!-- All Wetted MOC -->
+
+    <record id="view_wetted_moc_tree" model="ir.ui.view">
+        <field name="name">wetted.moc.tree</field>
+        <field name="model">wetted.moc</field>
+        <field name= "arch" type = "xml">
+            <tree string="Wetted MOC">
+                <field name="wetted_moc"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="view_wetted_moc_form">
+        <field name="name">wetted.moc.form</field>
+        <field name="model">wetted.moc</field>
+        <field name="arch" type="xml">
+            <form string="Wetted MOC">
+                <sheet>
+                    <group>
+                        <field name="wetted_moc"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_wetted_moc" model="ir.actions.act_window">
+        <field name="name">All Wetted Parts MOC</field>
+        <field name="res_model">wetted.moc</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+
+    <!-- Chamber Flange Type -->
+
+    <record id="view_chamber_flange_type_tree" model="ir.ui.view">
+        <field name="name">hamber.flange.type.tree</field>
+        <field name="model">chamber.flange.type</field>
+        <field name= "arch" type = "xml">
+            <tree string="Chamber Flange Type">
+                <field name="chamber_flange_type"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="view_chamber_flange_type_form">
+        <field name="name">chamber.moc.form</field>
+        <field name="model">chamber.flange.type</field>
+        <field name="arch" type="xml">
+            <form string="Chamber Flange Type">
+                <sheet>
+                    <group>
+                        <field name="chamber_flange_type"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_chamber_flange_type" model="ir.actions.act_window">
+        <field name="name">Chamber Flange Type</field>
+        <field name="res_model">chamber.flange.type</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- Process Conn. Pipe Size -->
+
+    <record id="view_process_pipe_size_tree" model="ir.ui.view">
+        <field name="name">process.pipe.size.tree</field>
+        <field name="model">process.pipe.size</field>
+        <field name= "arch" type = "xml">
+            <tree string="Process Connection Pipe Size">
+                <field name="process_pipe_size"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="view_process_pipe_size_form">
+        <field name="name">chamber.moc.form</field>
+        <field name="model">process.pipe.size</field>
+        <field name="arch" type="xml">
+            <form string="Process Connection Pipe Size">
+                <sheet>
+                    <group>
+                        <field name="process_pipe_size"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_process_pipe_size" model="ir.actions.act_window">
+        <field name="name">Process Connection Pipe Size</field>
+        <field name="res_model">process.pipe.size</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+
+    <!-- Process Connection -->
+
+    <record id="view_process_connection_tree" model="ir.ui.view">
+        <field name="name">process.connection.tree</field>
+        <field name="model">process.connection</field>
+        <field name= "arch" type = "xml">
+            <tree string="Process Connection">
+                <field name="process_connection"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="view_process_connection_form">
+        <field name="name">process.connection.form</field>
+        <field name="model">process.connection</field>
+        <field name="arch" type="xml">
+            <form string="Process Connection">
+                <sheet>
+                    <group>
+                        <field name="process_connection"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_process_connection" model="ir.actions.act_window">
+        <field name="name">Process Connection</field>
+        <field name="res_model">process.connection</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- Process Flange Rating -->
+
+    <record id="view_process_flange_rating_tree" model="ir.ui.view">
+        <field name="name">process.flange.rating.tree</field>
+        <field name="model">process.flange.rating</field>
+        <field name= "arch" type = "xml">
+            <tree string="Process Flange Rating">
+                <field name="process_flange_rating"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="view_process_flange_rating_form">
+        <field name="name">process.flange.rating.form</field>
+        <field name="model">process.flange.rating</field>
+        <field name="arch" type="xml">
+            <form string="Process Flange Rating">
+                <sheet>
+                    <group>
+                        <field name="process_flange_rating"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_process_flange_rating" model="ir.actions.act_window">
+        <field name="name">Process Flange Rating</field>
+        <field name="res_model">process.flange.rating</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+
+    <!-- Connector -->
+
+    <record id="view_connector_tree" model="ir.ui.view">
+        <field name="name">connector.tree</field>
+        <field name="model">connector</field>
+        <field name= "arch" type = "xml">
+            <tree string="Connector">
+                <field name="connector"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="view_connector_form">
+        <field name="name">connector.form</field>
+        <field name="model">connector</field>
+        <field name="arch" type="xml">
+            <form string="Connector">
+                <sheet>
+                    <group>
+                        <field name="connector"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_connector" model="ir.actions.act_window">
+        <field name="name">Connector</field>
+        <field name="res_model">connector</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- Connector VFX -->
+
+    <record id="view_connector_vfs_tree" model="ir.ui.view">
+        <field name="name">connector.vfs.tree</field>
+        <field name="model">connector.vfs</field>
+        <field name= "arch" type = "xml">
+            <tree string="Connector VFS">
+                <field name="connector_vfs"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="view_connector_vfs_form">
+        <field name="name">connector.vfs.form</field>
+        <field name="model">connector.vfs</field>
+        <field name="arch" type="xml">
+            <form string="Connector VFS">
+                <sheet>
+                    <group>
+                        <field name="connector_vfs"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_connector_vfs" model="ir.actions.act_window">
+        <field name="name">Connector VFS</field>
+        <field name="res_model">connector.vfs</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- Connector FLX -->
+
+    <record id="view_connector_flx_tree" model="ir.ui.view">
+        <field name="name">connector.flx.tree</field>
+        <field name="model">connector.flx</field>
+        <field name= "arch" type = "xml">
+            <tree string="Connector FLX">
+                <field name="connector_flx"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="view_connector_flx_form">
+        <field name="name">connector.flx.form</field>
+        <field name="model">connector.flx</field>
+        <field name="arch" type="xml">
+            <form string="Connector FLX">
+                <sheet>
+                    <group>
+                        <field name="connector_flx"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_connector_flx" model="ir.actions.act_window">
+        <field name="name">Connector FLX</field>
+        <field name="res_model">connector.flx</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+
+    <!-- vent -->
+
+    <record id="view_vent_tree" model="ir.ui.view">
+        <field name="name">vent.tree</field>
+        <field name="model">vent</field>
+        <field name= "arch" type = "xml">
+            <tree string="Vent">
+                <field name="vent"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="view_vent_form">
+        <field name="name">vent.form</field>
+        <field name="model">vent</field>
+        <field name="arch" type="xml">
+            <form string="vent">
+                <sheet>
+                    <group>
+                        <field name="vent"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_vent" model="ir.actions.act_window">
+        <field name="name">Vent</field>
+        <field name="res_model">vent</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- Drain -->
+
+    <record id="view_drain_tree" model="ir.ui.view">
+        <field name="name">drain.tree</field>
+        <field name="model">drain</field>
+        <field name= "arch" type = "xml">
+            <tree string="Drain">
+                <field name="drain"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="view_drain_form">
+        <field name="name">drain.form</field>
+        <field name="model">drain</field>
+        <field name="arch" type="xml">
+            <form string="Drain">
+                <sheet>
+                    <group>
+                        <field name="drain"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_drain" model="ir.actions.act_window">
+        <field name="name">Drain</field>
+        <field name="res_model">drain</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- Insulation -->
+
+    <record id="view_insulation_tree" model="ir.ui.view">
+        <field name="name">insulation.tree</field>
+        <field name="model">insulation</field>
+        <field name= "arch" type = "xml">
+            <tree string="Insulation Sleeving">
+                <field name="insulation"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="view_insulation_form">
+        <field name="name">insulation.form</field>
+        <field name="model">insulation</field>
+        <field name="arch" type="xml">
+            <form string="Insulation Sleeving">
+                <sheet>
+                    <group>
+                        <field name="insulation"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_insulation" model="ir.actions.act_window">
+        <field name="name">Insulation Sleeving</field>
+        <field name="res_model">insulation</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- Mount Type -->
+
+    <record id="view_mount_type_tree" model="ir.ui.view">
+        <field name="name">mount.type.tree</field>
+        <field name="model">mount.type</field>
+        <field name= "arch" type = "xml">
+            <tree string="Mount Type">
+                <field name="mount_type"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="view_mount_type_form">
+        <field name="name">mount.type.form</field>
+        <field name="model">mount.type</field>
+        <field name="arch" type="xml">
+            <form string="Mount Type">
+                <sheet>
+                    <group>
+                        <field name="mount_type"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_mount_type" model="ir.actions.act_window">
+        <field name="name">Mount Type</field>
+        <field name="res_model">mount.type</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- connection Type -->
+
+    <record id="view_connection_type_tree" model="ir.ui.view">
+        <field name="name">connection.type.tree</field>
+        <field name="model">connection.type</field>
+        <field name= "arch" type = "xml">
+            <tree string="Connection Type">
+                <field name="connection_type"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="view_connection_type_form">
+        <field name="name">connection.type.form</field>
+        <field name="model">connection.type</field>
+        <field name="arch" type="xml">
+            <form string="Mount Type">
+                <sheet>
+                    <group>
+                        <field name="connection_type"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_connection_type" model="ir.actions.act_window">
+        <field name="name">connection Type</field>
+        <field name="res_model">connection.type</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+
+    <!-- Main Menu IWO Fields -->
+
+    <menuitem id="iwo_menu_root" name="IWO Fields" parent="mrp.menu_mrp_root" sequence="30"/>
+
+    <!-- Sub Menus IWO Fields -->
+    <menuitem id="menu_moc_view" name="MOC" parent="iwo_menu_root" action="action_moc" sequence="0"/>
+
+    <menuitem id="menu_stem_moc_view" name="Stem MOC" parent="iwo_menu_root" action="action_stem_moc" sequence="1"/>
+
+    <menuitem id="menu_float_moc_view" name="Float MOC" parent="iwo_menu_root" action="action_float_moc" sequence="2"/>
+
+    <menuitem id="menu_flange_moc_view" name="Flange MOC" parent="iwo_menu_root" action="action_flange_moc" sequence="3"/>
+
+    <menuitem id="menu_fasteners_moc_view" name="Fasteners MOC" parent="iwo_menu_root" action="action_fasteners_moc" sequence="4"/>
+
+    <menuitem id="menu_gasket_moc_view" name="Gasket MOC" parent="iwo_menu_root" action="action_gasket_moc" sequence="5"/>
+
+    <menuitem id="menu_chamber_moc_view" name="Chamber MOC" parent="iwo_menu_root" action="action_chamber_moc" sequence="6"/>
+
+    <menuitem id="menu_adaptor_moc_view" name="Adaptor MOC" parent="iwo_menu_root" action="action_adaptor_moc" sequence="7"/>
+
+    <menuitem id="menu_wetted_moc_view" name="All Wetted Parts MOC" parent="iwo_menu_root" action="action_wetted_moc" sequence="8"/>
+
+    <menuitem id="menu_stem_dia_view" name="Stem Dia" parent="iwo_menu_root" action="action_stem_dia" sequence="9"/>
+
+    <menuitem id="menu_connector_view" name="Connector" parent="iwo_menu_root" action="action_connector" sequence="10"/>
+
+    <menuitem id="menu_connector_vfs_view" name="Connector VFS" parent="iwo_menu_root" action="action_connector_vfs" sequence="11"/>
+
+    <menuitem id="menu_connector_flx_view" name="Connector FLX" parent="iwo_menu_root" action="action_connector_flx" sequence="12"/>
+
+    <menuitem id="menu_insulation_view" name="Insulation Sleeving" parent="iwo_menu_root" action="action_insulation" sequence="13"/>
+
+    <menuitem id="menu_enclosure_view" name="Enclosure" parent="iwo_menu_root" action="action_enclosure" sequence="14"/>
+
+    <menuitem id="menu_potting_view" name="Potting" parent="iwo_menu_root" action="action_potting" sequence="14"/>
+
+    <menuitem id="menu_vent_view" name="Vent" parent="iwo_menu_root" action="action_vent" sequence="16"/>
+
+    <menuitem id="menu_drain_view" name="Drain" parent="iwo_menu_root" action="action_drain" sequence="17"/>
+
+    <menuitem id="menu_mount_type_view" name="Mount Type" parent="iwo_menu_root" action="action_mount_type" sequence="18"/>
+
+    <menuitem id="menu_level_transmitter_view" name="Level Transmitter" parent="iwo_menu_root" action="action_level_transmitter" sequence="19"/>
+
+    <menuitem id="menu_magnetic_switches_view" name="Magnetic Switches" parent="iwo_menu_root" action="action_magnetic_switches" sequence="20"/>
+
+    <menuitem id="menu_chamber_flange_type_view" name="Chamber Flange Type" parent="iwo_menu_root" action="action_chamber_flange_type" sequence="21"/>
+
+    <menuitem id="menu_process_pipe_size_view" name="Process Connection Pipe Size" parent="iwo_menu_root" action="action_process_pipe_size" sequence="22"/>
+
+    <menuitem id="menu_process_connection_view" name="Process Connection" parent="iwo_menu_root" action="action_process_connection" sequence="23"/>
+
+    <menuitem id="menu_process_flange_rating_view" name="Process Flange Rating" parent="iwo_menu_root" action="action_process_flange_rating" sequence="24"/>
+
+    <menuitem id="menu_pack_details_view" name="Packing Details" parent="iwo_menu_root" action="action_packing_details" sequence="25"/>
+
+    <menuitem id="menu_connection_type_view" name="Connection Type" parent="iwo_menu_root" action="action_connection_type" sequence="26"/>
+
+</odoo>

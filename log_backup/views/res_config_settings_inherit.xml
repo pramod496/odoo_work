@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="log_upload_view_account_config_settings" model="ir.ui.view">
+        <field name="name">Log Upload configuration</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="base.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[hasclass('settings')]" position="inside">
+                <div class="app_settings_block" data-string="General Settings" string="General Settings" data-key="general_settings">
+                    <div id="aws_log_files">
+                        <h2>AWS CREDENTIALS</h2>
+                        <div class="row mt16 o_settings_container">
+                            <div class="col-12 col-lg-6 o_setting_box">
+
+                                <div class="o_setting_right_pane">
+                                    <span class="o_form_label">Configuration File Full Path</span>
+                                    <div class="text-muted">
+                                        Set the paper format of printed documents
+                                    </div>
+                                    <div class="content-group">
+                                        <div class="mt16 row">
+                                            <label for="conf_file" string="Path" class="col-3 col-lg-3 o_light_label"/>
+                                            <field name="conf_file" class="oe_inline" readonly="0"/>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="col-12 col-lg-6 o_setting_box">
+
+                                <div class="o_setting_right_pane">
+                                    <span class="o_form_label">AWS S3 Region</span>
+                                    <div class="text-muted">
+                                        Region in which the AWS is hosted
+                                    </div>
+                                    <div class="content-group">
+                                        <div class="mt16 row">
+                                            <label for="region_name" string="Region" class="col-3 col-lg-3 o_light_label"/>
+                                            <field name="region_name" class="oe_inline" readonly="0"/>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="col-12 col-lg-6 o_setting_box">
+
+                                <div class="o_setting_right_pane">
+                                    <span class="o_form_label">AWS S3 Access Key Id</span>
+                                    <div class="text-muted">
+                                        AWS Access Key Id for S3 Connection
+                                    </div>
+                                    <div class="content-group">
+                                        <div class="mt16 row">
+                                            <label for="aws_access_key_id" string="AWS Access Key Id" class="col-3 col-lg-3 o_light_label"/>
+                                            <field name="aws_access_key_id" class="oe_inline" readonly="0"/>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="col-12 col-lg-6 o_setting_box">
+
+                                <div class="o_setting_right_pane">
+                                    <span class="o_form_label">AWS S3 Secret Access Key </span>
+                                    <div class="text-muted">
+                                        AWS Access Secret Key for S3 Connection
+                                    </div>
+                                    <div class="content-group">
+                                        <div class="mt16 row">
+                                            <label for="aws_secret_access_key" string="AWS Secret Access Key" class="col-3 col-lg-3 o_light_label"/>
+                                            <field name="aws_secret_access_key" class="oe_inline" readonly="0"/>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="col-12 col-lg-6 o_setting_box">
+
+                                <div class="o_setting_right_pane">
+                                    <span class="o_form_label">AWS S3 Bucket Name</span>
+                                    <div class="text-muted">
+                                        AWS S3 Connection Bucket Name
+                                    </div>
+                                    <div class="content-group">
+                                        <div class="mt16 row">
+                                            <label for="bucket_name" string="Bucket Name" class="col-3 col-lg-3 o_light_label"/>
+                                            <field name="bucket_name" class="oe_inline" readonly="0"/>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="col-12 col-lg-6 o_setting_box">
+                                <div class="o_setting_right_pane">
+                                    <span class="o_form_label">Folder Name where the files will be saved</span>
+                                    <div class="text-muted">
+                                        All the backup taken will be stored in this folder in AWS S3
+                                    </div>
+                                    <div class="content-group">
+                                        <div class="mt16 row">
+                                            <label for="Object" string="Object" class="col-3 col-lg-3 o_light_label"/>
+                                            <field name="Object" class="oe_inline" readonly="0"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-lg-6 o_setting_box">
+                                <div class="o_setting_right_pane">
+                                    <span class="o_form_label">Days After which the Logs will be Deleted</span>
+                                    <div class="text-muted">
+                                        After this day the logs from the AWS will be deleted
+                                    </div>
+                                    <div class="content-group">
+                                        <div class="mt16 row">
+                                            <label for="date_interval" string="Days Interval" class="col-3 col-lg-3 o_light_label"/>
+                                            <field name="date_interval" class="oe_inline" readonly="0"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </xpath>
+        </field>
+    </record>
+</odoo>

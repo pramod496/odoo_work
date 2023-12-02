@@ -1,0 +1,55 @@
+<odoo>
+  <data>
+        <record id="res_partner_inherit_fields" model="ir.ui.view">
+            <field name="name">res.partner.form</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='website']" position="before">
+                    <field name="fax"/>
+                </xpath>
+            </field>
+        </record>
+      <record id="stock_picking_form_custom" model="ir.ui.view">
+            <field name="name">stock.picking.form.custom</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="stock.view_picking_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='location_id']" position="after">
+                    <field name="uom_custom" invisible="1"/>
+                </xpath>
+                <xpath expr="//field[@name='buyer_id1']" position="after">
+                    <field name="kind_attn_buyer"/>
+                </xpath>
+                <xpath expr="//field[@name='delivery_address']" position="after">
+                    <field name="kind_attn_del"/>
+                </xpath>
+            </field>
+        </record>
+<!--      <record id="stock_picking_form_custom_inherit" model="ir.ui.view">-->
+<!--            <field name="name">stock.picking.form.custom</field>-->
+<!--            <field name="model">stock.picking</field>-->
+<!--            <field name="inherit_id" ref="stock.view_picking_form"/>-->
+<!--            <field name="arch" type="xml">-->
+<!--                <xpath expr="//field[@name='scheduled_date']" position="replace">-->
+<!--                    <field name="scheduled_date"/>-->
+<!--                </xpath>-->
+<!--            </field>-->
+<!--        </record>-->
+  </data>
+</odoo>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,1691 @@
+<odoo>
+
+    <template id="report_tax_einvoice_template">
+        <!--        <t t-call="web.basic_layout">-->
+<!--        <t t-call="web.html_container">-->
+        <t t-call="web.basic_layout">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="sa_tax_invoice.einvoice_original_main" t-lang="doc.partner_id.lang"/>
+<!--                <t t-call="sa_tax_invoice.einvoice_duplicate_main" t-lang="doc.partner_id.lang"/>-->
+<!--                <t t-call="sa_tax_invoice.einvoice_triplicate_main" t-lang="doc.partner_id.lang"/>-->
+<!--                <t t-call="sa_tax_invoice.einvoice_copy_main" t-lang="doc.partner_id.lang"/>-->
+            </t>
+        </t>
+        </t>
+    </template>
+<!--    <template id="einvoice_notation">-->
+<!--        <div style="font-size:14px;text-align:right">(ORIGINAL FOR RECIPIENT)</div>-->
+<!--    </template>-->
+
+     <template id="einvoice_original_repeat_footer">
+        <div style="width:100%;text-align:right;font-size:12px;" valign="bottom">
+            Page:
+            <span t-esc="page_no"/>
+            of
+            <span t-esc="doc.get_page_no()"/>
+        </div>
+    </template>
+
+     <template id="einvoice_original_header">
+        <!--        <div style="font-size:14px;text-align:right">(ORIGINAL FOR RECIPIENT)</div>-->
+        <t t-if="doc.report_type.invoice_type =='SEZ'">
+            <div style="font-weight:bold;font-size:20px;text-align:center">Tax Invoice</div>
+            <div style="font-size:14px;text-align:center">(SUPPLY MEANT FOR EXPORT/SUPPLY TO SEZ UNIT OR SEZ DEVELOPER
+                FOR AUTHORISED OPERATIONS ON PAYMENT OF IGST)
+            </div>
+        </t>
+
+        <t t-else="">
+            <div style="font-weight:bold;font-size:20px;text-align:center">Tax Invoice</div>
+        </t>
+<!--         Data from odoo            ======================================-->
+<!--         <div style="border-top: 4px solid black;border-left: 4px solid black;border-right: 4px solid black;">-->
+<!--            <tr>-->
+<!--&lt;!&ndash;            <tr style="border-top: 4px solid black;border-left: 4px solid black;border-right: 4px solid black;background-color:white;color:black;">&ndash;&gt;-->
+<!--                <td colspan="5" width="100%" style="border: 4px solid black;">-->
+<!--                    <span style="padding-left:660px;">-->
+<!--                        <b>e-Invoice</b>-->
+<!--                        <br></br>-->
+<!--                    </span>-->
+<!--                    <span style="padding-left:600px;">-->
+<!--&lt;!&ndash;                        <img src='/sa_tax_invoice/static/qr_image.png' style="max-height: 200px;"/>&ndash;&gt;-->
+<!--                        <img t-if="doc.qr_image" t-att-src="image_data_uri(doc.qr_image)" style="max-height: 200px;" alt="QR Code"/>-->
+<!--                    </span>-->
+<!--                    <br></br>-->
+<!--                    <span>-->
+<!--                        <b  style="padding-left:10px;">IRN:  <t t-esc="doc.irn_no"/></b>-->
+<!--                        <br></br>-->
+<!--                        <b style="padding-left:10px;">Ack No: <t t-esc="doc.ack_no"/></b>-->
+<!--                        <br></br>-->
+<!--                        <b style="padding-left:10px;">Ack Date: <span t-field="doc.ack_date" t-field-options='{"format": "dd-MM-yyyy"}'/></b>-->
+<!--                    </span>-->
+
+<!--                </td>-->
+
+<!--            </tr>-->
+<!--        </div>-->
+         <!--         Data from E-Invoice            ======================================-->
+         <div style="border-top: 4px solid black;border-left: 4px solid black;border-right: 4px solid black;">
+            <tr>
+                <td colspan="5" width="100%" style="border: 4px solid black;">
+                    <span style="float:right; padding-right:50px;">
+<!--                    <span style="padding-left:660px;">-->
+                        E-Invoice
+                        <br></br>
+                        <t t-set="l10n_in_einvoice_json" t-value="json.loads((doc.edi_document_ids.filtered(lambda i: i.edi_format_id.code == 'in_einvoice_1_03' and i.attachment_id.mimetype == 'application/json').attachment_id.raw or b'{}').decode('utf-8'))"/>
+                         <t t-if="l10n_in_einvoice_json">
+                            <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('QR', l10n_in_einvoice_json.get('SignedQRCode'), 150, 150)" style="max-height: 200px;"/>
+                        </t>
+                        <br></br>
+                    </span>
+<!--                    <span style="float:right; padding-right:120px;">-->
+<!--                    <span style="padding-left:600px;">-->
+<!--                        <t t-set="l10n_in_einvoice_json" t-value="json.loads((doc.edi_document_ids.filtered(lambda i: i.edi_format_id.code == 'in_einvoice_1_03' and i.attachment_id.mimetype == 'application/json').attachment_id.raw or b'{}').decode('utf-8'))"/>-->
+<!--                         <t t-if="l10n_in_einvoice_json">-->
+<!--                            <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('QR', l10n_in_einvoice_json.get('SignedQRCode'), 150, 150)" style="max-height: 200px;"/>-->
+<!--                        </t>-->
+<!--                    </span>-->
+<!--                    <br></br>-->
+                    <span>
+                         <div style="text-align: left; padding: 5px; font-size: 13px">
+<!--                             <t t-set="l10n_in_einvoice_json" t-value="json.loads((doc.edi_document_ids.filtered(lambda i: i.edi_format_id.code == 'in_einvoice_1_03' and i.attachment_id.mimetype == 'application/json').attachment_id.raw or b'{}').decode('utf-8'))"/>-->
+                             <div id="l10n_in_einvoice_informations" >
+                                 <div style="padding-left:8px;" t-if="l10n_in_einvoice_json" name="irn">
+                                     <b>IRN :
+                                         <t t-esc="l10n_in_einvoice_json.get('Irn')"/></b>
+                                 </div>
+                             </div>
+                         </div>
+                        <div  style="padding-left:10px;" t-if="l10n_in_einvoice_json" name="ack_no">
+                           <b >Ack No:
+                               <p class="m-0" t-esc="l10n_in_einvoice_json.get('AckNo')"/></b>
+                        </div>
+<!--                        <div t-if="l10n_in_einvoice_json" name="ack_no">-->
+<!--                           <b  style="padding-left:10px;">Ack No:-->
+<!--                               <p class="m-0" t-esc="l10n_in_einvoice_json.get('AckNo')"/></b>-->
+<!--                        </div>-->
+                        <div  style="padding-left:10px;" t-if="l10n_in_einvoice_json" name="ack_date">
+                            <b>Ack Date:
+                            <p class="m-0" t-esc="l10n_in_einvoice_json.get('AckDt')" t-options='{"widget": "datetime", "format": "dd-MM-y"}'/></b>
+                        </div>
+                    </span>
+                    <br></br>
+                    <br></br>
+                    <br></br>
+
+                </td>
+
+            </tr>
+        </div>
+
+        <style>
+            .table{
+            font-size:12px;
+            }
+
+            table, th, td {
+            border: 1px solid black;
+            border-collapse: collapse;
+            }
+        </style>
+    </template>
+
+    <template id="einvoice_original_repeat_header">
+        <table style="table-layout: fixed;border:4px solid black;border-bottom:2px solid black;">
+            <tr>
+                <td rowspan="3" style="text-align:left;border-right: 1px solid white;padding-left: 20px;">
+                    <img t-if="doc.company_id.logo2" t-att-src="image_data_uri(doc.company_id.logo2)"
+                         style="max-height: 110px;position: relative;top: 60px;" alt="Logo"/>
+                </td>
+
+                <td rowspan="3" height="165px" width="37.8%"
+                    style="padding-left:20px;padding-top:20px;border-left: 1px solid white;" valign="top">
+                    <b>
+                        <t t-if="doc.company_id.name">
+                            <div style="font-size:13px;">
+                                <t t-esc="doc.company_id.name"/>
+                            </div>
+                        </t>
+                    </b>
+                    <t t-esc="doc.company_id.street"/>
+                    <br/>
+                    <t t-esc="doc.company_id.street2"/>
+                    <br/>
+                    <b>
+                        <t t-esc="doc.company_id.city"/>
+                        -
+                        <t t-esc="doc.company_id.zip"/>
+                    </b>
+                    <br/>
+                    <b><t t-esc="doc.company_id.state_id.name"/>,
+                        <t t-esc="doc.company_id.country_id.name"/>.
+                    </b>
+                    <br/>
+                    Phone:
+                    <t t-esc="doc.company_id.phone "/>
+                    <br/>
+                    Mobile:
+                    <t t-esc="doc.company_id.mobile "/>
+                    <br/>
+                    GSTIN/UIN:
+                    <t t-esc="doc.company_id.vat "/>
+                    <br/>
+                    State Name:
+                    <t t-esc="doc.company_id.state_id.name "/>
+                    ,
+                    Code:
+                    <t t-esc="doc.company_id.state_code_new"/>
+                </td>
+
+                <td height="55" width="30.5%" valign="top">
+                    <span>Invoice No.</span>
+                    <b>
+                        <br/>
+                        <span t-field="doc.name"/>
+                    </b>
+                    <p></p>
+                </td>
+
+                <td height="55" width="30%" valign="top">
+                    <span>Date</span>
+                    <b>
+                        <br/>
+                        <t t-if="doc.invoice_date">
+                            <span t-field="doc.invoice_date" t-options='{"format": "dd-MM-y"}'/>
+                        </t>
+                    </b>
+                    <p></p>
+                </td>
+            </tr>
+            <tr>
+                <td height="55" width="28%" valign="top">
+                    <span>Delivery Note</span>
+                    <br/>
+                    <b>
+                        <t t-if="doc.delivery_note1"/>
+                        <span t-esc="doc.delivery_note1"/>
+                    </b>
+                </td>
+
+                <td height="55" width="28%" valign="top">
+                    <span>Mode/Terms of Payment</span>
+                    <br/>
+                    <b>
+                        <span t-field="doc.invoice_payment_term_id.name"/>
+                    </b>
+                </td>
+            </tr>
+            <tr>
+                <td height="55" width="28%" valign="top">
+                    <span>Supplier's Ref.</span>
+                    <br/>
+                    <b>
+<!--                        <span t-esc="doc.origin"/>-->
+                        <span t-esc="doc.invoice_origin"/>
+                    </b>
+                </td>
+                <td height="55" width="28%" valign="top">
+                    <span>Other references</span>
+                    <br/>
+                    <b>
+                        <span t-field="doc.other_ref"/>
+                    </b>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" rowspan="3" width="40.4%" valign="top" style="border-top: 2px solid black">
+                    <div style="padding-left: 5px;">
+                        <span>Buyer</span>
+                        <br/>
+                        <b>
+                            <t t-esc="doc.partner_id.name"/>
+                        </b>
+                        <br/>
+                        <t t-esc="doc.partner_id.street"/>
+                        <br/>
+                        <t t-esc="doc.partner_id.street2"/>,
+<!--                        <br/>-->
+                        <b>
+                            <t t-esc="doc.partner_id.city"/>
+                            -
+                            <t t-esc="doc.partner_id.zip"/>
+                        </b>
+                    </div>
+
+                    <table style="width: 100%;border: 1px solid white;">
+                        <tr t-if="doc.customer_contact">
+                            <td style="border: 1px solid white;padding-top:0.5px;">Contact</td>
+                            <td style="border: 1px solid white;padding-top:0.5px;">:
+                                <t t-if="doc.customer_contact.title">
+                                    <t t-esc="doc.customer_contact.title.name"/>
+                                </t>
+                                <t t-if="doc.customer_contact">
+                                    <t t-esc="doc.customer_contact.name"/>
+                                </t>
+                            </td>
+                        </tr>
+                        <tr t-if="doc.customer_contact.phone">
+                            <td style="border: 1px solid white;padding-top:0.5px;">Phone</td>
+                            <td style="border: 1px solid white;padding-top:0.5px;">:
+                                <t t-esc="doc.customer_contact.phone"/>
+                            </td>
+                        </tr>
+                        <tr t-if="doc.customer_contact.mobile">
+                            <td style="border: 1px solid white;padding-top:0.5px;">Mobile</td>
+                            <td style="border: 1px solid white;padding-top:0.5px;">:
+                                <t t-esc="doc.customer_contact.mobile"/>
+                            </td>
+                        </tr>
+                        <tr t-if="doc.partner_id.GSM">
+                            <td style="border: 1px solid white;padding-top:0.5px;">GSM</td>
+                            <td style="border: 1px solid white;padding-top:0.5px;">:
+                                <t t-esc="doc.partner_id.GSM"/>
+                            </td>
+                        </tr>
+                        <tr t-if="doc.partner_id.trn">
+                            <td style="border: 1px solid white;padding-top:0.5px;">TRN No</td>
+                            <td style="border: 1px solid white;padding-top:0.5px;">:
+                                <t t-esc="doc.partner_id.trn"/>
+                            </td>
+                        </tr>
+                        <tr t-if="doc.partner_id.tin">
+                            <td style="border: 1px solid white;padding-top:0.5px;">Tin No</td>
+                            <td style="border: 1px solid white;padding-top:0.5px;">:
+                                <t t-esc="doc.partner_id.tin"/>
+                            </td>
+                        </tr>
+                        <tr t-if="doc.partner_id.cin_num">
+                            <td style="border: 1px solid white;padding-top:0.5px;">CIN No</td>
+                            <td style="border: 1px solid white;padding-top:0.5px;">:
+                                <t t-esc="doc.partner_id.cin_num"/>
+                            </td>
+                        </tr>
+                        <tr t-if="doc.partner_id.ISO_Num">
+                            <td style="border: 1px solid white;padding-top:0.5px;">ISO No</td>
+                            <td style="border: 1px solid white;padding-top:0.5px;">:
+                                <t t-esc="doc.partner_id.ISO_Num"/>
+                            </td>
+                        </tr>
+                        <tr t-if="doc.partner_id.pan">
+                            <td style="border: 1px solid white;padding-top:0.5px;">Pan No</td>
+                            <td style="border: 1px solid white;padding-top:0.5px;">:
+                                <t t-esc="doc.partner_id.pan"/>
+                            </td>
+                        </tr>
+                        <tr t-if="doc.partner_id.fax">
+                            <td style="border: 1px solid white;padding-top:0.5px;">Fax No</td>
+                            <td style="border: 1px solid white;padding-top:0.5px;">:
+                                <t t-esc="doc.partner_id.fax"/>
+                            </td>
+                        </tr>
+                        <tr t-if="doc.partner_id.vendor_code">
+                            <td style="border: 1px solid white;padding-top:0.5px;">Vendor Code</td>
+                            <td style="border: 1px solid white;padding-top:0.5px;">:
+                                <t t-esc="doc.partner_id.vendor_code"/>
+                            </td>
+                        </tr>
+                        <tr t-if="doc.partner_id.vat">
+                            <td style="border: 1px solid white;padding-top:0.5px;">GSTIN/UIN</td>
+                            <td style="border: 1px solid white;padding-top:0.5px;">:
+                                <t t-esc="doc.partner_id.vat"/>
+                            </td>
+                        </tr>
+                        <tr t-if="doc.partner_id.state_id">
+                            <td style="border: 1px solid white;padding-top:0.5px;">State Name :
+<!--                            </td>-->
+<!--                            <td style="border: 1px solid white;padding-top:0.5px;">:-->
+                                <t t-esc="doc.partner_id.state_id.name"/>
+                            </td>
+                            <td style="border: 1px solid white;padding-top:0.5px;">Code :
+<!--                            </td>-->
+<!--                            <td style="border: 1px solid white;padding-top:0.5px;">:-->
+                                <t t-esc="doc.partner_id.state_code_res"/>
+                            </td>
+                        </tr>
+<!--                        <tr t-if="doc.partner_id.state_id">-->
+<!--                            <td style="border: 1px solid white;padding-top:0.5px;">State Code</td>-->
+<!--                            <td style="border: 1px solid white;padding-top:0.5px;">:-->
+<!--                                <t t-esc="doc.partner_id.state_id.code"/>-->
+<!--                            </td>-->
+<!--                        </tr>-->
+                    </table>
+                </td>
+                <td height="40" width="28%" valign="top" style="border-top: 2px solid black">
+                    <span>Buyer's Order No</span>
+                    <b>
+                        <br/>
+                        <span t-esc="doc.ref"/>
+<!--                        <span t-esc="po_ref"/>-->
+                    </b>
+                    <p></p>
+                </td>
+
+                <td height="40" width="28%" valign="top" style="border-top: 2px solid black">
+                    <span>Date</span>
+                    <b>
+                        <br/>
+                        <t t-if="doc.sale_id_rel.po_date">
+<!--                        <t t-if="po_date">-->
+                            <span t-esc="doc.sale_id_rel.po_date.strftime('%d-%m-%Y')"/>
+<!--                            <span t-esc="po_date"/>-->
+                        </t>
+                    </b>
+                    <p></p>
+                </td>
+            </tr>
+            <tr>
+                <td height="40" width="28%" valign="top">
+                    <span>Despatch Document No</span>
+                    <br/>
+                    <b>
+                        <t t-if="doc.despatch_document_no1"/>
+                        <span t-esc="doc.despatch_document_no1"/>
+                    </b>
+                    <p></p>
+                </td>
+
+                <td height="40" width="28%" valign="top">
+                    <span>Delivery Note Date</span>
+                    <br/>
+                    <b>
+                        <t t-if="doc.delivery_note_date1">
+                            <span t-field="doc.delivery_note_date1" t-options='{"format": "dd-MM-y"}'/>
+                        </t>
+                    </b>
+                    <br/>
+                    <p></p>
+                </td>
+            </tr>
+            <tr>
+                <td height="40" width="28%" valign="top">
+                    <span>E-way Bill No</span>
+                    <br/>
+                    <b>
+                        <t t-if="doc.transDocNo"/>
+                        <span t-esc="doc.transDocNo"/>
+                    </b>
+                    <p></p>
+                </td>
+
+                <td height="40" width="28%" valign="top">
+                    <span>E-way Bill Date</span>
+                    <br/>
+                    <b>
+                        <t t-if="doc.transDocDate">
+                            <span t-field="doc.transDocDate" t-options='{"format": "dd-MM-y"}'/>
+                        </t>
+                    </b>
+                    <br/>
+                    <p></p>
+                </td>
+            </tr>
+        </table>
+    </template>
+
+
+    <template id="edata_header">
+        <table width="100%"
+               style="table-layout: fixed;font-weight: bold;border:4px solid black;border-bottom:1px solid white;border-top:2px solid black;">
+            <tr style="border-bottom:3px solid black;">
+                <td style="width:5%;text-align:center;">Sl.
+                    <br/>
+                    No.
+                </td>
+                <td style="text-align:center;">Description of Goods</td>
+                <td style="width:9.2%;text-align:center;">HSN/SAC</td>
+                <td style="width:5.1%;text-align:center;padding-left:0.5px;">Qty</td>
+                <!--                <td t-if="doc.currency_id.name=='INR'" style="width:13.2%;text-align:center;">Rate()</td>-->
+                <td style="width:13.2%;text-align:center;">Rate(<span t-field="doc.currency_id.name"/>)
+                </td>
+                <td style="width:5.3%;text-align:center;">per</td>
+                <td style="width:6.6%;text-align:center;">Disc.%</td>
+                <td style="width:14.9%;text-align:center;">Amount(<span t-field="doc.currency_id.name"/>)
+                </td>
+            </tr>
+            <t t-if="brought_total">
+                <tr>
+                    <td colspan="7" style="text-align: right;border:2px solid black;">Brought forward from page
+                        <span t-esc="page_no - 1"/>
+                    </td>
+                    <td style="text-align: right;border:1px solid white;">
+                        <span t-esc="brought_total" t-options='{"widget": "float","precision": 2}'/>
+                    </td>
+                </tr>
+            </t>
+        </table>
+    </template>
+
+    <template id="einvoice_body_custom">
+        <table width="100%" style="table-layout: fixed;border-left: 4px solid black;border-right: 4px solid black;">
+            <tr>
+                <td rowspan="3" width="45.9%" valign="top">
+                    <t t-if="doc.partner_shipping_id">
+                        <div style="padding-left: 5px;">
+                            <span>Delivery Address</span>
+                            <br/>
+                            <b>
+                                <t t-esc="doc.partner_shipping_id.name"/>
+                            </b>
+                            <br/>
+                            <t t-esc="doc.partner_shipping_id.street"/>
+                            <br/>
+                            <t t-esc="doc.partner_shipping_id.street2"/>,
+<!--                            <br/>-->
+                            <b>
+                                <t t-esc="doc.partner_shipping_id.city"/>
+                                -
+                                <t t-esc="doc.partner_shipping_id.zip"/>
+                            </b>
+                        </div>
+                        <table style="width: 100%;border: 1px solid white;">
+                            <tr t-if="doc.delivery_contact">
+                                <td style="border: 1px solid white;padding-top:0.5px;">Contact</td>
+                                <td style="border: 1px solid white;padding-top:0.5px;">:
+                                    <t t-if="doc.delivery_contact.title">
+                                        <t t-esc="doc.delivery_contact.title.name"/>
+                                    </t>
+                                    <t t-if="doc.delivery_contact">
+                                        <t t-esc="doc.delivery_contact.name"/>
+                                    </t>
+                                </td>
+                            </tr>
+                            <tr t-if="doc.delivery_contact.phone">
+                                <td style="border: 1px solid white;padding-top:0.5px;">Phone</td>
+                                <td style="border: 1px solid white;padding-top:0.5px;">:
+                                    <t t-esc="doc.delivery_contact.phone"/>
+                                </td>
+                            </tr>
+                            <tr t-if="doc.delivery_contact.mobile">
+                                <td style="border: 1px solid white;padding-top:0.5px;">Mobile</td>
+                                <td style="border: 1px solid white;padding-top:0.5px;">:
+                                    <t t-esc="doc.delivery_contact.mobile"/>
+                                </td>
+                            </tr>
+                            <tr t-if="doc.partner_shipping_id.GSM">
+                                <td style="border: 1px solid white;padding-top:0.5px;">GSM</td>
+                                <td style="border: 1px solid white;padding-top:0.5px;">:
+                                    <t t-esc="doc.partner_shipping_id.GSM"/>
+                                </td>
+                            </tr>
+                            <tr t-if="doc.partner_shipping_id.trn">
+                                <td style="border: 1px solid white;padding-top:0.5px;">TRN No</td>
+                                <td style="border: 1px solid white;padding-top:0.5px;">:
+                                    <t t-esc="doc.partner_shipping_id.trn"/>
+                                </td>
+                            </tr>
+                            <tr t-if="doc.partner_shipping_id.tin">
+                                <td style="border: 1px solid white;padding-top:0.5px;">Tin No</td>
+                                <td style="border: 1px solid white;padding-top:0.5px;">:
+                                    <t t-esc="doc.partner_shipping_id.tin"/>
+                                </td>
+                            </tr>
+                            <tr t-if="doc.partner_shipping_id.cin_num">
+                                <td style="border: 1px solid white;padding-top:0.5px;">CIN No</td>
+                                <td style="border: 1px solid white;padding-top:0.5px;">:
+                                    <t t-esc="doc.partner_shipping_id.cin_num"/>
+                                </td>
+                            </tr>
+                            <tr t-if="doc.partner_shipping_id.ISO_Num">
+                                <td style="border: 1px solid white;padding-top:0.5px;">ISO No</td>
+                                <td style="border: 1px solid white;padding-top:0.5px;">:
+                                    <t t-esc="doc.partner_shipping_id.ISO_Num"/>
+                                </td>
+                            </tr>
+                            <tr t-if="doc.partner_shipping_id.pan">
+                                <td style="border: 1px solid white;padding-top:0.5px;">Pan No</td>
+                                <td style="border: 1px solid white;padding-top:0.5px;">:
+                                    <t t-esc="doc.partner_shipping_id.pan"/>
+                                </td>
+                            </tr>
+                            <tr t-if="doc.partner_shipping_id.fax">
+                                <td style="border: 1px solid white;padding-top:0.5px;">Fax No</td>
+                                <td style="border: 1px solid white;padding-top:0.5px;">:
+                                    <t t-esc="doc.partner_shipping_id.fax"/>
+                                </td>
+                            </tr>
+                            <tr t-if="doc.partner_shipping_id.vendor_code">
+                                <td style="border: 1px solid white;padding-top:0.5px;">Vendor Code</td>
+                                <td style="border: 1px solid white;padding-top:0.5px;">:
+                                    <t t-esc="doc.partner_shipping_id.vendor_code"/>
+                                </td>
+                            </tr>
+                            <tr t-if="doc.partner_shipping_id.vat">
+                                <td style="border: 1px solid white;padding-top:0.5px;">GSTIN/UIN</td>
+                                <td style="border: 1px solid white;padding-top:0.5px;">:
+                                    <t t-esc="doc.partner_shipping_id.vat"/>
+                                </td>
+                            </tr>
+                            <tr t-if="doc.partner_shipping_id.state_id">
+                                <td style="border: 1px solid white;padding-top:0.5px;">State Name :
+<!--                                </td>-->
+<!--                                <td style="border: 1px solid white;padding-top:0.5px;">:-->
+                                    <t t-esc="doc.partner_shipping_id.state_id.name"/>
+                                </td>
+                                <td style="border: 1px solid white;padding-top:0.5px;">Code :
+                                    <t t-esc="doc.partner_shipping_id.state_code_res"/>
+                                </td>
+                            </tr>
+<!--                            <tr t-if="doc.partner_shipping_id.state_id.code">-->
+<!--                                <td style="border: 1px solid white;padding-top:0.5px;">State Code</td>-->
+<!--                                <td style="border: 1px solid white;padding-top:0.5px;">:-->
+<!--                                    <t t-esc="doc.partner_shipping_id.state_id.code"/>-->
+<!--                                </td>-->
+<!--                            </tr>-->
+                        </table>
+                    </t>
+                    <t t-else="">
+                        <t t-if="doc.buyer_id">
+                            <div style="padding-left: 5px;">
+                                <span>Consignee</span>
+                                <br/>
+                                <b>
+                                    <t t-esc="doc.buyer_id.name"/>
+                                </b>
+                                <br/>
+                                <t t-esc="doc.buyer_id.street"/>
+                                <br/>
+                                <t t-esc="doc.buyer_id.street2"/>,
+<!--                                <br/>-->
+                                <b>
+                                    <t t-esc="doc.buyer_id.city"/>
+                                    -
+                                    <t t-esc="doc.buyer_id.zip"/>
+                                </b>
+                            </div>
+                            <table style="width: 100%;border: 1px solid white;">
+                                <tr t-if="doc.consignee_contact">
+                                    <td style="border: 1px solid white;padding-top:0.5px;">Contact</td>
+                                    <td style="border: 1px solid white;padding-top:0.5px;">:
+                                        <t t-if="doc.consignee_contact.title">
+                                            <t t-esc="doc.consignee_contact.title.name"/>
+                                        </t>
+                                        <t t-if="doc.consignee_contact">
+                                            <t t-esc="doc.consignee_contact.name"/>
+                                        </t>
+                                    </td>
+                                </tr>
+                                <tr t-if="doc.consignee_contact.phone">
+                                    <td style="border: 1px solid white;padding-top:0.5px;">Phone</td>
+                                    <td style="border: 1px solid white;padding-top:0.5px;">:
+                                        <t t-esc="doc.consignee_contact.phone"/>
+                                    </td>
+                                </tr>
+                                <tr t-if="doc.consignee_contact.mobile">
+                                    <td style="border: 1px solid white;padding-top:0.5px;">Mobile</td>
+                                    <td style="border: 1px solid white;padding-top:0.5px;">:
+                                        <t t-esc="doc.consignee_contact.mobile"/>
+                                    </td>
+                                </tr>
+                                <tr t-if="doc.buyer_id.GSM">
+                                    <td style="border: 1px solid white;padding-top:0.5px;">GSM</td>
+                                    <td style="border: 1px solid white;padding-top:0.5px;">:
+                                        <t t-esc="doc.buyer_id.GSM"/>
+                                    </td>
+                                </tr>
+                                <tr t-if="doc.buyer_id.trn">
+                                    <td style="border: 1px solid white;padding-top:0.5px;">TRN No</td>
+                                    <td style="border: 1px solid white;padding-top:0.5px;">:
+                                        <t t-esc="doc.buyer_id.trn"/>
+                                    </td>
+                                </tr>
+                                <tr t-if="doc.buyer_id.tin">
+                                    <td style="border: 1px solid white;padding-top:0.5px;">Tin No</td>
+                                    <td style="border: 1px solid white;padding-top:0.5px;">:
+                                        <t t-esc="doc.buyer_id.tin"/>
+                                    </td>
+                                </tr>
+                                <tr t-if="doc.buyer_id.cin_num">
+                                    <td style="border: 1px solid white;padding-top:0.5px;">CIN No</td>
+                                    <td style="border: 1px solid white;padding-top:0.5px;">:
+                                        <t t-esc="doc.buyer_id.cin_num"/>
+                                    </td>
+                                </tr>
+                                <tr t-if="doc.buyer_id.ISO_Num">
+                                    <td style="border: 1px solid white;padding-top:0.5px;">ISO No</td>
+                                    <td style="border: 1px solid white;padding-top:0.5px;">:
+                                        <t t-esc="doc.buyer_id.ISO_Num"/>
+                                    </td>
+                                </tr>
+                                <tr t-if="doc.buyer_id.pan">
+                                    <td style="border: 1px solid white;padding-top:0.5px;">Pan No</td>
+                                    <td style="border: 1px solid white;padding-top:0.5px;">:
+                                        <t t-esc="doc.buyer_id.pan"/>
+                                    </td>
+                                </tr>
+                                <tr t-if="doc.buyer_id.fax">
+                                    <td style="border: 1px solid white;padding-top:0.5px;">Fax No</td>
+                                    <td style="border: 1px solid white;padding-top:0.5px;">:
+                                        <t t-esc="doc.buyer_id.fax"/>
+                                    </td>
+                                </tr>
+                                <tr t-if="doc.buyer_id.vendor_code">
+                                    <td style="border: 1px solid white;padding-top:0.5px;">Vendor Code</td>
+                                    <td style="border: 1px solid white;padding-top:0.5px;">:
+                                        <t t-esc="doc.buyer_id.vendor_code"/>
+                                    </td>
+                                </tr>
+                                <tr t-if="doc.buyer_id.vat">
+                                    <td style="border: 1px solid white;padding-top:0.5px;">GSTIN/UIN</td>
+                                    <td style="border: 1px solid white;padding-top:0.5px;">:
+                                        <t t-esc="doc.buyer_id.vat"/>
+                                    </td>
+                                </tr>
+                                <tr t-if="doc.buyer_id.state_id">
+                                    <td style="border: 1px solid white;padding-top:0.5px;">State Name :
+<!--                                    </td>-->
+<!--                                    <td style="border: 1px solid white;padding-top:0.5px;">:-->
+                                        <t t-esc="doc.buyer_id.state_id.name"/>
+                                    </td>
+                                    <td style="border: 1px solid white;padding-top:0.5px;">Code :
+                                    <t t-esc="doc.partner_id.state_id.code"/>
+                            </td>
+                                </tr>
+<!--                                <tr t-if="doc.buyer_id.state_id.code">-->
+<!--                                    <td style="border: 1px solid white;padding-top:0.5px;">State Code</td>-->
+<!--                                    <td style="border: 1px solid white;padding-top:0.5px;">:-->
+<!--                                        <t t-esc="doc.buyer_id.state_id.code"/>-->
+<!--                                    </td>-->
+<!--                                </tr>-->
+                            </table>
+                        </t>
+                    </t>
+                </td>
+            </tr>
+            <tr>
+                <td height="80px" valign="top" style="border-top: 2px solid black;padding: 0px;">
+                    <table width="100%" height="100%" style="border: 1px solid white;padding: 0px;">
+                        <tr>
+                            <td width="51.1%" height="100%" valign="top"
+                                style="border: 1px solid white;border-right: 1px solid black;">
+                                <span>Despatched through</span>
+                                <br/>
+                                <b>
+                                    <span t-esc="doc.despatched_through1"/>
+                                </b>
+                            </td>
+                            <td height="100%" valign="top" style="border: 1px solid white;">
+                                <span>Destination</span>
+                                <br/>
+                                <b>
+                                    <span t-field="doc.partner_id.city"/>
+                                </b>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+
+                <!--                <td height="60" valign="top">-->
+                <!--                    -->
+                <!--                    <br/>-->
+                <!--                </td>-->
+            </tr>
+            <tr>
+                <td valign="top">
+                    Terms of Delivery
+<!--                    <h3>-->
+<!--                        <b>-->
+<!--                            <t t-if="doc.delivery_terms1"/>-->
+<!--                            <t t-esc="doc.delivery_terms1"/>-->
+<!--                        </b>-->
+<!--                    </h3>-->
+                    <br></br>
+                    <b>
+                        <t t-if="doc.delivery_terms1"/>
+                        <t t-esc="doc.delivery_terms1"/>
+                    </b>
+                </td>
+            </tr>
+        </table>
+<!--        <p style="page-break-after:always;"/>-->
+        <t t-call="sa_tax_invoice.edata_header"/>
+    </template>
+
+    <template id="einvoice_body_custom2">
+        <style>
+            .table ,td{
+            font-size:13px;
+            }
+            th, td {
+            padding: 4px;
+            }
+        </style>
+<!--        <t t-call="sa_tax_invoice.edata_header"/>-->
+
+        <t t-set="a" t-value="0"/>
+        <t t-set="line_count" t-value="1"/>
+        <t t-set="brought_total" t-value="0"/>
+        <t t-set="page_no" t-value="1"/>
+        <t t-set="total" t-value="0"/>
+        <t t-set="line_len" t-value="doc.einvoice_get_no()"/>
+        <t t-set="lines" t-value="doc.get_order_line_list()"/>
+        <t t-foreach="lines" t-as="line">
+<!--            <t t-esc="line_len"/>-->
+<!--            <t t-esc="line_count"/>-->
+<!--            <t t-esc="(line_count % line_len)"/>-->
+            <t t-if="not (line_count % line_len)">
+                <table width="100%"
+                       style="table-layout: fixed;border: 0px;border-left: 4px solid black;border-right: 4px solid black;">
+
+                    <tr style="border-bottom:3px solid black;">
+                        <td style="text-align:center;width:5%;border-top: 0px;border-bottom: 0px;" valign="top">
+                            <t t-if="not line.get('is_transport_charges')">
+                                <t t-esc="line.get('count')"/>
+                            </t>
+                        </td>
+                        <td style="text-align:left;height: 110px;border-top: 0px;border-bottom: 0px;" valign="top">
+                            <b>
+                                <span t-esc="line.get('name_bold')"/>
+                            </b>
+                            <t t-foreach="line.get('name')" t-as="dis">
+                                <br/>
+                                <span t-esc="dis"/>
+                            </t>
+                        </td>
+                        <td style="text-align:right;width:9.2%;border-top: 0px;border-bottom: 0px;" valign="top">
+                            <t t-esc="line.get('hsn_code')"/>
+                        </td>
+                        <td style="text-align:center;width:5.1%;border-top: 0px;border-bottom: 0px;" valign="top">
+                            <b>
+                                <t t-if="not line.get('is_transport_charges')">
+                                    <span t-esc="line.get('quantity')"/></t>
+                            </b>
+                        </td>
+                        <td style="text-align:right;width:13.2%;border-top: 0px;border-bottom: 0px;padding-right: 1px;"
+                            valign="top">
+                            <span t-esc="line.get('price_unit')" t-options='{"widget": "float","precision": 2}'/>
+                        </td>
+                        <td style="text-align:center;width:5.3%;border-top: 0px;border-bottom: 0px;" valign="top">
+                            <t t-if="line.get('product_uom_id') and not line.get('is_transport_charges')">
+<!--                                <t t-if="line.get('product_uom_id') and line.get('quantity') == 1">-->
+<!--                                    <span>No.</span>-->
+<!--                                </t>-->
+                                <t>
+                                    <span t-esc="line.get('uom')"/>
+                                </t>
+                            </t>
+
+                        </td>
+                        <td style="text-align:right;width:6.6%;border-top: 0px;border-bottom: 0px;" valign="top">
+                            <span t-esc="'%.2f'%(line.get('discount'))"/>
+                        </td>
+                        <td style="text-align:right;width:14.9%;border-top: 0px;border-bottom: 0px;" valign="top">
+                            <b>
+                                <!--                                <t t-if="doc.currency_id.name == 'INR'">-->
+                                <!--                                    <span t-esc="line.get('price_subtotal')" t-options='{"widget": "float","precision": 2}'/>-->
+                                <!--                                </t>-->
+                                <!--                                <t t-else="">-->
+                                <!--                                    <span t-esc="'{:,.2f}'.format(line.get('price_subtotal'))" />-->
+                                <!--                                </t>-->
+                                <t t-if="doc.currency_id.name == 'INR'">
+                                    <span t-esc="doc.order_formatLang(line.get('price_subtotal'), currency_obj = doc.currency_id)"/>
+                                </t>
+                                <t t-else="">
+                                    <span t-esc="'{:,.2f}'.format(line.get('price_subtotal'))"/>
+                                </t>
+                            </b>
+                        </td>
+                        <t t-set="total" t-value="total + line.get('price_subtotal')"/>
+                        <t t-set="line_count" t-value="1"/>
+                    </tr>
+                    <tr style="border-bottom:3px solid black;">
+                        <td colspan="7" style="text-align: right;font-weight: bold;">Carry forwarded to page
+                            <span t-esc="page_no + 1"/>
+                        </td>
+                        <td style="text-align: right;">
+                            <b>
+                                <span t-esc="total + brought_total" t-options='{"widget": "float","precision": 2}'/>
+                            </b>
+                        </td>
+                        <t t-set="brought_total" t-value="total + brought_total"/>
+                        <t t-set="total" t-value="0"/>
+                    </tr>
+                </table>
+<!--                <t t-call="sa_tax_invoice.einvoice_original_repeat_footer"/>-->
+                <t t-set="page_no" t-value="page_no + 1"/>
+                <p style="page-break-after: always;"/>
+                <t t-if="not a">
+                    <t t-set="a" t-value="1"/>
+                </t>
+<!--                <t t-if="temp == 1">-->
+<!--                    <t t-call="sa_tax_invoice.invoice_notation"/>-->
+<!--                </t>-->
+<!--                <t t-if="temp == 2">-->
+<!--                    <t t-call="sa_tax_invoice.invoice_notation_duplicate"/>-->
+<!--                </t>-->
+<!--                <t t-if="temp == 3">-->
+<!--                    <t t-call="sa_tax_invoice.invoice_notation_triplicate"/>-->
+<!--                </t>-->
+<!--                <t t-if="temp == 4">-->
+<!--                    <t t-call="sa_tax_invoice.invoice_notation_extra"/>-->
+<!--                </t>-->
+                <t t-call="sa_tax_invoice.einvoice_original_repeat_header"/>
+                <t t-call="sa_tax_invoice.edata_header"/>
+            </t>
+            <t t-else="">
+                <table width="100%"
+                       style="table-layout: fixed;border: 0px;border-left: 4px solid black;border-right: 4px solid black;">
+                    <tr>
+                        <td style="text-align:center;width:5%;border-top: 0px;border-bottom: 0px;" valign="top">
+                            <t t-if="not line.get('is_transport_charges')">
+                                <t t-esc="line.get('count')"/>
+                            </t>
+                        </td>
+                        <td style="text-align:left;height: 110px;border-top: 0px;border-bottom: 0px;" valign="top">
+                            <!--                           <b><span t-esc="line.get('name_bold')"/></b><span t-esc="line.get('name')"/>-->
+                            <b>
+                                <span t-esc="line.get('name_bold')"/>
+                            </b>
+                            <t t-foreach="line.get('name')" t-as="dis">
+                                <br/>
+                                <span t-esc="dis"/>
+                            </t>
+                        </td>
+                        <td style="text-align:right;width:9.2%;border-top: 0px;border-bottom: 0px;" valign="top">
+                            <t t-esc="line.get('hsn_code')"/>
+                        </td>
+                        <td style="text-align:center;width:5.1%;border-top: 0px;border-bottom: 0px;" valign="top">
+                            <b>
+                                <t t-if="not line.get('is_transport_charges')">
+                                    <span t-esc="line.get('quantity')"/>
+                                </t>
+                            </b>
+                        </td>
+                        <td style="text-align:right;width:13.2%;border-top: 0px;border-bottom: 0px;padding-right: 1px;"
+                            valign="top">
+                            <span t-esc="line.get('price_unit')" t-options='{"widget": "float","precision": 2}'/>
+                        </td>
+                        <td style="text-align:center;width:5.3%;border-top: 0px;border-bottom: 0px;" valign="top">
+                            <t t-if="line.get('product_uom_id') and not line.get('is_transport_charges')">
+<!--                                <t t-if="line.get('product_uom_id') and  line.get('quantity') == 1">-->
+<!--                                    <span>No.</span>-->
+<!--                                </t>-->
+                                <t>
+                                    <span t-esc="line.get('uom')"/>
+                                </t>
+                            </t>
+
+                        </td>
+                        <td style="text-align:right;width:6.6%;border-top: 0px;border-bottom: 0px;" valign="top">
+                            <span t-esc="'%.2f'%(line.get('discount'))"/>
+                        </td>
+                        <td style="text-align:right;width:14.9%;border-top: 0px;border-bottom: 0px;" valign="top">
+                            <b>
+                                <!--                                <t t-if="doc.currency_id.name == 'INR'">-->
+                                <!--                                    <span t-esc="line.get('price_subtotal')" t-options='{"widget": "float","precision": 2}'/>-->
+                                <!--                                </t>-->
+                                <!--                                <t t-else="">-->
+                                <!--                                    <span t-esc="'{:,.2f}'.format(line.get('price_subtotal'))" />-->
+                                <!--                                </t>-->
+                                <t t-if="doc.currency_id.name == 'INR'">
+                                    <span t-esc="doc.order_formatLang(line.get('price_subtotal'), currency_obj = doc.currency_id)"/>
+                                </t>
+                                <t t-else="">
+                                    <span t-esc="'{:,.2f}'.format(line.get('price_subtotal'))"/>
+                                </t>
+                            </b>
+                        </td>
+                        <t t-set="total" t-value="total + line.get('price_subtotal')"/>
+                        <t t-set="line_count" t-value="line_count + 1"/>
+                    </tr>
+                    <t t-set="brought_total" t-value="total + brought_total"/>
+                    <t t-set="total" t-value="0"/>
+                </table>
+            </t>
+<!--            <t t-esc="a"/>-->
+            <t t-if="a == 1">
+                <t t-if="len(lines) in (5,6)">
+                     <t t-set="inc_a" t-value="len(lines) - 2"/>
+                    <t t-set="line_len" t-value="line.get('count') + inc_a"/>
+                    <t t-set="a" t-value="5"/>
+                </t>
+                 <t t-if="len(lines) == 7">
+                     <t t-set="inc_a" t-value="len(lines) - 3"/>
+<!--                <t t-esc="inc_a"/>-->
+                    <t t-set="line_len" t-value="line.get('count') + inc_a"/>
+                    <t t-set="a" t-value="5"/>
+                </t>
+                <t t-if="len(lines) == 8">
+                     <t t-set="inc_a" t-value="len(lines) - 4"/>
+<!--                <t t-esc="inc_a"/>-->
+                    <t t-set="line_len" t-value="line.get('count') + inc_a"/>
+                    <t t-set="a" t-value="5"/>
+                </t>
+                <t t-if="len(lines) in (1,2,3,4)">
+                    <t t-set="line_len" t-value="line.get('count') + 2"/>
+                    <t t-set="a" t-value="5"/>
+                </t>
+            </t>
+        </t>
+<!--         <table width="100%"-->
+<!--                       style="border:2px solid black;border-left:4px solid black;border-right:4px solid black;">-->
+<!--             <tr t-if="doc.report_type.invoice_type =='SEZ'"-->
+<!--                style="border-bottom:3px solid black;text-align:center;border-top:3px solid black;border-left:4px solid black;border-right:4px solid black;">-->
+<!--                 <td colspan="8" style="text-align:center;border-left:4px solid black;border-right:4px solid black;">-->
+<!--                    (SUPPLY-->
+<!--                    MEANT FOR EXPORT/SUPPLY TO SEZ UNIT OR-->
+<!--                    SEZ DEVELOPER FOR AUTHORISED OPERATIONS ON PAYMENT OF IGST)-->
+<!--                 </td>-->
+<!--             </tr>-->
+<!--         </table>-->
+        <table width="100%">
+            <tr t-if="doc.report_type.invoice_type =='SEZ'"
+                style="border-bottom:3px solid black;text-align:center;border-top:3px solid black;border-left:4px solid black;border-right:4px solid black;">
+                <td colspan="8" style="text-align:center;border-left:4px solid black;border-right:4px solid black;">
+                    (SUPPLY
+                    MEANT FOR EXPORT/SUPPLY TO SEZ UNIT OR
+                    SEZ DEVELOPER FOR AUTHORISED OPERATIONS ON PAYMENT OF IGST)
+                </td>
+            </tr>
+        </table>
+        <table t-if="len(lines) &lt; 4" style="width: 100%;">
+            <tr style="border-bottom:3px solid black;">
+                <t t-set="brought_total" t-value="total + brought_total"/>
+                <t t-set="total" t-value="0"/>
+            </tr>
+        </table>
+        <!--        <span t-esc="doc.page_shift_einvoice()"/>-->
+        <!--        <span t-esc="len(lines)"/>-->
+        <t t-if="(doc.page_shift_einvoice() == 4) and len(lines) != 4">
+            <!--            <hr style="border-top: 3px solid black"></hr>-->
+            <table t-if="brought_total" style="width: 100%;font-weight:bold">
+                <tr>
+                    <td style="text-align: right;width: 85.1%;border: 4px solid black;border-right: 1px solid black;border-top: 2px solid black;">
+                        Carry forwarded to page
+                        <span t-esc="page_no + 1"/>
+                    </td>
+                    <td style="text-align: right;width: 14.9%;border: 4px solid black;border-left: 1px solid black;border-top: 2px solid black;padding: 1px;">
+                        <span t-esc="brought_total" t-options='{"widget": "float","precision": 2}'/>
+                    </td>
+                </tr>
+            </table>
+<!--            <t t-call="sa_tax_invoice.einvoice_original_repeat_footer"/>-->
+            <p style="page-break-after: always;"/>
+            <t t-set="page_no" t-value="page_no + 1"/>
+            <t t-call="sa_tax_invoice.einvoice_original_repeat_header"/>
+            <table t-if="brought_total" style="width: 100%;font-weight:bold;border:0px solid black;">
+                <tr>
+                    <td style="text-align: right;width: 85.1%;border:2px solid black;border-left:4px solid black;">
+                        Brought forward from page
+                        <span t-esc="page_no - 1"/>
+                    </td>
+                    <td style="text-align: right;width: 14.9%;border:2px solid black;border-bottom:0px;border-right:4px solid black;padding: 1px;">
+                        <span t-esc="brought_total" t-options='{"widget": "float","precision": 2}'/>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="text-align: right;width: 85.1%;border:2px solid black;border-left:4px solid black;height: 20px"></td>
+                    <td style="text-align: right;width: 14.9%;border:2px solid black;border-right:4px solid black;border-top:0px;"></td>
+                </tr>
+            </table>
+        </t>
+        <t t-if="(not doc.page_shift_einvoice()) or len(lines) == 4">
+            <table t-if="brought_total" style="width: 100%;font-weight:bold;border:0px solid black;">
+                <tr>
+                    <td style="text-align: right;width: 85.1%;border:0px solid black;border-bottom:2px solid black;border-left:4px solid black;height: 20px"></td>
+                    <td style="text-align: right;width: 14.9%;border:2px solid black;border-right:4px solid black;border-top:0px;"></td>
+                </tr>
+            </table>
+        </t>
+
+        <table width="100%"
+               style="table-layout: fixed;border:2px solid black;border-left:4px solid black;border-right:4px solid black;">
+            <tr>
+                <td style="text-align:center;width:5%;"></td>
+                <td style="text-align:right;">
+                    <b>Sub Total</b>
+                </td>
+                <td style="text-align:right;width:9.2%;"></td>
+                <td style="text-align:right;width:5.1%;"></td>
+                <td style="text-align:right;width:13.2%;"></td>
+                <td style="text-align:center;width:5.3%;"></td>
+                <td style="text-align:right;width:6.6%;"></td>
+                <td style="text-align:right;width:14.9%;border-top:0px solid black;">
+                    <b>
+                        <!--                        <t t-if="doc.currency_id.name == 'INR'">-->
+                        <!--                            <span t-field="doc.amount_untaxed" t-options='{"widget": "float","precision": 2}'/>-->
+                        <!--                        </t>-->
+                        <!--                        <t t-else="">-->
+                        <!--                            <span t-esc="'{:,.2f}'.format(doc.amount_untaxed)" />-->
+                        <!--                        </t>-->
+                        <t t-if="doc.currency_id.name == 'INR'">
+                            <span t-esc="doc.order_formatLang(doc.amount_untaxed, currency_obj = doc.currency_id)"/>
+                        </t>
+                        <t t-else="">
+                            <span t-esc="'{:,.2f}'.format(doc.amount_untaxed)"/>
+                        </t>
+                    </b>
+                </td>
+            </tr>
+            <t t-if="doc.packing_value">
+                <!--            <t t-if="not doc.packing_tax_ids and doc.packing_value">-->
+                <tr>
+                    <td></td>
+                    <td style="text-align:right;">
+                        Packing Charges
+                    </td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td style="text-align:right;font-size:11px;">
+                        <!--                        <b>-->
+                        <t t-if="doc.currency_id.name == 'INR'">
+                            <span t-field="doc.packing_value" t-options='{"widget": "float","precision": 2}'/>
+                        </t>
+                        <t t-else="">
+                            <span t-esc="'{:,.2f}'.format(doc.packing_value)"/>
+                        </t>
+                        <!--                        </b>-->
+                    </td>
+                </tr>
+            </t>
+
+            <t t-if="doc.freight_value">
+                <!--            <t t-if="not doc.freight_tax_ids and doc.freight_value">-->
+                <tr>
+                    <td></td>
+                    <td style="text-align:right;">
+                        Freight Charges
+                    </td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td style="text-align:right;font-size:11px;">
+                        <!--                        <b>-->
+                        <t t-if="doc.currency_id.name == 'INR'">
+                            <span t-field="doc.freight_value" t-options='{"widget": "float","precision": 2}'/>
+                        </t>
+                        <t t-else="">
+                            <span t-esc="'{:,.2f}'.format(doc.freight_value)"/>
+                        </t>
+                        <!--                        </b>-->
+                    </td>
+                </tr>
+            </t>
+
+            <t t-if="doc.loading_value">
+                <!--            <t t-if="not doc.loading_tax_ids and doc.loading_value">-->
+                <tr>
+                    <td></td>
+                    <td style="text-align:right;">
+                        Loading Charges
+                    </td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td style="text-align:right;font-size:11px;">
+                        <!--                        <b>-->
+                        <t t-if="doc.currency_id.name == 'INR'">
+                            <span t-field="doc.loading_value" t-options='{"widget": "float","precision": 2}'/>
+                        </t>
+                        <t t-else="">
+                            <span t-esc="'{:,.2f}'.format(doc.loading_value)"/>
+                        </t>
+                        <!--                        </b>-->
+                    </td>
+                </tr>
+            </t>
+
+            <!--            <t t-if="not doc.testing_tax_ids and doc.testing_value">-->
+            <t t-if="doc.testing_value">
+                <tr>
+                    <td></td>
+                    <td style="text-align:right;">
+                        Testing Charges
+                    </td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td style="text-align:right;font-size:11px;">
+                        <!--                        <b>-->
+                        <t t-if="doc.currency_id.name == 'INR'">
+                            <span t-field="doc.testing_value" t-options='{"widget": "float","precision": 2}'/>
+                        </t>
+                        <t t-else="">
+                            <span t-esc="'{:,.2f}'.format(doc.testing_value)"/>
+                        </t>
+                        <!--                        </b>-->
+                    </td>
+                </tr>
+            </t>
+            <tr t-foreach="doc.invoice_line_ids.tax_ids" t-as="ta">
+                <td></td>
+                <td style="text-align:right;">
+                    <t t-esc="ta.name"/>
+                </td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td style="text-align:right;font-size:11px;">
+                    <!--                    <t t-esc="ta.amount_total"/>-->
+                    <!--                    <t t-esc="doc.round_down(ta.amount_total)"/>-->
+                    <t t-if="tax_type">
+                        <t t-if="doc.currency_id.name == 'INR'">
+                            <span t-esc="doc.order_formatLang(doc.total_cgst_amount, currency_obj = doc.currency_id)"/>
+                        </t>
+                        <t t-else="">
+                            <t t-esc="'%.2f'%(doc.total_cgst_amount)"/>
+                        </t>
+                    </t>
+                    <t t-else="">
+                        <t t-if="doc.currency_id.name == 'INR'">
+                            <span t-esc="doc.order_formatLang(doc.total_igst_amount, currency_obj = doc.currency_id)"/>
+                        </t>
+                        <t t-else="">
+                            <t t-esc="'%.2f'%(doc.total_igst_amount)"/>
+                        </t>
+                    </t>
+                </td>
+            </tr>
+
+            <t t-if="doc.tcs_value">
+                <tr>
+                    <td></td>
+                    <td style="text-align:right;">
+                        <span t-esc="doc.tcs.name"/>
+                    </td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td style="text-align:right;font-size:11px;">
+                        <!--                        <b>-->
+                        <t t-if="doc.currency_id.name == 'INR'">
+                            <span t-field="doc.tcs_value" t-options='{"widget": "float","precision": 2}'/>
+                        </t>
+                        <t t-else="">
+                            <span t-esc="'{:,.2f}'.format(doc.tcs_value)"/>
+                        </t>
+                        <!--                        </b>-->
+                    </td>
+                </tr>
+            </t>
+
+            <t t-if="doc.round_off_value">
+                <tr>
+                    <td></td>
+                    <td style="text-align:right;">
+                        Round Off
+                    </td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td style="text-align:right;font-size:11px;">
+                        <!--                        <b>-->
+                        <t t-if="doc.currency_id.name == 'INR'">
+                            <span t-field="doc.round_off_value" t-options='{"widget": "float","precision": 2}'/>
+                        </t>
+                        <t t-else="">
+                            <span t-esc="'{:,.2f}'.format(doc.round_off_value)"/>
+                        </t>
+                        <!--                        </b>-->
+                    </td>
+                </tr>
+            </t>
+
+            <tr>
+                <td></td>
+                <td style="text-align:right;">
+                    <b>Grand Total</b>
+                </td>
+                <td></td>
+                <td style="text-align:center;">
+                    <b>
+                    <t t-esc="doc.qty_check(sum(l.quantity for l in doc.invoice_line_ids if not l.is_transport_charges))"/></b>
+                </td>
+                <td></td>
+                <td style="text-align:center;">
+<!--                    <t t-if="not line.get('is_transport_charges')">-->
+<!--                        <t t-if="doc.qty_check(sum(l.quantity for l in doc.invoice_line_ids)) == 1">-->
+<!--                            <b>No.</b>-->
+<!--                        </t>-->
+<!--                        <t t-else="">-->
+<!--                            &lt;!&ndash;                        <b>soyeb.</b>&ndash;&gt;-->
+<!--                            <b>Nos.</b>-->
+<!--                        </t>-->
+<!--                    </t>-->
+                </td>
+                <td></td>
+                <td style="text-align:right;font-size:14px;">
+                    <b>
+<!--                        <t t-if="doc.currency_id.name == 'INR'">-->
+<!--                            <span t-esc="doc.order_formatLang(doc.amount_untaxed + doc.tax_total, currency_obj = doc.currency_id)"/>-->
+<!--                            <span t-esc="doc.order_formatLang(doc.amount_total, currency_obj = doc.currency_id)"/>-->
+<!--                            <span t-esc="doc.order_formatLang(doc.rounded_total, currency_obj = doc.currency_id)"/>-->
+<!--                        </t>-->
+                        <t t-if="doc.currency_id.name == 'INR'">
+                            <span t-esc="doc.order_formatLang(doc.amount_total, currency_obj = doc.currency_id)"/>
+                        </t>
+                        <t t-else="">
+                            <span t-esc="'{:,.2f}'.format(doc.amount_total)"/>
+                        </t>
+                    </b>
+                </td>
+            </tr>
+            <tr style="border-bottom:3px solid black;">
+                <td colspan="8">Amount Chargeable (in words) :
+                    <span style="padding-left:545px">E &amp; O.E</span>
+                    <br/>
+                    <b>
+                        <span t-esc="doc.amount_to_text_custm(float(doc.amount_total))"/>
+<!--                        <span t-esc="doc.amount_to_text_custm(float(doc.amount_total))"/>-->
+<!--                        <span t-esc="doc.amount_to_text_custm(float(doc.rounded_total + doc.tax_total))"/>-->
+                    </b>
+                </td>
+            </tr>
+        </table>
+
+        <t t-if="doc.page_shift_einvoice() == 2">
+<!--            <t t-call="sa_tax_invoice.einvoice_original_repeat_footer"/>-->
+            <p style="page-break-after: always;"/>
+            <t t-set="page_no" t-value="page_no + 1"/>
+            <t t-call="sa_tax_invoice.einvoice_original_repeat_header"/>
+        </t>
+
+        <t t-if="tax_type">
+            <table width="100%" style="border:2px solid black;border-left:4px solid black;border-right:4px solid black;"
+                   align="left">
+                <tr>
+                    <td rowspan="2" style="text-align:center;">HSN/SAC</td>
+                    <td rowspan="2" style="text-align:center;">Taxable Value(<span t-field="doc.currency_id.name"/>)
+                    </td>
+                    <td colspan="2" style="text-align:center;">Central Tax</td>
+                    <td colspan="2" style="text-align:center;">State Tax</td>
+                    <td rowspan="2" style="text-align:center;">Total Tax Amount(
+                        <span t-field="doc.currency_id.name"/>
+                        )
+                    </td>
+                </tr>
+                <tr>
+                    <td style="text-align:center;">Rate</td>
+                    <td style="text-align:center;">Amount(<span t-esc="doc.currency_id.name"/>)
+                    </td>
+                    <td style="text-align:center;">Rate</td>
+                    <td style="text-align:center;">Amount(<span t-field="doc.currency_id.name"/>)
+                    </td>
+                </tr>
+                <t t-set="total_taxable_value" t-value="0.00"/>
+
+                <tr t-foreach="doc.hsn_line_ids" t-as="line">
+                    <td style="text-align:left;font-size:11px;">
+                        <t t-esc="line.hsn_code"/>
+                    </td>
+                    <td style="text-align:right;font-size:11px;">
+                        <t t-if="doc.currency_id.name == 'INR'">
+                            <span t-esc="doc.order_formatLang(line.taxable_value, currency_obj = doc.currency_id)"/>
+                        </t>
+                        <t t-else="">
+                            <t t-esc="'%.2f'%(line.taxable_value)"/>
+                        </t>
+                    </td>
+                    <td style="text-align:right;font-size:11px;">
+                        <t t-esc="'%.2f'%(line.cgst_rate)"/>
+                    </td>
+                    <td style="text-align:right;font-size:11px;">
+                        <t t-if="doc.currency_id.name == 'INR'">
+                            <span t-esc="doc.order_formatLang(line.cgst_amt, currency_obj = doc.currency_id)"/>
+                        </t>
+                        <t t-else="">
+                            <t t-esc="'%.2f'%(line.cgst_amt)"/>
+                        </t>
+                    </td>
+                    <td style="text-align:right;font-size:11px;">
+                        <t t-esc="'%.2f'%(line.sgst_rate)"/>
+                    </td>
+                    <td style="text-align:right;font-size:11px;">
+                        <t t-if="doc.currency_id.name == 'INR'">
+                            <span t-esc="doc.order_formatLang(line.sgst_amt, currency_obj = doc.currency_id)"/>
+                        </t>
+                        <t t-else="">
+                            <t t-esc="'%.2f'%(line.sgst_amt)"/>
+                        </t>
+                    </td>
+                    <td style="text-align:right;font-size:11px;">
+                        <t t-if="doc.currency_id.name == 'INR'">
+                            <span t-esc="doc.order_formatLang(line.total_tax_amount, currency_obj = doc.currency_id)"/>
+                        </t>
+                        <t t-else="">
+                            <t t-esc="'%.2f'%(line.total_tax_amount)"/>
+                        </t>
+                    </td>
+                    <t t-set="total_taxable_value" t-value="total_taxable_value + line.taxable_value"/>
+                </tr>
+                <tr>
+                    <td style="text-align:right;">
+                        <b>Total</b>
+                    </td>
+                    <td style="text-align:right;font-weight:bold;">
+                        <t t-if="doc.currency_id.name == 'INR'">
+                            <span t-esc="doc.order_formatLang(total_taxable_value, currency_obj = doc.currency_id)"/>
+                        </t>
+                        <t t-else="">
+                            <t t-esc="'%.2f'%(total_taxable_value)"/>
+                        </t>
+                    </td>
+                    <td></td>
+                    <td style="text-align:right;font-weight:bold;">
+                        <t t-if="doc.currency_id.name == 'INR'">
+                            <span t-esc="doc.order_formatLang(doc.total_cgst_amount, currency_obj = doc.currency_id)"/>
+                        </t>
+                        <t t-else="">
+                            <t t-esc="'%.2f'%(doc.total_cgst_amount)"/>
+                        </t>
+                    </td>
+                    <td></td>
+                    <td style="text-align:right;font-weight:bold;">
+                        <t t-if="doc.currency_id.name == 'INR'">
+                            <span t-esc="doc.order_formatLang(doc.total_sgst_amount, currency_obj = doc.currency_id)"/>
+                        </t>
+                        <t t-else="">
+                            <t t-esc="'%.2f'%(doc.total_sgst_amount)"/>
+                        </t>
+                    </td>
+                    <td style="text-align:right;font-weight:bold;border-right:4px solid black;">
+                        <t t-if="doc.currency_id.name == 'INR'">
+                            <span t-esc="doc.order_formatLang(doc.tax_total, currency_obj = doc.currency_id)"/>
+                        </t>
+                        <t t-else="">
+                            <t t-esc="'%.2f'%(doc.tax_total)"/>
+                        </t>
+                    </td>
+                </tr>
+                <table width="100%"
+                       style="border:2px solid black;border-left:4px solid black;border-right:4px solid black;">
+                    <tr style="border:2px solid black;border-left:4px solid black;border-right:4px solid black;">
+                        <td colspan="7" style="border-right:4px solid black;">
+                            <div style="padding-left:2px;">Tax Amount (in words) :
+                                <b>
+                                    <span t-esc="doc.amount_to_text_custm(round(doc.tax_total, 2))"/>
+                                </b>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </table>
+        </t>
+        <t t-else="">
+            <table width="100%" style="border:2px solid black;border-left:4px solid black;border-right:4px solid black;"
+                   align="left">
+                <tr>
+                    <td rowspan="2" style="text-align:center;">HSN/SAC</td>
+                    <td rowspan="2" style="text-align:center;">Taxable Value(<span t-field="doc.currency_id.name"/>)
+                    </td>
+                    <td colspan="2" style="text-align:center;">Integrated Tax</td>
+                    <td rowspan="2" style="text-align:center;">Total Tax Amount(
+                        <span t-field="doc.currency_id.name"/>
+                        )
+                    </td>
+                </tr>
+                <tr>
+                    <td style="text-align:center;">Rate</td>
+                    <td style="text-align:center;">Amount(<span t-field="doc.currency_id.name"/>)
+                    </td>
+                </tr>
+                <t t-set="total_taxable_value" t-value="0.00"/>
+
+                <tr t-foreach="doc.hsn_line_ids" t-as="line">
+                    <td style="text-align:left;font-size:11px;">
+                        <t t-esc="line.hsn_code"/>
+                    </td>
+                    <td style="text-align:right;font-size:11px;">
+                        <t t-if="doc.currency_id.name == 'INR'">
+                            <span t-esc="doc.order_formatLang(line.taxable_value, currency_obj = doc.currency_id)"/>
+                        </t>
+                        <t t-else="">
+                            <t t-esc="'%.2f'%(line.taxable_value)"/>
+                        </t>
+                    </td>
+                    <td style="text-align:right;font-size:11px;">
+                        <t t-esc="'%.2f'%(line.igst_rate)"/>
+                    </td>
+                    <td style="text-align:right;font-size:11px;">
+                        <t t-if="doc.currency_id.name == 'INR'">
+                            <span t-esc="doc.order_formatLang(line.igst_amt, currency_obj = doc.currency_id)"/>
+                        </t>
+                        <t t-else="">
+                            <t t-esc="'%.2f'%(line.igst_amt)"/>
+                        </t>
+                    </td>
+                    <td style="text-align:right;font-size:11px;">
+                        <t t-if="doc.currency_id.name == 'INR'">
+                            <span t-esc="doc.order_formatLang(line.total_tax_amount, currency_obj = doc.currency_id)"/>
+                        </t>
+                        <t t-else="">
+                            <t t-esc="'%.2f'%(line.total_tax_amount)"/>
+                        </t>
+                    </td>
+                    <t t-set="total_taxable_value" t-value="total_taxable_value + line.taxable_value"/>
+                </tr>
+                <tr>
+                    <td style="text-align:right;">
+                        <b>Total</b>
+                    </td>
+                    <td style="text-align:right;font-weight:bold;">
+                        <t t-if="doc.currency_id.name == 'INR'">
+                            <span t-esc="doc.order_formatLang(total_taxable_value, currency_obj = doc.currency_id)"/>
+                        </t>
+                        <t t-else="">
+                            <t t-esc="'%.2f'%(total_taxable_value)"/>
+                        </t>
+                    </td>
+                    <td></td>
+                    <td style="text-align:right;font-weight:bold;">
+                        <t t-if="doc.currency_id.name == 'INR'">
+                            <span t-esc="doc.order_formatLang(doc.total_igst_amount, currency_obj = doc.currency_id)"/>
+                        </t>
+                        <t t-else="">
+                            <t t-esc="'%.2f'%(doc.total_igst_amount)"/>
+                        </t>
+                    </td>
+                    <td style="text-align:right;font-weight:bold;border-right:4px solid black;">
+                        <t t-if="doc.currency_id.name == 'INR'">
+                            <span t-esc="doc.order_formatLang(doc.tax_total, currency_obj = doc.currency_id)"/>
+                        </t>
+                        <t t-else="">
+                            <t t-esc="'%.2f'%(doc.tax_total)"/>
+                        </t>
+                    </td>
+                </tr>
+                <table width="100%"
+                       style="border:2px solid black;border-left:4px solid black;border-right:4px solid black;">
+                    <tr style="border:2px solid black;border-left:4px solid black;border-right:4px solid black;">
+                        <td colspan="5" style="border-right:4px solid black;">
+                            <div style="padding-left:2px;">Tax Amount (in words) :
+                                <b>
+                                    <span t-esc="doc.amount_to_text_custm(round(doc.tax_total, 2))"/>
+                                </b>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </table>
+        </t>
+
+        <table width="15%" style="border:0px solid black;" align="right"></table>
+<!--        <t t-if="(doc.page_shift_einvoice() == 1) or (doc.page_shift_einvoice() == 4)">-->
+        <t t-if="(doc.page_shift_einvoice() == 2) or (doc.page_shift_einvoice() == 4)">
+<!--            <t t-call="sa_tax_invoice.einvoice_original_repeat_footer"/>-->
+            <p style="page-break-after: always;"/>
+            <t t-set="page_no" t-value="page_no + 1"/>
+            <t t-call="sa_tax_invoice.einvoice_original_repeat_header"/>
+        </t>
+
+        <t t-if="len(lines) == 3">
+              <t t-if="(doc.page_shift_einvoice() == 3)">
+<!--                  <t t-call="sa_tax_invoice.einvoice_original_repeat_footer"/>-->
+                  <p style="page-break-after: always;"/>
+                  <t t-set="page_no" t-value="page_no + 1"/>
+                  <t t-call="sa_tax_invoice.einvoice_original_repeat_header"/>
+              </t>
+        </t>
+        <t t-if="len(lines) == 8">
+<!--            <t t-call="sa_tax_invoice.einvoice_original_repeat_footer"/>-->
+            <p style="page-break-after: always;"/>
+            <t t-set="page_no" t-value="page_no + 1"/>
+            <t t-call="sa_tax_invoice.einvoice_original_repeat_header"/>
+        </t>
+
+        <table cellpadding="40" cellspacing="0" width="100%"
+               style="border: 2px solid black;border-left: 4px solid black;border-right: 4px solid black;">
+            <tr>
+                <td width="50%" style="padding-left: 1px;">
+                    <b>
+                        <u>
+                            <span>Remarks :</span>
+                        </u>
+                    </b>
+                    <br/>
+                    <span>Warranty :
+                        <t t-esc="doc.company_id.guarantee"/>
+                    </span>
+                    <br/>
+                    <span>No. of Packages :
+                        <t t-esc="doc.total_package"/>
+                    </span>
+                    <br/>
+                    <span>Company's CIN No:
+                        <b>
+                            <t t-esc="doc.company_id.cin "/>
+                        </b>
+                    </span>
+                    <br/>
+                    <span>Company's PAN :
+                        <b>
+                            <t t-esc="doc.company_id.pan_no"/>
+                        </b>
+                    </span>
+                    <br/>
+                    <span>
+                        <u>Declaration :</u>
+                    </span>
+                    <span>
+                        <t t-esc="doc.company_id.declare"/>
+                    </span>
+                </td>
+
+                <td width="50%" style="border-left: 0px solid black;" valign="top">
+                    <b>
+                        <u>
+                            <span>Company's Bank Details :</span>
+                        </u>
+                    </b>
+                    <br/>
+                    <span>Bank Name :
+                        <b>
+                            <t t-esc="doc.partner_bank_id.bank_id.name"/>
+                        </b>
+                    </span>
+                    <br/>
+                    <span>A/c No :
+                        <b>
+                            <t t-esc="doc.partner_bank_id.acc_number"/>
+                        </b>
+                    </span>
+                    <br/>
+                    <span>Branch Code :
+                        <b>
+                            <t t-esc="doc.partner_bank_id.branch_ifsc"/>
+                        </b>
+                    </span>
+                    <br/>
+                    <span>IFS Code :
+                        <b>
+                            <t t-esc="doc.partner_bank_id.ifsc_code"/>
+                        </b>
+                    </span>
+                </td>
+            </tr>
+        </table>
+        <t t-if="len(lines) == 2">
+              <t t-if="(doc.page_shift_einvoice() == 1)">
+<!--                  <t t-call="sa_tax_invoice.einvoice_original_repeat_footer"/>-->
+                  <p style="page-break-after: always;"/>
+                  <t t-set="page_no" t-value="page_no + 1"/>
+                  <t t-call="sa_tax_invoice.einvoice_original_repeat_header"/>
+              </t>
+        </t>
+        <t t-if="len(lines) == 7">
+<!--            <t t-call="sa_tax_invoice.einvoice_original_repeat_footer"/>-->
+            <p style="page-break-after: always;"/>
+            <t t-set="page_no" t-value="page_no + 1"/>
+            <t t-call="sa_tax_invoice.einvoice_original_repeat_header"/>
+        </t>
+
+        <table width="100%" style="border: 4px solid black;border-top: 0px solid black;">
+            <tr>
+                <td width="50%" style="border-right:1px solid black!important;" valign="top">
+                    <span style="text-align:left;">Customer's Seal and Signature</span>
+                    <br>
+                        <br>
+                            <br></br>
+                            <br/>
+                        </br>
+                    </br>
+                </td>
+
+                <td width="50%" valign="top">
+                    <center>
+                        <b>
+                            <span>For SHRIDHAN AUTOMATION PVT. LTD</span>
+                        </b>
+                    </center>
+                    <br>
+                        <br>
+                            <br></br>
+                        </br>
+                    </br>
+                    <span>
+                        <center>Authorised Signatory</center>
+                    </span>
+                </td>
+            </tr>
+        </table>
+        <div>
+            <p>
+                <center style="font-family: 'Space Mono', monospace;">
+                    <span style="padding: 3px;">SUBJECT</span>
+                    <span style="padding: 3px;">TO</span>
+                    <span style="padding: 3px;">BENGALURU</span>
+                    <span style="padding: 3px;">JURISDICTION</span>
+                </center>
+            </p>
+        </div>
+<!--        <t t-call="sa_tax_invoice.einvoice_original_repeat_footer"/>-->
+        <t t-if="temp != 4">
+            <p style="page-break-after: always;"/>
+        </t>
+    </template>
+
+
+     <!--- Original -->
+    <template id="einvoice_original_main">
+        <t t-set="temp" t-value="1"/>
+<!--        <t t-call="sa_tax_invoice.einvoice_notation"/>-->
+        <t t-call="sa_tax_invoice.einvoice_original_header"/>
+        <t t-call="sa_tax_invoice.einvoice_original_repeat_header"/>
+        <t t-call="sa_tax_invoice.einvoice_body_custom"/>
+        <t t-call="sa_tax_invoice.einvoice_body_custom2"/>
+        <div class="footer text-right">
+            Page:
+            <span class="page"/>
+            of
+            <span class="topage"/>
+        </div>
+    </template>
+
+
+
+</odoo>

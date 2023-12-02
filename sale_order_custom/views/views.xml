@@ -1,0 +1,82 @@
+<odoo>
+    <data>
+
+        <record id="view_sale_order_inherit_form" model="ir.ui.view">
+            <field name="name">sale.order.form</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//page[@name='order_lines']/field[@name='order_line']/form/group/group/field[@name='price_unit']"
+                       position="after">
+                    <field name="total_est_price"/>
+<!--                    <field name="approve_need"/>-->
+                </xpath>
+                <xpath expr="//page[@name='order_lines']/field[@name='order_line']/form/field[@name='name']"
+                       position="after">
+                    <notebook>
+                        <page string="Estimation">
+                            <field name="material_line_ids" editable="bottom">
+                                <tree string="Product" editable="bottom">
+                                    <field name="product_id" string="Product"/>
+                                    <field name="hsn_code"/>
+                                    <field name="sale_price"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Delivery Schedule">
+                            <field name="schedule_ids" editable="bottom">
+                                <tree string="Schedule" editable="bottom">
+                                    <field name="planned_date"/>
+                                    <field name="planned_quantity"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </xpath>
+                <xpath expr="//field[@name='order_line']/tree/field[@name='price_subtotal']" position="after">
+                    <field name="invoice_status_line" string="Invoice Status"/>
+                </xpath>
+                <xpath expr="//field[@name='order_line']/tree/field[@name='product_template_id']" position="attributes">
+                    <attribute name="optional">hide</attribute>
+<!--                    <attribute name="invisible">1</attribute>-->
+                </xpath>
+                <xpath expr="//field[@name='order_line']/form/group/group/field[@name='price_unit']" position="before">
+                    <field name="invoice_status_line" invisible="1"/>
+                </xpath>            
+            </field>
+        </record>
+
+        <record id="view_sale_order_inherit_form_tree_custom" model="ir.ui.view">
+            <field name="name">sale.order.tree.custom</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='state']" position="after">
+                    <field name="invoice_status_custom"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="sale_order_view_search_inherit_sale_custom_inv" model="ir.ui.view">
+            <field name="name">sale.order.search.inherit.sale.custom</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.sale_order_view_search_inherit_sale"/>
+            <field name="arch" type="xml">
+                <xpath expr="//filter[@name='upselling']" position="after">
+                    <filter string="Yet To Invoice" name="not" domain="[('invoice_status_custom','=','not')]" />
+                    <filter string="Partially Invoiced" name="half invoice" domain="[('invoice_status_custom','=','half invoice')]" />
+                    <filter string="Invoiced" name="invoiced" domain="[('invoice_status_custom','=','invoiced')]" />
+                    <separator/>
+                </xpath>
+                <xpath expr="//filter[@name='to_invoice']" position="attributes">
+                    <attribute name="invisible">True</attribute>
+                </xpath>
+                <xpath expr="//filter[@name='upselling']" position="attributes">
+                    <attribute name="invisible">True</attribute>
+                </xpath>
+            </field>
+        </record>
+       
+    </data>
+</odoo>
+                

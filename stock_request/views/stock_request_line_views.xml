@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<data>
+        <record id="stock_request_line_tree_report" model="ir.ui.view">
+            <field name="name">stock.request.line.tree</field>
+            <field name="model">stock.request.line</field>
+            <field name="arch" type="xml">
+            <tree >
+                <field name="stock_req_name" />
+                <field name="stock_req_date" />
+                <field name="product_id" />
+
+                <field name="product_uom_qty" />
+
+                    <field name="qty_issue"/>
+                    <field name="pending_qty" />
+                <field name="state" string="Status"/>
+                </tree>
+            </field>
+        </record>
+
+
+        <record id="view_stock_request_line_search" model="ir.ui.view">
+            <field name="name">stock.request.line.search</field>
+            <field name="model">stock.request.line</field>
+            <field name="arch" type="xml">
+                <search string="Stock Request Report">
+                    <field name="stock_req_name" />
+                    <field name="stock_req_date" />
+                    <field name="product_id" />
+                    <field name="state" />
+                    <filter string="Product" name="product_id"/>
+                    <filter string ="Requested Date" name ="stock_req_date"/>
+                    <filter string="Status" name="state" />
+
+                    <group expand="0" string="Group By">
+                        <filter string="Stock Request" name="stock_req_name" domain="[]" context="{'group_by':'stock_req_name'}"/>
+                        <filter name="stock_req_date" string="Requested Date" domain="[]" context="{'group_by':'stock_req_date'}"/>
+                        <filter string="Product" name="product_id" domain="[]" context="{'group_by':'product_id'}"/>
+                        <filter string="Status" name="state" domain="[]" context="{'group_by':'state'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+
+
+	<record id="stock_request_line_action_action_window" model="ir.actions.act_window">
+            <field name="name">Stock Request Report</field>
+            <field name="res_model">stock.request.line</field>
+<!--            <field name="view_type">form</field>-->
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('state','in',['done','partial','draft'])]</field>
+            <field name="view_id" ref="stock_request_line_tree_report"/>
+            <field name="search_view_id" ref="view_stock_request_line_search"/>
+        </record>
+
+        	<menuitem action="stock_request_line_action_action_window" id="menu_stock_request_line_view" parent="stock_request.menu_mrp_stock_request_main" sequence="5"/>
+
+
+
+
+    </data>
+</odoo>

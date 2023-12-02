@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<data>
+        <record id="mrp_stock_move_tree_report" model="ir.ui.view">
+            <field name="name">stock.move.line.tree</field>
+            <field name="model">stock.move.line</field>
+            <field name="arch" type="xml">
+            <tree >
+                <field name="mrp_name" string ="MO Number" />
+                <field name="main_product" string="FG Product" />
+                 <field name="product_id" string="BOM Components/Products" />
+                <field name="qty_done" string ="Consumed Quantity"/>
+                <field name="partner_id" string="Customer" />
+
+
+                <field name="date" string="MO Date" />
+
+                </tree>
+            </field>
+        </record>
+
+
+        <record id="view_mrp_stock_move_search" model="ir.ui.view">
+            <field name="name">stock.move.line.search</field>
+            <field name="model">stock.move.line</field>
+            <field name="arch" type="xml">
+                <search string="Product Consumption">
+                    <field name="mrp_name" string ="MO Number" />
+                    <field name="main_product" string="FG Product" />
+                     <field name="product_id" string="BOM Components/Products" />
+                    <field name="qty_done" string ="Consumed Quantity"/>
+                    <field name="state" string ='Status'/>
+                    <field name="partner_id" />
+                    <filter name="mrp_name" string="MO Number"/>
+                    <filter name="main_product" string="FG Product"/>
+                    <filter string="BOM Components/Products" name="product_id"/>
+                    <filter string="Status" name="state"/>
+                    <filter string="Customer" name="partner_id" />
+                    <filter string="Date" name="date"/>
+                    <group expand="0" string="Group By">
+                        <filter string="MO Number" name="mrp_name" domain="[]" context="{'group_by':'mrp_name'}"/>
+                        <filter string="FG Product" name="main_product" domain="[]" context="{'group_by':'main_product'}"/>
+                        <filter string="Bom Components/Products" name="product_id" domain="[]" context="{'group_by':'product_id'}"/>
+                        <filter string="Status" name="state" domain="[]" context="{'group_by':'state'}"/>
+                        <filter string="Customer" name="partner_id" domain="[]" context="{'group_by':'partner_id'}" />
+                        <filter string="Date" name="date" domain="[]" context="{'group_by':'date'}"/>
+
+
+                    </group>
+
+
+
+
+
+                </search>
+            </field>
+        </record>
+
+
+
+	<record id="mrp_stock_move_action_action_window" model="ir.actions.act_window">
+            <field name="name">Product Consumption</field>
+            <field name="res_model">stock.move.line</field>
+<!--            <field name="view_type">form</field>-->
+            <field name="view_mode">tree,form</field>
+
+            <field name="domain">[('production_id','!=',False),('state','=','done')]</field>
+            <field name="view_id" ref="mrp_stock_move_tree_report"/>
+            <field name="search_view_id" ref="view_mrp_stock_move_search"/>
+        </record>
+
+        	<menuitem action="mrp_stock_move_action_action_window" id="menu_stock_move_view" parent="mrp.menu_mrp_manufacturing" sequence="40"
+                  groups="mrp.group_mrp_manager,mrp.group_mrp_user"/>
+
+
+
+
+    </data>
+</odoo>

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="view_stock_quant_inherit_form" model="ir.ui.view">
+        <field name="name">stock.quant.form</field>
+        <field name="model">stock.quant</field>
+        <field name="inherit_id" ref="stock.view_stock_quant_form_editable"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='lot_id']" position="after">
+                <field name="standard_price"/>
+                <field name="total_value"/>
+            </xpath>
+
+        </field>
+        </record>
+
+
+        <record id="view_stock_quant_inherit_tree" model="ir.ui.view">
+            <field name="name">stock.quant.tree</field>
+            <field name="model">stock.quant</field>
+            <field name="inherit_id" ref="stock.view_stock_quant_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='quantity']" position="after">
+                    <field name="standard_price"/>
+                    <field name="total_value"/>
+                </xpath>
+
+            </field>
+        </record>
+
+        <record id="view_partner_form_extnd1" model="ir.ui.view">
+            <field name="name">res.partner.form1</field>
+            <field name="model">res.partner</field>
+            <field name="priority" eval="1"/>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='vat']" position="before">
+                    <field name="state_code_res"/>
+                </xpath>
+                <xpath expr="//field[@name='vat']" position="after">
+                    <field name="alternative_email"/>
+                    <!--                </xpath>-->
+                    <!--                <xpath expr="//field[@name='alternative_email']" position="after">-->
+                    <field name="alternative_num" string="Alternative Phone Number"/>
+                    <!--                </xpath>-->
+                    <!--                <xpath expr="//field[@name='alternative_num']" position="after">-->
+                    <field name="alternative_num1" string="Alternative Mobile "/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="view_company_form111" model="ir.ui.view">
+            <field name="name">res.company.inherit.field1</field>
+            <field name="model">res.company</field>
+            <field name="inherit_id" ref="base.view_company_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='vat']" position="before">
+                    <field name="state_code_new" string="state code"/>
+                </xpath>
+                <xpath expr="//field[@name='phone']" position="after">
+                    <field name="alternative_num" string="Alternative Phone Number"/>
+                </xpath>
+                <xpath expr="//field[@name='mobile']" position="after">
+                    <field name="alternative_num1" string="Alternative Mobile Number"/>
+                </xpath>
+            </field>
+        </record>
+
+
+
+    </data>
+</odoo>

@@ -1,0 +1,335 @@
+<odoo>
+
+   <template id="report_export_packing_list">
+       <t t-call="web.html_container">
+		   <t t-call="web.basic_layout">
+			   <t t-foreach="docs" t-as="doc">
+				   <t t-call="export_packing_list.report_export_packing_list_document" t-lang="doc.partner_id.lang"/>
+			   </t>
+		   </t>
+       </t>
+   </template>
+
+   <template id="report_export_packing_list_document">
+       <t t-set="doc" t-value="doc.with_context({'lang':doc.partner_id.lang})" />
+	   <div class="page">
+		   <style>
+				tr,td{
+					font-size:16px;
+					padding: 2px;
+				}
+		   </style>
+
+		   <div>
+			   <table width="100%">
+				   <tr>
+					   <td style="text-align:right;">
+						   <img t-if="doc.company_id.logo" t-att-src="image_data_uri(doc.company_id.logo)" style="max-height: 100px;" alt="Logo" align="right" width="40%"/>
+					   </td>
+				   </tr>
+				   <tr>
+					   <td>
+						   <center><h2 align="center"><b>PACKING LIST</b></h2></center>
+					   </td>
+				   </tr>
+			   </table>
+			   <table width="100%" style="border: 4px solid black;border-bottom: 1px solid black;">
+					<tr>
+						<th style="width:60%;"></th>
+						<th style="width:40%;text-align:right;padding-right:5px;">
+							Date : <span t-field="doc.scheduled_date"  t-options='{"format": "dd-MM-y"}'/></th>
+					</tr>
+			   </table>
+
+			   <table width="100%" style="border: 1px solid black;border-left: 4px solid black;border-right: 4px solid black;border-top: 3px solid black;border-bottom: 2px solid black;">
+				   <tr>
+					   <td width="55%" style="border-right: 2px solid black;" valign="top">
+						   <span><u><b>Consignor/Exporter :</b></u></span><br/>
+						   <t t-if="doc.company_id.name">
+							   <t t-esc="doc.company_id.name"/>
+						   </t><br/>
+						   <t t-if="doc.company_id.street">
+							   <t t-esc="doc.company_id.street"/>
+						   </t><br/>
+						   <t t-if="doc.company_id.street2">
+							   <t t-esc="doc.company_id.street2"/>
+						   </t><br/>
+						   <t t-if="doc.company_id.city">
+							   <b><t t-esc="doc.company_id.city"/></b>
+						   </t>
+						   <t t-if="doc.company_id.zip">
+							  <b> - <t t-esc="doc.company_id.zip"/>,</b>
+						   </t><br/>
+						   <t t-if="doc.company_id.state_id or doc.company_id.state_id">
+							  <b><t t-esc="doc.company_id.state_id.name"/>,<t t-esc="doc.company_id.country_id.name"/></b>
+						   </t><br/>
+						   <t t-if="doc.company_id.phone">
+							   <span> TEL : </span> <t t-esc="doc.company_id.phone"/>
+						   </t><br/>
+						   <t t-if="doc.company_id.email">
+							   <span> Email : </span> <t t-esc="doc.company_id.email"/>
+						   </t><br/>
+					   </td>
+					   <td width="45%" valign="top" style="border-bottom: 2px solid black;border-top: 3px solid black;">
+						   <t t-if="doc.partner_id">
+							   <span style="text-align:left;"><b><u>Consignee :</u></b></span><br/>
+							   <b><t t-esc="doc.partner_id.name"/></b><br/>
+							   <t t-if="doc.partner_id.phone">
+								   <t t-esc="doc.partner_id.phone"/>
+							   </t>
+							   <t t-if="doc.partner_id.street">
+								   <t t-esc="doc.partner_id.street"/>
+							   </t><br/>
+							   <t t-if="doc.partner_id.street2">
+								   <t t-esc="doc.partner_id.street2"/>
+							   </t><br/>
+							   <t t-if="doc.partner_id.city">
+								   <b><t t-esc="doc.partner_id.city"/></b>
+							   </t>
+							   <t t-if="doc.partner_id.zip">
+								  <b> - <t t-esc="doc.partner_id.zip"/></b>
+							   </t><br/>
+							   <t t-if="doc.partner_id.state_id or doc.partner_id.state_id">
+								   <b><t t-esc="doc.partner_id.state_id.name"/>,
+									   <t t-esc="doc.partner_id.country_id.name"/>
+								   </b>
+							   </t>
+							   <br/>
+<!--							   <div t-field="doc.partner_id" t-options='{"widget": "contact", "fields": ["address", "fax"], "no_marker": True, }'/>-->
+							   <t t-if="doc.partner_id.trn">
+								   <span>TRN No. <t t-esc="doc.partner_id.trn"/></span><br/>
+							   </t>
+							   <t style="padding-top:10px;" t-if="doc.kind_attn">
+								   Kind Attn : <t t-esc="doc.kind_attn.name"/><br/>
+							   </t>
+							   <t t-if="doc.kind_attn.phone">
+								   Mob No. : <t t-esc="doc.kind_attn.phone "/><br/>
+							   </t>
+							   <t t-if="doc.kind_attn.email">
+								   Email : <t t-esc="doc.kind_attn.email"/>
+							   </t>
+						   </t>
+					   </td>
+				   </tr>
+			   </table>
+			   <table width="100%" style="border: 1px solid black;border-left: 4px solid black;border-right: 4px solid black;">
+				   <tr>
+					   <td width="55%;" style="border-right: 2px solid black;padding: 0px;" valign="top">
+						   <table width="100%;">
+							   <tr><td>Exporter's IEC No. : <b><span t-esc="doc.company_id.exporter_id"/></b></td></tr>
+							   <tr style="border-top: 2px solid black;"><td>AD Code : <b><span t-esc="doc.company_id.ad_code"/></b></td></tr>
+							   <tr style="border-top: 2px solid black;"><td>COUNTRY OF EXPORT : <b><span t-esc="doc.partner_id.country_id.name"/></b></td></tr>
+							   <tr style="border-top: 2px solid black;"><td>COUNTRY OF ORIGIN OF GOODS : <b><span t-esc="doc.company_id.country_id.name"/></b></td></tr>
+							   <tr style="border-top: 2px solid black;"><td>DESTINATION PORT : <b><span t-esc="doc.destination_port"/></b></td></tr>
+							   <tr style="border-top: 2px solid black;">
+								   <td>Buyer's PO No. :<b><span t-esc="sale_id.client_order_ref"/></b>
+									   <t t-if="sale_id.client_order_ref">
+										   , Date : <b><span t-field="sale_id.po_date" t-options='{"format": "dd-MM-y"}'/></b>
+									   </t>
+								   </td>
+							   </tr>
+							   <tr style="border-top: 2px solid black;"><td>Other References : <b><span t-esc="doc.inv_ref"/></b></td></tr>
+							   <tr style="border-top: 2px solid black;"><td>Dispatch Through :<b><span t-esc="doc.despatched_through"/></b></td></tr>
+							   <tr t-if="doc.delivery_address" style="border-top: 2px solid black;">
+								   <td>
+									   <b><u> Delivery Address : </u></b><br/>
+									   <b><t t-esc="doc.delivery_address.name"/></b><br/>
+									   <t t-if="doc.delivery_address.phone">
+										   <t t-esc="doc.delivery_address.phone"/>
+									   </t>
+									   <t t-if="doc.delivery_address.street">
+										   <t t-esc="doc.delivery_address.street"/>
+									   </t><br/>
+									   <t t-if="doc.delivery_address.street2">
+										   <t t-esc="doc.delivery_address.street2"/>
+									   </t><br/>
+									   <t t-if="doc.delivery_address.city">
+										   <b><t t-esc="doc.delivery_address.city"/></b>
+									   </t>
+									   <t t-if="doc.delivery_address.zip">
+										  <b> - <t t-esc="doc.delivery_address.zip"/></b>
+									   </t><br/>
+									   <t t-if="doc.delivery_address.state_id or doc.delivery_address.state_id">
+										   <b><t t-esc="doc.delivery_address.state_id.name"/>,
+											   <t t-esc="doc.delivery_address.country_id.name"/>
+										   </b>
+									   </t>
+									   <br/>
+<!--									   <div t-field="doc.delivery_address" t-options='{"widget": "contact", "fields": ["address", "fax"], "no_marker": True, }'/>-->
+									   <t t-if="doc.kind_attn_del">
+										   Kind Attn : <t t-esc="doc.kind_attn_del.name"/><br/>
+									   </t>
+									   <t t-if="doc.kind_attn_del.phone">
+										   Mob No. : <t t-esc="doc.kind_attn_del.phone "/><br/>
+									   </t>
+									   <t t-if="doc.kind_attn_del.email">
+										   Email : <t t-esc="doc.kind_attn_del.email"/>
+									   </t>
+								   </td>
+							   </tr>
+							   <tr style="border-top: 2px solid black;">
+								   <t t-if="doc.receiver_ac_no">
+									   <td valign="top">Reciever A/C No. : <b><span t-esc="doc.receiver_ac_no"/></b>
+									   </td>
+								   </t>
+							   </tr>
+							   <tr style="border-top: 2px solid black;">
+								   <t t-if="doc.sender_ac_no">
+									   <td valign="top">Sender A/C No. : <b><span t-esc="doc.sender_ac_no"/></b>
+									   </td>
+								   </t>
+							   </tr>
+						   </table>
+					   </td>
+					   <td width="45%;" style="padding: 0px;" valign="top">
+						   <table width="100%;">
+							   <tr t-if="doc.notify_id1">
+								   <td>
+									   <b><u> Notify Party : </u></b><br/>
+									   <b><t t-esc="doc.notify_id1.name"/></b><br/>
+									   <t t-if="doc.notify_id1.phone">
+										   <t t-esc="doc.notify_id1.phone"/>
+									   </t>
+									   <t t-if="doc.notify_id1.street">
+										   <t t-esc="doc.notify_id1.street"/>
+									   </t><br/>
+									   <t t-if="doc.notify_id1.street2">
+										   <t t-esc="doc.notify_id1.street2"/>
+									   </t><br/>
+									   <t t-if="doc.notify_id1.city">
+										   <b><t t-esc="doc.notify_id1.city"/></b>
+									   </t>
+									   <t t-if="doc.notify_id1.zip">
+										  <b> - <t t-esc="doc.notify_id1.zip"/></b>
+									   </t><br/>
+									   <t t-if="doc.notify_id1.state_id or doc.notify_id1.state_id">
+										   <b><t t-esc="doc.notify_id1.state_id.name"/>,
+											   <t t-esc="doc.notify_id1.country_id.name"/>
+										   </b>
+									   </t>
+									   <br/>
+<!--										   <div t-field="doc.notify_id1" t-options='{"widget": "contact", "fields": ["address", "fax"], "no_marker": True, }'/>-->
+								   </td>
+							   </tr>
+							   <tr style="border-top: 1px solid black;">
+								   <td>
+									   <b><u> Buyer : </u></b><br/>
+									   <b><t t-esc="doc.buyer_id1.name"/></b><br/>
+									   <t t-if="doc.buyer_id1.phone">
+										   <t t-esc="doc.buyer_id1.phone"/>
+									   </t>
+									   <t t-if="doc.buyer_id1.street">
+										   <t t-esc="doc.buyer_id1.street"/>
+									   </t><br/>
+									   <t t-if="doc.buyer_id1.street2">
+										   <t t-esc="doc.buyer_id1.street2"/>
+									   </t><br/>
+									   <t t-if="doc.buyer_id1.city">
+										   <b><t t-esc="doc.buyer_id1.city"/></b>
+									   </t>
+									   <t t-if="doc.buyer_id1.zip">
+										  <b> - <t t-esc="doc.buyer_id1.zip"/></b>
+									   </t><br/>
+									   <t t-if="doc.buyer_id1.state_id or doc.buyer_id1.state_id">
+										   <b><t t-esc="doc.buyer_id1.state_id.name"/>,
+											   <t t-esc="doc.buyer_id1.country_id.name"/>
+										   </b>
+									   </t>
+									   <br/>
+<!--									   <div t-field="doc.buyer_id1" t-options='{"widget": "contact", "fields": ["address", "fax"], "no_marker": True, }'/>-->
+									   <t t-if="doc.kind_attn_buyer">
+										   Kind Attn : <t t-esc="doc.kind_attn_buyer.name"/><br/>
+									   </t>
+									   <t t-if="doc.kind_attn_buyer.phone">
+										   Mob No. : <t t-esc="doc.kind_attn_buyer.phone "/><br/>
+									   </t>
+									   <t t-if="doc.kind_attn_buyer.email">
+										   Email : <t t-esc="doc.kind_attn_buyer.email"/>
+									   </t>
+								   </td>
+							   </tr>
+						   </table>
+					   </td>
+				   </tr>
+			   </table>
+
+			   <table style="width: 100%;border: 1px solid black;border-left: 4px solid black;border-right: 4px solid black;">
+					<tr>
+						<th style="border: 2px solid black;text-align:center;width:5%">Sl. No.</th>
+						<th style="border: 2px solid black;text-align:center;width:50%">Description of Goods</th>
+						<th style="border: 2px solid black;text-align:center;width:10%">HSN Code</th>
+						<th style="border: 2px solid black;text-align:center;width:10%">Qty</th>
+						<th style="border: 2px solid black;text-align:center;width:25%">No and Kind of Pkgs</th>
+					</tr>
+
+					<tr t-foreach="doc.move_ids_without_package" t-as="move">
+						<td style="text-align:center;border: 2px solid black;" valign="top">
+							<t t-esc="move_index+1"/>
+						</td>
+						<td style="text-align:left;border: 2px solid black;" valign="top">
+<!--											[<t t-esc="move.product_id.default_code"/>]-->
+							<t t-esc="move.product_id.name"/>
+							[<t t-esc="move.name"/>]
+						</td>
+						<td style="text-align:center;border: 2px solid black;" valign="top">
+								<t t-esc="move.product_id.product_tmpl_id.l10n_in_hsn_code"/>
+						</td>
+						<td style="text-align:center;border: 2px solid black;" valign="top">
+<!--											<t t-esc="move.product_uom_qty"/>-->
+<!--											<t t-esc="'%.3f'%(move.product_uom_qty)"/>-->
+
+							<t t-if="doc.qty_check(move.product_uom_qty) != 1"><span t-esc="doc.qty_check(move.product_uom_qty)"/><span t-esc="move.product_uom.name"/></t>
+							<t t-if="doc.qty_check(move.product_uom_qty) == 1"><span t-esc="doc.qty_check(move.product_uom_qty)"/> No.</t>
+						</td>
+						<td style="text-align:center;border: 2px solid black;" valign="top">
+<!--							<t t-foreach="move.get_king_of_pkg()" t-as="dis"><span t-esc="dis"/><br/></t>-->
+	                                            <t t-esc="move.kind_of_pkg"/>
+						</td>
+					</tr>
+
+					<tr>
+						<td style="border: 2px solid black;"></td>
+						<td colspan="2" style="text-align:right;border: 2px solid black;"><b>Total Qty</b></td>
+						<td style="text-align:center;border: 2px solid black;"><b>
+<!--						        <t t-esc="sum(l.product_uom_qty for l in doc.move_ids_without_package)"/>-->
+							<t t-esc="doc.qty_check(sum(l.product_uom_qty for l in doc.move_ids_without_package))"/>
+						</b>
+							<t t-if="doc.qty_check(sum(l.product_uom_qty for l in doc.move_ids_without_package)) == 1 ">No.</t> <t t-if="doc.qty_check(sum(l.product_uom_qty for l in doc.move_ids_without_package)) != 1"><span t-esc="doc.uom_custom"/></t>
+						</td>
+						<td style="border: 2px solid black;"></td>
+					</tr>
+			   </table>
+			   <table width="100%;" style="border: 4px solid black;border-top: 1px solid black;">
+				   <tr>
+						<td style="border-right:2px solid black;width: 55%;">
+							<span><u><b> Our Sales Tax Details </b></u></span><br/>
+								<t t-if="doc.company_id.vat">
+								   GSTIN/UIN : <b><t t-esc="doc.company_id.vat"/></b><br/>
+								</t>
+									   <!--  <u><b>Company's Bank Details:</b></u><br/>
+										<b>Bank Name : </b><t t-esc="doc.bank_name"/><br/>
+										<b>A/c No : </b><t t-esc="doc.bank_acc_no"/><br/>
+										<b>Branch Code : </b><t t-esc="doc.branch_code"/><br/>
+										<b>IFS Code : </b><t t-esc="doc.branch_ifsc"/><br/> -->
+<!--                                            <b>Swift Code : </b><t t-esc="doc.company_id.partner_id.bank_cif"/>-->
+<!--                                        </t><br/>-->
+								<br><br><br> </br></br></br>
+							   <b><u><span>Declaration : </span></u></b>
+							   <span>I DECLARE ALL THE INFORMATION CONTAINED IN THIS PACKING LIST TO BE TRUE AND CORRECT</span><br/>
+						</td>
+
+						 <td style="text-align:center;width: 45%;">
+							<span valign="top">For SHRIDHAN AUTOMATION PVT. LTD</span><br/>
+							<br><br><br><br></br></br></br></br>
+							<span valign="top">AUTHORIZED SIGNATORY</span>
+						</td>
+				   </tr>
+			   </table>
+			   <br/>
+			   <center>This is a System Generated Document</center>
+		   </div>
+	   </div>
+   </template>
+
+</odoo>
+

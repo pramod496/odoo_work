@@ -1,0 +1,385 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_work_order_quotation_form" model="ir.ui.view">
+            <field name="name">work.order.quotation.form</field>
+            <field name="model">work.order.quotation</field>
+            <field name="arch" type="xml">
+                <form string="Work Order" class="o_sale_order">
+                    <header>
+                        <button name="action_confirm_work_order" id="action_confirm"
+                                string="Submit" class="btn-primary" type="object"
+                                attrs="{'invisible': [('state', 'not in', ['draft'])]}" groups="mrp.group_mrp_user"/>
+                        <button name="action_approve_work_order" id="action_confirm"
+                                string="Approve" class="btn-primary" type="object"
+                                attrs="{'invisible': [('state', 'not in', ['confirmed'])]}"
+                                groups="mrp.group_mrp_manager"/>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,confirmed"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+
+                        </div>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name" readonly="1" />
+                            </h1>
+                        </div>
+                        <group>
+                           <group>
+                                <field name="partner_id" attrs="{'readonly': [('state', 'not in', ['draft'])]}"/>
+                                <field name="origin" attrs="{'readonly': [('state', 'not in', ['draft'])]}" string = "Order Acknowledgement No."/>
+                                <field name="invoice_number" attrs="{'readonly': [('state', 'not in', ['draft'])]}"/>
+                                <!--<field name="bom_id"/>-->
+                            </group>
+                            <group>
+                                <field name="date_order" attrs="{'readonly': [('state', 'not in', ['draft'])]}" string="Order Confirm Date"/>
+                                <field name="invoice_date" attrs="{'readonly': [('state', 'not in', ['draft'])]}" />
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Order Lines" name="work_order_line">
+                                <field name="work_order_line"  options="{'no_create': True}">
+                                    <tree string="Order Line">
+                                        <field name="product_id" attrs="{'readonly': [('state', 'not in', ['draft'])]}"/>
+                                        <field name="description" attrs="{'readonly': [('state', 'not in', ['draft'])]}"/>
+                                        <field name="product_uom_qty" attrs="{'readonly': [('state', 'not in', ['draft'])]}"/>
+                                        <field name="product_uom" attrs="{'readonly': [('state', 'not in', ['draft'])]}"/>
+                                        <field name="desired_delivery_date" widget="date" attrs="{'readonly': [('state', 'not in', ['draft'])]}" string="Delivery Date"/>
+					<field name="schedule"/>
+                                        <!--<field name="approve_need"/>-->
+                                        <field name="state" invisible="1"/>
+                                        <!--<button name="boq_update" type="object" class="btn-primary" string="BOQ"/>-->
+                                    </tree>
+                                    <form>
+                                        <header>
+                                            <field name="approve_need" invisible="1"/>
+                                            <button name="approval_request" type="object" groups="mrp.group_mrp_user"
+                                                    string="Request Approval" class="oe_highlight"
+                                                    attrs="{'invisible': ['|',('approve_need', '!=', 'yes'),('state', 'not in', ['draft'])]}"/>
+                                            <button name="approve" type="object" string="Approve" groups="mrp.group_mrp_user"
+                                                    class="oe_highlight"
+                                                    attrs="{'invisible': [('state', 'not in', ['waiting'])]}"/>
+                                            <button name="confirm" type="object" string="Confirm" groups="mrp.group_mrp_user"
+                                                    class="oe_highlight"
+                                                    attrs="{'invisible': ['|',('approve_need', '!=', 'no'),('state', 'not in', ['draft'])]}"/>
+                                            <button name="confirm" type="object" string="Confirm" class="oe_highlight"
+                                                    attrs="{'invisible': [('state', 'not in', ['approve'])]}" groups="mrp.group_mrp_user"/>
+                                            <field name="state" widget="statusbar" statusbar_visible="draft,waiting,approve,confirmed"/>
+                                        </header>
+                                        <sheet>
+                                            <group>
+                                                <group>
+                                                    <field name="product_id" attrs="{'readonly': [('state', 'not in', ['draft'])]}"/>
+                                                    <field name="description" attrs="{'readonly': [('state', 'not in', ['draft'])]}"/>
+                                                    <field name="product_uom_qty" attrs="{'readonly': [('state', 'not in', ['draft'])]}" string="Quantity"/>
+                                                    <field name="bom_type" attrs="{'readonly': [('state', 'not in', ['draft'])]}"/>
+
+                                                </group>
+                                                <group>
+                                                    <field name="product_uom" attrs="{'readonly': [('state', 'not in', ['draft'])]}"/>
+                                                    <field name="special_instruction"/>
+                                                    <field name="bool_state" invisible="1"/>
+                                                    <field name="desired_delivery_date" widget="date" readonly="0" string="Delivery Date"/>
+                                                    <field name="material_delivery_date" widget="date" readonly="0"/>
+                                                    <button name="boq_update" type="object" class="btn-primary"
+                                                            attrs="{'invisible': ['|',('bool_state', '=', True),('bom_type', '=', 'std_bom')]}"
+                                                            string="BOM"/>
+
+                                                    <button name="boq_update_repeat" type="object" class="btn-primary"
+                                                            attrs="{'invisible': [('bom_type', '=', 'custom_bom')]}" string="BOM"/>
+
+                                                </group>
+                                            </group>
+                                            <notebook>
+                                                <page string="BOM Lines" attrs="{'invisible': [('bom_type', '=', 'std_bom')]}">
+                                                    <field name="bom_line_custom_id" options="{'no_create': True}" >
+                                                        <tree string="BOM Lines">
+                                                            <field name="product_id" />
+                                                            <field name="product_qty" />
+                                                            <field name="product_uom_id" />
+                                                            <field name="bool" invisible="1"/>
+                                                            <!-- <button name="bom_line_update" attrs="{'invisible': [('bool', '=', False)]}"
+                                                                    type="object" class="btn-primary" string="BOM"/> -->
+
+                                                        </tree>
+                                                    </field>
+
+                                                </page>
+                                                <page string="Old BOM Lines" attrs="{'invisible': [('bom_type', '=', 'custom_bom')]}">
+
+                                                    <field name="bom_work_line" attrs="{'invisible': [('bom_type', '=', 'custom_bom')]}">
+                                                        <tree string="Old Bom Lines">
+                                                            <field name="product_tmpl_id"/>
+                                                            <field name="product_id"/>
+                                                            <field name="operation_id"/>
+                                                            <field name="partner_id"/>
+                                                            <field name="select_bom" type="checkbox"/>
+                                                        </tree>
+                                                    </field>
+                                                </page>
+<!--                                                <page string="VFS-BVFS-MVFS" name="vfs_line">-->
+
+<!--                                                </page>-->
+
+
+                                            </notebook>
+                                        </sheet>
+
+
+                                </form>
+
+                                </field>
+
+                            </page>
+<!--                            <page string="Product Specification">-->
+<!--                                <widget name="spec_view"/>-->
+<!--                            </page>-->
+<!--                            <page string="Serial No. Info">-->
+<!--                                <widget name="lot_view"/>-->
+<!--                            </page>-->
+                            <page string="Serial No. Allocation">
+                                <field name="lot_allocation">
+                                    <tree editable="bottom">
+                                        <field name="date_allocate" widget='date'/>
+                                        <field name="quantity"/>
+                                        <field name="starting_allocate_lot"/>
+                                        <field name="ending_allocate_lot"/>
+                                    </tree>
+                                </field>
+                            </page>
+
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+
+                </form>
+            </field>
+        </record>
+         <record id="mrp_tree" model="ir.ui.view">
+           <field name="name">mrp.bom.custom.tree</field>
+            <field name="model">mrp.bom.custom</field>
+            <field name="arch" type="xml">
+                <tree string="Bom Line" >
+                    <field name="product_id" />
+                    <field name="bool" invisible="1"/>
+                    <field name="product_qty" />
+                    <field name="product_uom_id" />
+                    <button name="bom_line_update" attrs="{'invisible': [('bool', '=', False)]}"
+                                                type="object" class="btn-primary" string="BOM"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="mrp_form" model="ir.ui.view">
+            <field name="name">mrp.bom.custom.form</field>
+            <field name="model">mrp.bom.custom</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="product_id" />
+                            <field name="bool" invisible="1"/>
+                            <field name="product_qty" />
+                            <field name="product_uom_id"/>
+                            <button name="bom_line_update" attrs="{'invisible': [('bool', '=', False)]}"
+                                                type="object" class="btn-primary" string="BOM"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_work_order_quotation_line_form" model="ir.ui.view">
+            <field name="name">work.order.quotation.line.form</field>
+            <field name="model">work.order.quotation.line</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <field name="approve_need" invisible="1"/>
+                        <button name="approval_request" type="object" groups="mrp.group_mrp_user"
+                                string="Request Approval" class="oe_highlight"
+                                attrs="{'invisible': ['|',('approve_need', '!=', 'yes'),('state', 'not in', ['draft'])]}"/>
+                        <button name="approve" type="object" string="Approve" groups="mrp.group_mrp_user"
+                                class="oe_highlight"
+                                attrs="{'invisible': [('state', 'not in', ['waiting'])]}"/>
+                        <button name="confirm" type="object" string="Confirm" groups="mrp.group_mrp_user"
+                                class="oe_highlight"
+                                attrs="{'invisible': ['|',('approve_need', '!=', 'no'),('state', 'not in', ['draft'])]}"/>
+                        <button name="confirm" type="object" string="Confirm" class="oe_highlight"
+                                attrs="{'invisible': [('state', 'not in', ['approve'])]}" groups="mrp.group_mrp_user"/>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,waiting,approve,confirmed"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="product_id" attrs="{'readonly': [('state', 'not in', ['draft'])]}"/>
+                                <field name="description" attrs="{'readonly': [('state', 'not in', ['draft'])]}"/>
+                                <field name="product_uom_qty" attrs="{'readonly': [('state', 'not in', ['draft'])]}" string="Quantity"/>
+                                <field name="bom_type" attrs="{'readonly': [('state', 'not in', ['draft'])]}"/>
+
+                            </group>
+                            <group>
+                                <field name="product_uom" attrs="{'readonly': [('state', 'not in', ['draft'])]}"/>
+                                <field name="special_instruction"/>
+                                <field name="bool_state" invisible="1"/>
+                                <field name="desired_delivery_date" widget="date" readonly="0" string="Delivery Date"/>
+                                <field name="material_delivery_date" widget="date" readonly="0"/>
+                                <button name="boq_update" type="object" class="btn-primary"
+                                        attrs="{'invisible': ['|',('bool_state', '=', True),('bom_type', '=', 'std_bom')]}"
+                                        string="BOM"/>
+
+                                <button name="boq_update_repeat" type="object" class="btn-primary"
+                                        attrs="{'invisible': [('bom_type', '=', 'custom_bom')]}" string="BOM"/>
+
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="BOM Lines" attrs="{'invisible': [('bom_type', '=', 'std_bom')]}">
+                                <field name="bom_line_custom_id" options="{'no_create': True}" >
+                                    <tree string="BOM Lines">
+                                        <field name="product_id" />
+                                        <field name="product_qty" />
+                                        <field name="product_uom_id" />
+                                        <field name="bool" invisible="1"/>
+                                        <!-- <button name="bom_line_update" attrs="{'invisible': [('bool', '=', False)]}"
+                                                type="object" class="btn-primary" string="BOM"/> -->
+
+                                    </tree>
+                                </field>
+
+                            </page>
+                            <page string="Old BOM Lines" attrs="{'invisible': [('bom_type', '=', 'custom_bom')]}">
+
+                                <field name="bom_work_line" attrs="{'invisible': [('bom_type', '=', 'custom_bom')]}">
+                                    <tree string="Old Bom Lines">
+                                        <field name="product_tmpl_id"/>
+                                        <field name="product_id"/>
+                                        <field name="operation_id"/>
+                                        <field name="partner_id"/>
+                                        <field name="select_bom" type="checkbox"/>
+                                    </tree>
+                                </field>
+                            </page>
+
+
+                        </notebook>
+                    </sheet>
+
+
+                </form>
+            </field>
+        </record>
+
+        <record id="work_order_tree" model="ir.ui.view">
+            <field name="name">work.order.quotation.tree</field>
+            <field name="model">work.order.quotation</field>
+            <field name="arch" type="xml">
+                <tree string="Work order Lines" decoration-muted="state=='cancel'"  decoration-info="state=='hold'">
+                    <field name="name"/>
+                    <field name="partner_id"/>
+                    <field name="origin"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+            <record id="view_intrenal_search" model="ir.ui.view">                                
+                <field name="name">work.order.quotation.search</field>                                
+                <field name="model">work.order.quotation</field>                                
+                <field name="arch" type="xml">                                    
+                    <search string="Search">  
+                        <field name="name"></field>            
+                        <field name="partner_id"></field>
+                        <field name="work_order_line" string="Product" filter_domain="[('work_order_line.product_id', 'ilike', self)]"/>
+                    </search>                                
+                </field>                            
+            </record>
+
+        <record id="bom_inherit" model="ir.ui.view">
+            <field name="name">mrp.bom.form</field>
+            <field name="model">mrp.bom</field>
+            <field name="inherit_id" ref="mrp.mrp_bom_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='company_id']" position="after">
+                    <field name="select_bom" type="checkbox"/>
+                    <field name="partner_id"/>
+
+                </xpath>
+            </field>
+        </record>
+
+
+        <record id="action_work_order_quotation" model="ir.actions.act_window">
+            <field name="name">Internal Work Order</field>
+            <field name="res_model">work.order.quotation</field>
+<!--            <field name="view_type">form</field>-->
+            <field name="view_mode">tree,form</field>
+            <field name="groups_id" eval="[(4, ref('mrp.group_mrp_manager')),(4, ref('mrp.group_mrp_user'))]"/>
+        </record>
+
+
+        <record model="ir.actions.act_window" id="mrp.mrp_workorder_todo">
+            <field name="name">Component Orders</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">mrp.workorder</field>
+<!--            <field name="view_type">form</field>-->
+            <field name="view_mode">kanban,tree,form,calendar,pivot,graph</field>
+            <field name="search_view_id" ref="mrp.view_mrp_production_workorder_form_view_filter"/>
+            <field name="context">{'search_default_ready': True, 'search_default_progress': True}</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Start a new work order
+                </p>
+                <p>
+                    Work Orders are operations to be processed at a Work Center to realize a
+                    Manufacturing Order. Work Orders are trigerred by Manufacturing Orders,
+                    they are based on the Routing defined on these ones
+                </p>
+            </field>
+        </record>
+
+
+        <menuitem id="menu_work_order_quotation"
+                  name="Internal Work Order"
+                  parent="mrp.menu_mrp_manufacturing"
+                  action="action_work_order_quotation"
+                  sequence="30"
+                  groups="mrp.group_mrp_manager,mrp.group_mrp_user"
+        />
+        <record model="ir.ui.menu" id="mrp.menu_mrp_workorder_todo">
+            <field name="name">Component Orders</field>
+        </record>
+
+<!--        <record id="view_mrp_product_produce_wizard_inh" model="ir.ui.view">-->
+<!--            <field name="name">MRP Product Produce</field>-->
+<!--            <field name="model">mrp.immediate.production.line</field>-->
+<!--            <field name="inherit_id" ref="mrp.view_immediate_production"/>-->
+<!--            <field name="arch" type="xml">-->
+<!--                <xpath expr="//field[@name='to_immediate']" position="after">-->
+<!--                    <field name="sale_id" readonly="1" invisible="1"/>-->
+<!--                </xpath>-->
+<!--                <field name="lot_id" position="replace">-->
+<!--                    <field name="lot_id" <field name="lot_id" attrs="{'invisible': [('has_tracking', '=', 'none')], 'required': [('has_tracking', '!=', 'none')]}" groups="stock.group_production_lot"/> attrs="{'invisible': [('product_tracking', '=', 'none')], 'required': [('product_tracking', '!=', 'none')]}" domain="[('product_id', '=', product_id),('so_id','=',sale_id)]" context="{'default_product_id': product_id}"/>-->
+<!--                </field>-->
+<!--            </field>-->
+<!--        </record>-->
+<!--        <record id="view_mrp_product_produce_wizard_inh" model="ir.ui.view">-->
+<!--            <field name="name">MRP Product Produce</field>-->
+<!--            <field name="model">mrp.product.produce</field>-->
+<!--            <field name="inherit_id" ref="mrp.view_mrp_product_produce_wizard"/>-->
+<!--            <field name="arch" type="xml">-->
+<!--                <field name="product_id" position="after">-->
+<!--                    <field name="sale_id" readonly="1" invisible="1"/>-->
+<!--                </field>-->
+<!--                <field name="lot_id" position="replace">-->
+<!--                    <field name="lot_id" attrs="{'invisible': [('product_tracking', '=', 'none')], 'required': [('product_tracking', '!=', 'none')]}" domain="[('product_id', '=', product_id),('so_id','=',sale_id)]" context="{'default_product_id': product_id}"/>-->
+<!--                </field>-->
+<!--            </field>-->
+<!--        </record>-->
+    </data>
+</odoo>

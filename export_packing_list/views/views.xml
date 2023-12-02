@@ -1,0 +1,63 @@
+<odoo>
+    <data>
+	    <record id="move_line_inherited" model="ir.ui.view">
+            <field name="name">stock.picking.form</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="stock.view_picking_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='partner_id']" position="after">
+                   	<field name="notify_id1"/>
+               	    <field name="buyer_id1" widget="res_partner_many2one" context="{'show_address': 1, 'show_vat': True}" options='{"always_reload": True}'/>
+               	    <field name="delivery_address"/>
+                </xpath>
+
+	            <xpath expr="//notebook/page/field/tree/field[@name='product_uom']" position="after">
+		            <field name="kind_of_pkg"/>
+		        </xpath>
+                <xpath expr="/form/sheet/notebook" position="inside">
+                    <page string="Bank Details">
+                        <group>
+                            <field name="declaration"/>
+                            <field name="declaration1" invisible="1"/>
+                            <field name="destination_port"/>
+                            <field name="receiver_ac_no"/>
+                            <field name="sender_ac_no"/>
+                            <field name="inv_ref"/>
+                            <field name="inv_date"/>
+                            <field name="bank_acc_no"/>
+                            <field name="bank_name"/>
+                            <field name="branch_code"/>
+                            <field name="branch_ifsc"/>
+                        </group>
+                    </page>
+                </xpath>
+    	    </field>
+	    </record>
+
+        <record id="inherit_inventory_buyer_filter" model="ir.ui.view">
+            <field name="name">stock.sale.order</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="stock.view_picking_internal_search"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='product_id']"  position="after">
+                    <field name="buyer_id1"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+

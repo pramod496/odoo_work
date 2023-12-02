@@ -1,0 +1,91 @@
+<odoo>
+   
+    <record id="view_parent_product_template_inherit_uom" model="ir.ui.view">
+        <field name="name">product.template.form</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_only_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='uom_po_id']" position="after">    
+               <field name="consumed_in_lengths" type="checkbox"/>
+               <field name="kgs_mtr" attrs="{'invisible': [('consumed_in_lengths','=',False)]}"/>
+               <field name="density" attrs="{'invisible': [('consumed_in_lengths','=',True)]}"/>
+               <field name="thickness" attrs="{'invisible': [('consumed_in_lengths','=',True)]}"/>
+            </xpath>
+            <div name="options" position="inside">
+                <div name="same_uom_consumed">
+                    <field name="same_uom_consumed"/>
+                    <label for="same_uom_consumed"/>
+                </div>
+            </div>
+        </field>
+    </record>
+
+    <record id="view_parent_product_product_inherit_uom" model="ir.ui.view">
+        <field name="name">product.product.form</field>
+        <field name="model">product.product</field>
+        <field name="inherit_id" ref="product.product_normal_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='uom_po_id']" position="after">    
+               <field name="consumed_in_lengths" type="checkbox"/>
+               <field name="kgs_mtr" attrs="{'invisible': [('consumed_in_lengths','=',False)]}"/>
+               <field name="density" attrs="{'invisible': [('consumed_in_lengths','=',True)]}"/>
+               <field name="thickness" attrs="{'invisible': [('consumed_in_lengths','=',True)]}"/>
+            </xpath>
+            <div name="options" position="inside">
+                <div name="same_uom_consumed">
+                    <field name="same_uom_consumed"/>
+                    <label for="same_uom_consumed"/>
+                </div>
+            </div>
+        </field>
+    </record>
+
+    <record id="view_mrp_bom_inherit_form_uom" model="ir.ui.view">
+        <field name="name">mrp.bom.form</field>
+        <field name="model">mrp.bom</field>
+        <field name="inherit_id" ref="mrp.mrp_bom_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form/sheet/notebook/page/field/tree/field[@name='product_uom_id']" position="replace">
+                <field name="product_uom_id" string="Product UoM" options="{'no_open':True,'no_create':True}" groups="uom.group_uom"/>
+            </xpath>
+            <xpath expr="//form/sheet/notebook/page/field/tree/field[@name='product_uom_id']" position="after">
+               <field name="consumed_in_lengths" invisible="1"/>
+                <field name="same_uom_consumed" invisible="1"/>
+               <field name="length" attrs="{'readonly': [('same_uom_consumed','=',True)]}"/>
+               <field name="width" attrs="{'readonly': [('consumed_in_lengths','=',True)]}"/>
+               <field name="thickness" readonly="1"/>
+            </xpath>
+        </field>
+    </record>
+
+    
+    <record id="view_stock_req_inherit_form_uom" model="ir.ui.view">
+        <field name="name">stock.request.form</field>
+        <field name="model">stock.request</field>
+        <field name="inherit_id" ref="stock_request.view_stock_request_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form/sheet/notebook/page/field/tree/field[@name='name']" position="after">      
+               <field name="length"/>
+               <field name="width"/>
+               <field name="thickness"/>
+            </xpath>
+        </field>
+    </record>
+
+
+    <record id="mrp_production_form_view_inherit_uom" model="ir.ui.view">
+        <field name="name">mrp.production.form</field>
+        <field name="model">mrp.production</field>
+        <field name="inherit_id" ref="send_mail_n.mrp_production_form_view_inherited"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form/sheet/notebook/page[1]/field/tree/field[@name='product_uom']" position="after">      
+               <field name="length"/>
+               <field name="width"/>
+               <field name="thickness"/>
+            </xpath>
+        </field>
+    </record>
+
+
+
+</odoo>

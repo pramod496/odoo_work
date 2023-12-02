@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_work_order_serial_no_info" model="ir.ui.view">
+        <field name="name">work.order.quotation.page</field>
+        <field name="model">work.order.quotation</field>
+        <field name="inherit_id" ref="sale_to_mrp.view_work_order_quotation_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page string="Serial No. Info" name="serial_info">
+                    <field name="serial_no_info" widget="section_and_note_one2many">
+                        <tree create="0" editable="bottom">
+                            <field name="name" readonly="1"/>
+                            <field name="starting_lot" readonly="1"/>
+                            <field name="ending_lot" readonly="1"/>
+                        </tree>
+                    </field>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>

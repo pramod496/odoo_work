@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+	<t t-extend="mail.widget.Thread.Message">
+    	<t t-jquery="p.o_mail_info" t-operation="append">
+	        <i t-if="message.getType() !== 'notification' and options.displayEmailIcons and (message.hasCustomerEmailData() or ['exception', 'bounce'].indexOf(message._customerEmailStatus) > -1)"
+	        	t-att-class="'fa fa-lg o_thread_message_read o_thread_icon ' + (message.isMsgRead() ? 'fa-check text-read' : 'fa-check')"
+               t-att-data-message-id="message.getID()" t-att-data-is-read="message.isMsgRead()" title="Mark as Read" role="img" aria-label="Mark as Read"/>
+    	</t>
+    </t>
+    
+</templates>

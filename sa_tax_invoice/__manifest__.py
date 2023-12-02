@@ -1,0 +1,20 @@
+{
+	'name':"(SA) Tax Invoice Report",
+    'version': '12.0.1.4 6-apr',
+    'author': 'Prime Minds',
+    'website': "https://primeminds.co/",
+    'summary': 'Tax Invoice Reports',
+	'depends':['base', "account", "sale", "product", 'stock', 'invoice_freight'],
+	'data':[
+        'report/report.xml',
+        'views/e_invoice.xml',
+        'template/template.xml',
+        # 'template/einvoice_template.xml',
+        'template/einvoice.xml',
+        # 'views/register.xml',
+        'views/views.xml',
+    ],
+    'installable': True,
+    'auto_install': False,
+    'application': True,
+}

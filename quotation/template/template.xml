@@ -1,0 +1,499 @@
+<odoo>
+
+    <template id="report_saleorder">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="quotation.report_saleorder_document" t-lang="doc.partner_id.name"/>
+            </t>
+        </t>
+    </template>
+
+    <template id="so_original_main">
+        <t t-if="doc and 'company_id' in doc">
+            <t t-set="company" t-value="doc.sudo().company_id"></t>
+        </t>
+        <t t-if="not doc or not 'company_id' in doc">
+            <t t-set="company" t-value="res_company"></t>
+        </t>
+
+        <t t-call="quotation.so_original_header"/>
+
+        <t t-raw="0"/>
+    </template>
+
+    <template id="report_saleorder_document">
+        <template id="so_original_header">
+            <div class="header">
+                <div class="row">
+                    <t t-if="doc.company_id.logo">
+                        <table>
+                            <tr>
+                                <td colspan="4" width="50%" style="padding-left:450px;">
+                                    <img t-if="doc.company_id.logo" t-att-src="image_data_uri(doc.company_id.logo)"
+                                         style="max-height: 100px;" width="100%;" alt="Logo"/>
+                                </td>
+                            </tr>
+                        </table>
+                    </t>
+                </div>
+            </div>
+        </template>
+
+
+        <template id="so_original_footer">
+            <div class="footer" style="width:120%;">
+                --------------------------------------------------------------------------------------------------------------------------------------------------------------------
+                <div>
+                    <span style="padding-left:0px;">
+                            Doc No : <t t-esc="doc.company_id.doc_num_qtn"/>
+                            <span style="padding-left:570px;">Page<span class="page"/>&amp;nbsp;
+                        </span>
+                        <br/>
+                        <t t-if="doc.company_id.name" style="padding-left:10px;  font-weight:bold;">
+                            <b>
+                                <span t-field="doc.company_id.name"/>
+                            </b>
+                            <br/>
+                        </t>
+                        <t t-if="doc.company_id.street" style="padding-left:10px;">
+                            <span t-field="doc.company_id.street"/>
+                        </t>
+                        <t t-if="doc.company_id.city or doc.company_id.country_id or doc.company_id.zip "
+                           style="padding-left:10px;">
+                            <span t-field="doc.company_id.city"/>-
+                            <span t-field="doc.company_id.zip"/>
+                            <br/>
+                        </t>
+                        <t t-if="doc.company_id.phone" style="padding-left:10px;">
+                            <span>Phone&amp;nbsp;:</span>
+                            <span t-field="doc.company_id.phone"/>
+                            <br/>
+                        </t>
+                        <t t-if="doc.company_id.email" style="padding-left:10px;">
+                            <span>Email&amp;nbsp;:</span>
+                            <span t-field="doc.company_id.email"/>
+                            <span style="padding-left:10px">|</span>
+                            <span style="padding-left:10px">CIN No:</span>
+                            <t t-esc="doc.company_id.cin"/>
+                            <span style="padding-left:70px">
+                                <b>
+                                    <t t-esc="doc.company_id.iso"/>
+                                </b>
+                            </span>
+                        </t>
+                    </span>
+                    <div style="width:100%;height:30px;position:absolute;color:#FFF;font-weight:700;background-color:#1f3a93;text-align:center">
+                        <t t-esc="doc.company_id.website"/>
+                    </div>
+                </div>
+            </div>
+        </template>
+
+        <!-- Re-browse of the record with the partner lang -->
+
+        <t t-call="web.external_layout">
+            <div class="page">
+                <style>
+                    .alignleft {
+                    float:left
+                    }
+                    .aligncenter {
+                    float:center
+                    }
+                </style>
+
+                <div class="oe_structure"/>
+
+                <div class="row">
+
+                    <div>
+                        <div>
+                            <span>
+                                <b style="font-size:16px;">Offer No:</b>
+                                <b style="font-size:16px;">
+                                    <t t-esc="doc.name"/>
+                                </b>
+                            </span>
+
+                            <span style="float:right;">
+                                <b style="font-size:16px;">Date:</b>
+                                <b style="font-size:16px;">
+                                	<t>
+                                        <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%d.%m.%Y')"/>
+                                    </t>
+<!--                                    <t t-else="doc.revised_date">-->
+<!--                                        <span t-esc="datetime.datetime.strptime(str(doc.revised_date),'%Y-%m-%d %H:%M:%S').strftime('%d.%m.%Y')"/>-->
+<!--                                    </t>-->
+                                </b>
+                            </span>
+                        </div>
+
+                        <br>
+                            <br></br>
+                        </br>
+
+                        <b style="font-size:16px;">
+                            <t t-if="doc.partner_id.parent_id">
+                                 <t t-esc="doc.partner_id.parent_id.name"/>
+                            </t>
+                            <t t-if="not doc.partner_id.parent_id">
+                                 <t t-esc="doc.partner_id.name"/>
+                            </t>
+                        </b>
+
+                        <b style="font-size:16px;">
+                            <div t-field="doc.partner_invoice_id"
+                                 t-options='{"widget": "contact", "fields": ["address", "fax"], "no_marker": True, }'/>
+                        </b>
+
+                        <t t-if="doc.kind_attn">
+                            <div>
+                                <t t-if="doc.kind_attn.phone">
+                                    <b style="font-size:16px;">Ph:</b>
+                                    <b style="font-size:16px;">
+                                        <t t-esc="doc.kind_attn.phone"/>
+                                    </b>
+                                </t>
+                            </div>
+
+                            <div>
+                                <t t-if="doc.kind_attn.mobile">
+                                    <b style="font-size:16px;">Mobile:</b>
+                                    <b style="font-size:16px;">
+                                        <t t-esc="doc.kind_attn.mobile"/>
+                                    </b>
+                                </t>
+                            </div>
+
+                            <div>
+                                <t t-if="doc.kind_attn.email">
+                                    <b style="font-size:16px;">Email:</b>
+                                    <b style="font-size:16px;">
+                                        <t t-esc="doc.kind_attn.email"/>
+                                    </b>
+                                </t>
+                            </div>
+                        </t>
+
+                        <t t-else="">
+                            <div>
+                                <t t-if="doc.partner_id.phone">
+                                    <b style="font-size:16px;">Ph:</b>
+                                    <b style="font-size:16px;">
+                                        <t t-esc="doc.partner_id.phone"/>
+                                    </b>
+                                </t>
+                            </div>
+
+                            <div>
+                                <t t-if="doc.partner_id.mobile">
+                                    <b style="font-size:16px;">Mobile:</b>
+                                    <b style="font-size:16px;">
+                                        <t t-esc="doc.partner_id.mobile"/>
+                                    </b>
+                                </t>
+                            </div>
+
+                            <div>
+                                <t t-if="doc.partner_id.email">
+                                    <b style="font-size:16px;">Email:</b>
+                                    <b style="font-size:16px;">
+                                        <t t-esc="doc.partner_id.email"/>
+                                    </b>
+                                </t>
+                            </div>
+                        </t>
+
+                        <br></br>
+
+                        <div>
+                            <t t-if="doc.kind_attn">
+                                <b style="font-size:16px;">Kind Attn:</b>
+                                <b style="font-size:16px;">
+                            	<t t-esc="doc.kind_attn.title.name"/>
+                                    <span t-esc="doc.kind_attn.name"/>
+                                </b>
+                            </t>
+                        </div>
+                        <br/>
+                        <div>
+                            <b style="font-size:16px;">Dear
+                                <span t-esc="doc.kind_attn.name"/> ,
+                             </b>
+                        </div>
+                        <br/>
+
+                        <div>
+                            <b style="font-size:16px;">Sub:
+                                <t t-esc="doc.subject"/>
+                            </b>
+
+                        </div>
+                        <br></br>
+                        <b style="font-size:16px;">
+                            <div>Ref:
+                                <t t-esc="doc.ref"/>
+                            </div>
+                        </b>
+                        <br></br>
+                        <div>
+                            <b style="font-size:16px;">
+                                <t t-esc="doc.offer_desc"/>
+                            </b>
+                        </div>
+                        <br></br>
+
+                        <div class="page">
+                            <style>
+
+                                table,th,td{
+                                border-top: 1px solid black !important;
+                                border-bottom: 1px solid black;
+                                border-left: 1px solid black;
+                                border-right: 1px solid black;
+                                }
+                                
+                            </style>
+
+                            <table class="table">
+                                <tr >
+                                    <td style="width:10px;font-size:18px;text-align:center;">
+                                        <b>SI.No.</b>
+                                    </td>
+                                    <td style="width:400px;font-size:18px;text-align:center;">
+                                        <b>Particulars</b>
+                                    </td>
+
+                                    <td style="width:100px;font-size:18px;text-align:center;">
+                                        <b>Qty in<br/>Nos
+                                        </b>
+                                    </td>
+                                    <td style="font-size:18px;text-align:center;">
+                                        <b>Unit Rate
+                                            <br/>
+                                            in
+                                            <span t-field="doc.currency_id.name"/>
+                                        </b>
+                                    </td>
+                                    <td style="font-size:18px;text-align:center;">
+                                        <b>Amount
+                                            <br/>
+                                            in
+                                            <span t-field="doc.currency_id.name"/>
+                                        </b>
+                                    </td>
+                                </tr>
+
+                                <tr t-foreach="(docs.order_line)" t-as="l" >
+                                    <td style="width:100px;">
+                                        <b style="font-size:16px;">
+                                            <span t-esc="l_index+1"/>
+                                        </b>
+                                    </td>
+                                    <td >
+                                        <b style="font-size:16px;">
+                                            <span t-field="l.name"/>
+                                        </b>
+                                    </td>                                        
+                                    <td style="width:100px;text-align:center;">
+                                        <b style="font-size:16px;">
+                                            <span t-esc="round(l.product_uom_qty)"/>
+                                        </b>
+                                    </td>
+                                    <td style="text-align:right;">
+                                        <b style="font-size:16px;">
+                                            <span t-esc="'{:,.2f}'.format(l.price_unit)"/>
+                                        </b>
+                                    </td>
+                                    <td style="text-align:right;">
+                                        <b style="font-size:16px;">
+                                            <span t-esc="'{:,.2f}'.format(l.price_subtotal)"/>
+                                        </b>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td></td>
+                                    <td>
+                                    </td>
+                                    <td colspan = "3">
+                                        <b style="font-size:16px;text-align:center;"><t t-esc="doc.discount_on_order"/></b>
+	                                </td>
+                                </tr>
+                            </table>
+
+                            <br></br>
+                        </div>
+
+                        <div>
+                            <b style="font-size:16px;">Enclosure:
+                                <t t-esc="doc.enclosure"/>
+                            </b>
+                        </div>
+                        <br/>
+
+                        <div>
+                            <b style="font-size:16px;">Drawing Number:
+                                <t t-foreach="doc.order_line" t-as="l">
+                                    <t t-esc="l.approve_num"/>
+                                </t>
+                            </b>
+                        </div><br/>
+
+<!--                         <div>
+                            <b style="font-size:16px;">Contact Person:</b>
+                            <t t-if="doc.partner_id.name">
+                                <b style="font-size:16px;">
+                                    <t t-foreach="doc.contact" t-as="ca">
+                                        <t t-esc="ca.name"/>
+                                        :
+                                        <span t-field="ca.phone"/> /
+                                    </t>
+                                </b>
+                            </t>
+                        </div>
+ -->
+                        <div>
+                            <b style="font-size:16px;">Contact Person:</b>
+                            <t t-if="doc.partner_id.name">
+                                <b style="font-size:16px;">
+                                    <t t-esc="doc.get_contacts()"/>
+                                </b>
+                            </t>
+                        </div>
+
+                        <div class="oe_structure"/>
+                        <div class="page">
+                            <!--p style="page-break-before:always;"></p-->
+                            <style>
+
+                                tr,td{
+                                padding:40px;
+                                }
+                            </style>
+                            <br></br>
+
+                            <div>
+                                <span style="text-decoration: underline;">
+                                    <b style="font-size:16px;">Terms and Conditions:
+                                    </b>
+                                </span>
+                            </div>
+
+                            <div>
+                                <p width="50%" style="padding-left:40px;">
+                                    <b style="font-size:16px;">
+                                        <span t-field="doc.note"/>
+                                    </b>
+                                </p>
+                            </div>
+
+                            <div>
+                                <b style="font-size:16px;">
+                                    <span t-field="doc.company_id.remarks"/>
+                                </b>
+                            </div>
+                            <br/>
+
+                            <div>
+                                <b style="font-size:16px;">With Regards,</b>
+                            </div>
+                            <br/>
+
+                            <div>
+                                <b style="font-size:16px;">For,
+                                    <t t-esc="doc.company_id.name"/>
+                                </b>
+                            </div>
+                            <br></br>
+
+                            <div>
+                                <b style="font-size:16px;">
+                                    <t t-esc="doc.user_id.name"/>
+                                </b>
+                            </div>
+
+                            <div>
+                                <b style="font-size:16px;">
+                                    <t t-esc="doc.user_id.function"/>
+                                </b>
+                            </div>
+                        </div>
+
+                        <!-- Product Specification Data Start -->
+                        
+                        <t t-foreach="doc.get_product_specifications()" t-as="specifications">
+                            <t t-if="specifications != False">
+                            <div class="oe_structure"/>
+                            <div class="page">
+                                <p style="page-break-before:always;">
+                                </p>
+
+                                <table style="width:100%;border: 1px solid black;border-collapse: collapse;">
+                                    <tr>
+                                        <th rowspan="2"
+                                            style="text-align: left;border: 1px solid black;border-collapse: collapse;padding: 5px;">
+                                            <img t-if="doc.company_id.logo"
+                                                 t-att-src="image_data_uri(doc.company_id.logo)"
+                                                 style="max-height: 100px;" width="100%;" alt="Logo"/>
+                                        </th>
+                                        <td style="text-align: left;border: 1px solid black;padding: 5px;border-collapse: collapse;">
+                                            Offer No:
+                                            <t t-esc="doc.name"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 5px;text-align: left;text-align: left;border: 1px solid black;border-collapse: collapse;">
+                                            Date:
+                                            <span t-field="doc.validity_date"
+                                                  t-field-options="{&quot;format&quot;: &quot;dd.MM.yy&quot;}"></span>
+                                        </td>
+                                    </tr>
+                                </table>
+
+                                <t t-foreach="specifications" t-as="pro_specs">
+                                    <table style="width:100%;border: 1px solid black;border-collapse: collapse;">
+                                        <tr>
+                                            <td style="border: 1px solid black;padding:2px !important;vertical-align:top;font-weight:bold; min-width:25%;">
+                                                <t t-esc="pro_specs['spec1']"/>
+                                            </td>
+                                            <t t-if="pro_specs['spec2'] != False">
+                                                <td style="border: 1px solid black;padding:6px !important;vertical-align:top;width:15%;">
+                                                    <t t-esc="pro_specs['spec2']"/>
+                                                </td>
+                                            </t>
+                                            <t t-if="pro_specs['spec3'] != False">
+                                                <td style="border: 1px solid black;padding:6px !important;vertical-align:top;width:15%;">
+                                                    <t t-esc="pro_specs['spec3']"/>
+                                                </td>
+                                            </t>
+                                            <t t-if="pro_specs['spec4'] != False">
+                                                <td style="border: 1px solid black;padding:6px !important;vertical-align:top;width:15%;">
+                                                    <t t-esc="pro_specs['spec4']"/>
+                                                </td>
+                                            </t>
+                                            <t t-if="pro_specs['spec5'] != False">
+                                                <td style="border: 1px solid black;padding:6px !important;vertical-align:top;width:15%;">
+                                                    <t t-esc="pro_specs['spec5']"/>
+                                                </td>
+                                            </t>
+                                            <t t-if="pro_specs['spec6'] != False">
+                                                <td style="border: 1px solid black;padding:6px !important;vertical-align:top;width:15%;">
+                                                    <t t-esc="pro_specs['spec6']"/>
+                                                </td>
+                                            </t>
+                                        </tr>
+                                    </table>
+                                </t>
+                            </div>
+                        </t>
+                    </t>
+                    <!--Product Specification End -->
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+
+</odoo>
+

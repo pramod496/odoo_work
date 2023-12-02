@@ -1,0 +1,63 @@
+<!--  <odoo>
+     <data>
+     <record id="view_terms_condition_form" model="ir.ui.view">
+            <field name="name">terms.condition.form</field>
+            <field name="model">terms.condition</field>
+            <field name="arch" type="xml">
+                <form string="Work Order" class="o_sale_order">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name" />
+                                <field name="description" />
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+     </record>
+
+
+        <record id="res_partner_inherit" model="ir.ui.view">
+            <field name="name">res.partner.form</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//page[3]" position="after">
+                    <page  string="Terms and Conditions">
+                            <group name="container_row_2">
+                              <field name="terms_condition"/>
+                                <field name="descr_terms_condition"/>
+                            </group>
+                        </page>
+
+                </xpath>
+            </field>
+        </record>
+
+     <record id="terms_condition_tree" model="ir.ui.view">
+            <field name="name">terms.condition.tree</field>
+            <field name="model">terms.condition</field>
+            <field name="arch" type="xml">
+                <tree string="Terms and Condition">
+                    <field name="name"/>
+                    <field name="description"/>
+                </tree>
+            </field>
+        </record>
+
+           <record id="action_terms_and_condition" model="ir.actions.act_window">
+            <field name="name">Terms and Conditions</field>
+            <field name="res_model">terms.condition</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+     <menuitem id="menu_terms_and_condition"
+                  name="Terms and Condition"
+                  parent="sale.sale_order_menu"
+                  action="action_terms_and_condition"
+                  sequence="5"
+     />
+     </data>
+ </odoo> -->

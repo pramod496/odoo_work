@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+
+        <record id="view_picking_form_extnd" model="ir.ui.view">
+            <field name="name">stock.picking.form</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="stock.view_picking_form"/>
+            <field eval="12" name="priority"/>
+            <field name="arch" type="xml">
+                <xpath expr="//form/header/button[@name='button_validate']" position="before">
+                    <button name="refund_inv" string="Vendor Bills" type="object" attrs="{'invisible':['|',('state','!=','done'),('picking_type_code', '!=','incoming')]}" class="oe_highlight"/>
+
+                </xpath>
+
+                  <xpath expr="//form/sheet/div/field[@name='has_scrap_move']" position="before">
+                <field name="account_ids" invisible="1"/>
+                    <field name="is_invoiced" invisible="1" />
+                      <!--<button name="action_repair_start" attrs="{'invisible': ['&amp;', ('state','!=','confirmed'), '!', '&amp;', ('state','=','ready'), ('invoice_method','=','b4repair')]}"-->
+                    <!--type="object" string="Start Repair" class="oe_highlight"/>-->
+                <button type="object" string="Vendor Bills" name="action_view_account" class="oe_stat_button"
+                        icon="fa-pencil-square-o" attrs="{'invisible':['|',('state','!=','done'),('picking_type_code', '!=','incoming')]}"/>
+    
+               
+            </xpath>
+                <xpath expr="//form/sheet/group/group/field[@name='origin']" position="after">
+                <field name="destination_warehouse"/>
+            </xpath>
+                <field name="location_dest_id" position="replace">
+                    <field name="location_dest_id" groups="stock.group_stock_multi_locations"/>
+                </field>
+            </field>
+        </record>
+
+
+        <!--<record id="view_backorder_confirmation_inherit" model="ir.ui.view">-->
+        <!--<field name="name">stock.backorder.confirmation.form</field>-->
+        <!--<field name="model">stock.backorder.confirmation</field>-->
+        <!--<field name="inherit_id" ref="stock.view_backorder_confirmation"/>-->
+        <!--<field name="arch" type="xml">-->
+            <!--<xpath expr="//form/footer/button[@name='process_cancel_backorder']" position="after">-->
+                <!--<button name="refund_inv" string="Refund" type="object" class="oe_highlight"/>-->
+            <!--</xpath>-->
+        <!--</field>-->
+
+    <!--</record>-->
+</odoo>

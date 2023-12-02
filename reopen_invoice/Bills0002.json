@@ -1,0 +1,59 @@
+
+{
+    "billLists": [
+        {
+            "actualFromStateCode": false,
+            "actualToStateCode": "KA",
+            "cessValue": 0,
+            "cgstValue": 0,
+            "docDate": "25/01/2019",
+            "docNo": "INV/2019/0002",
+            "docType": "INV",
+            "fromAddr1": "",
+            "fromAddr2": " ",
+            "fromGstin": false,
+            "fromPinCode": "",
+            "fromPlace": "",
+            "fromStateCode": false,
+            "fromTrdName": "Shridhan Automation Pvt. Ltd",
+            "igstValue": 0,
+            "itemList": [
+                {
+                    "cessValue": 0.0,
+                    "cgstValue": 0,
+                    "igstValue": 0,
+                    "itemNo": 1,
+                    "productDesc": "DD98425",
+                    "productName": "DD98425",
+                    "qtyUnit": " ",
+                    "quantity": 1.0,
+                    "sgstValue": 0,
+                    "taxableAmount": 10000.0
+                }
+            ],
+            "sgstValue": 0,
+            "subSupplyType": 1,
+            "supplyType": "O",
+            "toAddr1": "1st b cross, 15th main road",
+            "toAddr2": " ",
+            "toGstin": "123",
+            "toPinCode": false,
+            "toPlace": "bangalore",
+            "toStateCode": "KA",
+            "toTrdName": "Chao Wang",
+            "totInvValue": 10000.0,
+            "totalValue": 10000.0,
+            "transDistance": "12",
+            "transDocDate": "21/01/2019",
+            "transDocNo": " ",
+            "transMode": "fthg",
+            "transType": 1,
+            "transporterId": "2w",
+            "transporterName": "ramyas",
+            "userGSTIN": false,
+            "vehicleNo": "123",
+            "vehicleType": "R"
+        }
+    ],
+    "version": "1.0.1118"
+}

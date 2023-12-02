@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <record id="lut_master_form_view" model="ir.ui.view">
+        <field name="name">lut.master.form</field>
+        <field name="model">lut.master</field>
+        <field name="arch" type="xml">
+            <form string="LUT">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="start_date" required="1"/>
+                        <field name="end_date" required="1"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="lut_master_tree_view" model="ir.ui.view">
+        <field name="name">lut.master.tree</field>
+        <field name="model">lut.master</field>
+        <field name="arch" type="xml">
+            <tree string="LUT">
+                <field name="name"/>
+                <field name="start_date"/>
+                <field name="end_date"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_lut" model="ir.actions.act_window">
+        <field name="name">LUT Master</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">lut.master</field>
+<!--        <field name="view_type">form</field>-->
+        <field name="view_mode">tree,form</field>
+        <field name="target">current</field>
+    </record>
+
+    <menuitem id="menu_lut_main" name="LUT"
+				  parent="base.menu_administration" sequence="40"/>
+
+    <menuitem action="action_lut" id="menu_lut_action"
+              parent="menu_lut_main" name="LUT Master" sequence="40"
+              />
+</odoo>

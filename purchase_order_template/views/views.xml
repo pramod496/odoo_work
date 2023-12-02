@@ -1,0 +1,89 @@
+<odoo>
+  	<data>
+	<record id="res_company_fax_inherit" model="ir.ui.view">
+            <field name="name">res.company.form</field>
+            <field name="model">res.company</field>
+            <field name="inherit_id" ref="base.view_company_form"/>
+            <field name="arch" type="xml">
+	            <xpath expr="//field[@name='email']" position="after">
+		            <field name="fax"/>
+		    	</xpath>
+    	    </field>
+	</record>
+
+	<record id="po_template_inherit" model="ir.ui.view">
+            <field name="name">purchase.order.form</field>
+            <field name="model">purchase.order</field>
+            <field name="inherit_id" ref="purchase.purchase_order_form"/>
+            <field name="arch" type="xml">
+	            <xpath expr="//field[@name='partner_ref']" position="after">
+		          	<field name="order_no"/>
+                  	<field name="kind_attn"  widget="selection" domain="[('parent_id', '=', partner_id)]"/>
+		  		</xpath>
+
+	        	<xpath expr="//page[@name='purchase_delivery_invoice']/group/group" position="inside">
+			        <field name="inspection" invisible="1"/>
+			        <field name="test_certificate" invisible="1"/>
+			        <field name="despatch_mode" invisible="1"/>
+			        <field name="warranty" invisible="1"/>
+			        <field name="freight_charges" invisible="1"/>
+			        <field name="packing_charges" invisible="1"/>
+			        <field name="insurance" invisible="1"/>
+			        <field name="last_delivery_clause" invisible="1"/>
+			        <field name="note" invisible="1"/>
+		  		</xpath>
+				<xpath expr="//field[@name='partner_id']" position="after">
+
+					 <field name="amount_cgst" invisible="1"/>
+					 <field name="amount_sgst" invisible="1"/>
+					 <field name="amount_igst" invisible="1"/>
+
+					 <field name="cgst_rate" invisible="1"/>
+					 <field name="sgst_rate" invisible="1"/>
+					 <field name="igst_rate" invisible="1"/>
+
+
+
+
+			</xpath>
+
+				<xpath expr="//page/field[@name='order_line']/tree/field[@name='currency_id']" position="after">
+
+
+		                            <field name="cgst" invisible="1"/>
+		                            <field name="sgst" invisible="1"/>
+		                            <field name="igst" invisible="1"/>
+		                            <field name="cgst_rate" invisible="1"/>
+		                            <field name="sgst_rate" invisible="1"/>
+		                            <field name="igst_rate" invisible="1"/>
+				</xpath>
+
+
+    	    </field>
+	</record>
+    </data>
+</odoo>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

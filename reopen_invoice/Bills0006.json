@@ -1,0 +1,59 @@
+
+{
+    "billLists": [
+        {
+            "actualFromStateCode": "PA",
+            "actualToStateCode": "AR",
+            "cessValue": 0,
+            "cgstValue": 0,
+            "docDate": "23/01/2019",
+            "docNo": "INV/2019/0006",
+            "docType": "INV",
+            "fromAddr1": "1725 Slough Ave.",
+            "fromAddr2": " ",
+            "fromGstin": false,
+            "fromPinCode": "18540",
+            "fromPlace": "Scranton",
+            "fromStateCode": "PA",
+            "fromTrdName": "YourCompany",
+            "igstValue": 0,
+            "itemList": [
+                {
+                    "cessValue": 0.0,
+                    "cgstValue": 0,
+                    "igstValue": 0,
+                    "itemNo": 1,
+                    "productDesc": "Customizable Desk",
+                    "productName": "Customizable Desk",
+                    "qtyUnit": " ",
+                    "quantity": 1.0,
+                    "sgstValue": 0,
+                    "taxableAmount": 750.0
+                }
+            ],
+            "sgstValue": 0,
+            "subSupplyType": 1,
+            "supplyType": "O",
+            "toAddr1": "3404  Edgewood Road",
+            "toAddr2": " ",
+            "toGstin": false,
+            "toPinCode": "72401",
+            "toPlace": "Jonesboro",
+            "toStateCode": "AR",
+            "toTrdName": "Colleen Diaz",
+            "totInvValue": 750.0,
+            "totalValue": 750.0,
+            "transDistance": "dgds",
+            "transDocDate": "14/01/2019",
+            "transDocNo": " ",
+            "transMode": "gf",
+            "transType": 1,
+            "transporterId": "gdsf",
+            "transporterName": "fddsf",
+            "userGSTIN": false,
+            "vehicleNo": "dgfd",
+            "vehicleType": "R"
+        }
+    ],
+    "version": "1.0.1118"
+}

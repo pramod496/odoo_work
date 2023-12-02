@@ -1,0 +1,20 @@
+<odoo>
+    <data>
+        <record id="paperformat_quotation" model="report.paperformat">
+            <field name="name">US Letter</field>
+            <field name="default" eval="True"/>
+            <field name="orientation">Portrait</field>
+            <field name="margin_bottom">37</field>
+            <field name="margin_left">10</field>
+            <field name="margin_right">10</field>
+            <field name="dpi">90</field>
+        </record>
+        <report id="report_sale_order"
+                string="Quotation"
+                model="sale.order"
+                report_type="qweb-pdf"
+                file="quotation.report_saleorder"
+                name="quotation.report_saleorder"
+                paperformat="quotation.paperformat_quotation"/>
+    </data>
+</odoo>

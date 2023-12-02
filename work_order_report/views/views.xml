@@ -1,0 +1,956 @@
+<odoo>
+  <data>
+
+       <record id="view_work_order_quotation_form_inherit" model="ir.ui.view">
+            <field name="name">work.order.quotation.form</field>
+            <field name="model">work.order.quotation</field>
+            <field name="inherit_id" ref="sale_to_mrp.view_work_order_quotation_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='date_order']"
+                       position="after">
+                    <field name="iwo_number"  invisible="1"/>
+                </xpath>
+
+                <xpath expr="//field[@name='desired_delivery_date']"
+                       position="after">
+                    <field name="partner_id"  invisible="1"/>
+                    <button name="%(work_order_report.report_work_order_template)d" type="action"  string="Work Order Print"/>
+                </xpath>
+               <xpath expr="//page[@name='work_order_line']/field[@name='work_order_line']/form/sheet/group/group[1]" position="inside">
+<!--               <xpath expr="//page[@name='work_order_line']/field[@name='work_order_line']/form/sheet/group/group[1]" position="before">-->
+                        <field name="product_category_id"/>
+               </xpath>
+<!--                <xpath expr="//form/sheet/notebook/" position="inside">-->
+                <xpath expr="//page[@name='work_order_line']/field[@name='work_order_line']/form/sheet/notebook" position="inside">
+                    <page string="VFS-BVFS-MVFS" name="vfs_line" attrs="{'invisible': [('product_category_id', 'not in', ['VFS','BVFS','MVFS'])]}">
+                                <group>
+                                    <group>
+                                         <field name="product_category_id" invisible="1" />
+                                         <field name="customer_ref" />
+                                         <field name="application" />
+                                         <field name="temp_pressure" />
+                                         <field name="stem_moc"/>
+                                         <field name="stem_dia"/>
+                                         <field name ="float_moc"/>
+                                         <field name="float_dia"/>
+                                         <field name="connection_type"/>
+                                         <field name="no_of_floats"/>
+                                         <field name="od"/>
+                                         <field name="pcd"/>
+                                         <field name="thickness"/>
+                                         <field name="hole_dia"/>
+                                         <field name="flange_moc"/>
+                                         <field name="size"/>
+                                         <field name="standard"/>
+                                         <field name="adaptor_moc"/>
+                                         <field name="connector_vfs"/>
+                                         <field name="lead_wire"/>
+                                         <field name="potting"/>
+                                     </group>
+                                     <group>
+                                         <field name="gaskets"/>
+                                         <field name="gasket_moc" />
+                                         <field name="flange_adapter"/>
+                                         <field name="satuatory"/>
+                                         <field name="all_dimension"/>
+                                         <field name="other_info"/>
+                                         <field name="tag_no"/>
+                                         <field name="connection_detail"/>
+                                         <!-- <field name="production_sl_no"/>
+                                         <field name="instrument_sl_no"/> -->
+                                         <field name="desired_delivery_date"/>
+                                         <field name="iwo_prepared_by"/>
+                                         <field name="processed_by"/>
+                                         <field name="packing_details"/>
+                                         <field name="invoice_no"/>
+                                         <field name="earlier_ref"/>
+                                         <field name="verified_by" />
+                                         <field name="drawing_no" />
+                                     </group>
+
+                                </group>
+                                    <separator string="Connection Details"/>
+                                        <field name="connection"/>
+                                        <field name="vfs_line_id"  >
+                                        <tree string="VFS-BVFS-MVFS" editable="bottom">
+                                        <field name="l" />
+                                        <field name="d1" />
+                                        <field name="d1_state" />
+                                        <field name="d2" />
+                                        <field name="d2_state" />
+                                        <field name="d3" />
+                                        <field name="d3_state" />
+                                        <field name="d4"/>
+                                        <field name="d4_state" />
+                                        <field name="d5" />
+                                        <field name="d5_state" />
+                                        <field name ="d6" />
+                                        <field name="d6_state" />
+                                        <field name="quantity" />
+                                        <field name="product_uom_id" />
+                                    </tree>
+                                </field>
+                            </page>
+
+                            <page string = "Non Category"  name="non_line" attrs="{'invisible': [('product_category_id', 'in', ['CLS','HFS','VFS','MVFS','BVFS','SLI','MLI','FLX','EXCS','MHFS'])]}" >
+                                <group>
+                                     <group>
+                                         <field name="product_category_id" invisible="1" />
+                                         <field name="application" />
+                                         <field name="temp_pressure" />
+                                         <field name="other_info"/>
+                                         <field name="tag_no"/>
+                                         <!-- <field name="production_sl_no"/>
+                                         <field name="instrument_sl_no"/> -->
+                                         <field name="desired_delivery_date"/>
+                                     </group>
+                                    <group>
+                                         <field name="iwo_prepared_by"/>
+                                         <field name="processed_by"/>
+                                         <field name="verified_by" />
+                                         <field name="packing_details"/>
+                                         <field name="invoice_no"/>
+                                         <field name="earlier_ref"/>
+                                    </group>
+                                </group>
+                                 <separator string="Remarks"/>
+                                 <field name="remarks"/>
+                            </page>
+
+                            <page string = "CLS"  name="cls_line" attrs="{'invisible': [('product_category_id', 'not in', ['CLS'])]}" >
+                                <group>
+                                     <group>
+                                         <field name="product_category_id" invisible="1" />
+                                         <field name="tracking_no"/>
+                                         <field name="customer_ref" />
+                                         <field name="application" />
+                                         <field name="temp_pressure" />
+                                         <field name="wetted_moc" />
+                                         <field name ="probe_size"/>
+                                         <field name="od"/>
+                                         <field name="pcd"/>
+                                         <field name="thickness"/>
+                                         <field name="hole_dia"/>
+                                         <field name="standard" />
+                                         <field name="flange_moc"/>
+                                         <field name="adapter_od"/>
+                                         <field name="adapter_standard"/>
+                                         <field name="adaptor_moc" />
+                                     </group>
+                                    <group>
+                                         <field name="enclosure"/>
+                                         <field name="potting"/>
+                                         <field name="gaskets"/>
+                                         <field name="gasket_moc" />
+                                         <field name="flange_stem"/>
+                                         <field name="insulation"/>
+                                         <field name="connection_detail"/>
+                                         <field name="tag_no"/>
+                                         <!-- <field name="production_sl_no"/>
+                                         <field name="instrument_sl_no"/> -->
+                                         <field name="desired_delivery_date"/>
+                                         <field name="iwo_prepared_by"/>
+                                         <field name="processed_by"/>
+                                         <field name="verified_by" />
+                                         <field name="packing_details"/>
+                                         <field name="invoice_no"/>
+                                         <field name="earlier_ref"/>
+                                         <field name="drawing_no" />
+                                    </group>
+                                </group>
+                                 <separator string="Connection Details"/>
+                                 <field name="connection"/>
+                                 <field name="cls_line_id">
+                                    <tree string="cls" editable="bottom">
+                                        <field name="l" />
+                                        <field name="d1" />
+                                        <field name="d2" />
+                                         <field name="d3" />
+                                        <field name="d4"/>
+                                        <field name="d5" />
+                                        <field name ="d6" />
+                                        <field name="quantity" />
+                                        <field name="product_uom_id" />
+                                    </tree>
+                                </field>
+                            </page>
+
+                            <page string = "FLX"  name="flx_line" attrs="{'invisible': [('product_category_id', 'not in', ['FLX'])]}" >
+                                <group>
+                                    <group>
+                                        <field name="product_category_id" invisible="1" />
+                                         <field name="customer_ref" />
+                                         <field name="application" />
+                                         <field name="temp_pressure" />
+                                         <field name="stem_moc"/>
+                                         <field name="stem_dia"/>
+                                         <field name ="float_moc"/>
+                                         <field name="float_dia"/>
+                                         <field name="no_of_floats"/>
+                                         <field name="flange_dimension"/>
+                                         <field name="process_connection"/>
+                                         <field name="od"/>
+                                         <field name="pcd"/>
+                                         <field name="thickness"/>
+                                         <field name="hole_dia"/>
+                                         <field name="standard"/>
+                                         <field name="flange_moc"/>
+                                         <field name="size"/>
+                                         <field name="adaptor_moc"/>
+                                         <field name="adapter_standard"/>
+                                         <field name="connector_flx"/>
+                                    </group>
+                                    <group>
+                                         <field name="potting"/>
+                                         <field name="gaskets"/>
+                                         <field name="gasket_moc" />
+                                         <field name="flange_adapter"/>
+                                         <field name="satuatory"/>
+                                         <field name="other_info"/>
+                                         <field name="tag_no"/>
+                                         <field name="circuit"/>
+                                         <field name="output"/>
+                                         <!-- <field name="production_sl_no"/>
+                                         <field name="instrument_sl_no"/> -->
+                                         <field name="desired_delivery_date"/>
+                                         <field name="iwo_prepared_by"/>
+                                         <field name="processed_by"/>
+                                         <field name="packing_details"/>
+                                         <field name="invoice_no"/>
+                                         <field name="earlier_ref"/>
+                                         <field name="verified_by" />
+                                         <field name="drawing_no" />
+                                    </group>
+                                </group>
+                                 <separator string="Connection Details"/>
+                                 <field name="connection"/>
+                                 <field name="flx_line_id">
+                                    <tree string="flx" editable="bottom">
+                                        <field name="gsl"/>
+                                        <field name="mr"/>
+                                        <field name="quantity" />
+                                        <field name="product_uom_id" />
+                                    </tree>
+                                </field>
+                            </page>
+
+                            <page string = "SLI"  name="sli_line" attrs="{'invisible': [('product_category_id', 'not in', ['SLI'])]}" >
+                                <group>
+                                     <group>
+                                         <field name="product_category_id" invisible="1" />
+                                         <field name="customer_ref" />
+                                         <field name="application" />
+                                         <field name="temp_pressure" />
+                                         <field name ="float_moc"/>
+                                         <field name="float_dia"/>
+                                         <field name="flange_moc"/>
+                                         <field name="adaptor_moc"/>
+                                         <field name="flange_dimension"/>
+                                         <field name ="enclosure"/>
+                                         <field name="lead_cable"/>
+                                         <field name="satuatory"/>
+                                     </group>
+                                     <group>
+                                         <field name="gaskets"/>
+                                         <field name="gasket_moc"/>
+                                         <field name="connector"/>
+                                         <field name="other_info"/>
+                                         <field name="tag_no"/>
+                                         <!-- <field name="production_sl_no"/>
+                                         <field name="instrument_sl_no"/> -->
+                                         <field name="desired_delivery_date"/>
+                                         <field name="iwo_prepared_by"/>
+                                         <field name="processed_by"/>
+                                         <field name="packing_details"/>
+                                         <field name="invoice_no"/>
+                                         <field name="earlier_ref"/>
+                                         <field name="verified_by" />
+                                         <field name="drawing_no" />
+                                    </group>
+                                </group>
+                                 <separator string="Connection Details"/>
+                                 <field name="connection"/>
+                                 <field name="sli_line_id">
+                                    <tree string="sli" editable="bottom">
+                                        <field name="description"/>
+                                        <field name="quantity" />
+                                        <field name="product_uom_id" />
+                                    </tree>
+                                </field>
+                            </page>
+
+
+                            <page string = "HFS-MHFS"  name="hfs_line" attrs="{'invisible': [('product_category_id', 'not in', ['HFS','MHFS'])]}" >
+                                <group>
+                                     <group>
+                                         <field name="product_category_id" invisible="1" />
+                                         <field name="customer_ref" />
+                                         <field name="application" />
+                                         <field name="temp_pressure" />
+                                         <field name ="float_moc"/>
+                                         <field name="float_dia"/>
+                                         <field name="connection_type"/>
+                                         <field name ="flange_moc"/>
+                                         <field name="od"/>
+                                         <field name="pcd"/>
+                                         <field name="thickness"/>
+                                         <field name="hole_dia"/>
+                                         <field name="standard"/>
+                                         <field name="adapter_od"/>
+                                         <field name="adapter_standard"/>
+                                         <field name ="enclosure"/>
+                                         <field name="magnets" options="{'no_edit': True}" widget="many2many_tags"/>
+                                         <field name="micro_potting"/>
+                                     </group>
+                                     <group>
+                                         <field name="satuatory"/>
+                                         <field name="gaskets"/>
+                                         <field name="gasket_moc"/>
+                                         <field name ="flange_enclosure"/>
+                                         <field name="connector"/>
+                                         <field name="other_info"/>
+                                         <field name="tag_no"/>
+                                         <!-- <field name="production_sl_no"/>
+                                         <field name="instrument_sl_no"/> -->
+                                         <field name="desired_delivery_date"/>
+                                         <field name="iwo_prepared_by"/>
+                                         <field name="processed_by"/>
+                                         <field name="packing_details"/>
+                                         <field name="invoice_no"/>
+                                         <field name="earlier_ref"/>
+                                         <field name="verified_by" />
+                                         <field name="drawing_no" />
+                                    </group>
+                                </group>
+                                 <separator string="Connection Details"/>
+                                 <field name="connection"/>
+                                 <field name="hfs_line_id">
+                                    <tree string="hfs" editable="bottom">
+                                        <field name="description"/>
+                                        <field name="quantity" />
+                                        <field name="product_uom_id" />
+                                    </tree>
+                                </field>
+                            </page>
+
+                            <page string = "MLI"  name="mli_line" attrs="{'invisible': [('product_category_id', 'not in', ['MLI'])]}" >
+                                <group>
+                                     <group>
+                                         <field name="product_category_id" invisible="1" />
+                                         <field name="customer_ref" />
+                                         <field name="application" />
+                                         <field name="temp_pressure" />
+                                         <field name="mount_type"/>
+                                         <field name="moc" />
+                                         <field name="chamber_design_top"/>
+                                         <field name="chamber_design_bottom"/>
+                                         <field name="process_connection"/>
+                                         <field name="process_flange_details"/>
+                                         <field name="process_thread_details"/>
+                                         <field name="indication_type"/>
+                                         <field name ="float_dimension"/>
+                                         <field name="magnetic_switches"/>
+                                         <field name="level_transmitter"/>
+                                         <field name="isolation_valves"/>
+                                         <field name="enclosure_type"/>
+                                         <field name="gaskets"/>
+                                         <field name="gasket_moc"/>
+                                     </group>
+                                     <group>
+                                         <field name="vent"/>
+                                         <field name="vent_size"/>
+                                         <field name="fasteners"/>
+                                         <field name="fasteners_moc"/>
+                                         <field name="drain"/>
+                                         <field name="drain_size"/>
+                                         <field name="special_features"/>
+                                         <field name="testing_options"  options="{'no_edit': True}" widget="many2many_tags"/>
+                                         <field name="approval_cert" options="{'no_edit': True}" widget="many2many_tags"/>
+                                        <!--  <field name="production_sl_no"/> -->
+                                         <field name="instrument_sl_no"/>
+                                         <field name="desired_delivery_date"/>
+                                         <field name="iwo_prepared_by"/>
+                                         <field name="processed_by"/>
+                                         <field name="packing_details"/>
+                                         <field name="invoice_no"/>
+                                         <field name="earlier_ref"/>
+                                         <field name="verified_by" />
+                                         <field name="drawing_no" />
+                                    </group>
+                                </group>
+                                 <separator string="Connection Details"/>
+                                 <field name="connection"/>
+                                 <field name="mli_line_id">
+                                    <tree string="mli" editable="bottom">
+                                        <field name="tag_no1"/>
+                                        <field name="ccdistance"/>
+                                        <field name="total_length"/>
+                                        <field name="quantity" />
+                                        <field name="product_uom_id" />
+                                    </tree>
+                                </field>
+                            </page>
+
+                            <page string = "EXCS"  name="excs_line" attrs="{'invisible': [('product_category_id', 'not in', ['EXCS'])]}" >
+                                <group>
+                                    <group>
+                                        <field name="product_category_id" invisible="1" />
+                                         <field name="customer_ref" />
+                                         <field name="application" />
+                                         <field name="temp_pressure" />
+                                         <field name="chamber_moc"/>
+                                         <field name="chamber_flange_type"/>
+                                         <field name="process_pipe_size"/>
+                                         <field name="process_connection"/>
+                                         <field name="process_flange_rating"/>
+                                         <field name="gaskets"/>
+                                         <field name="gasket_moc" />
+                                         <field name="isolation_valves"/>
+                                         <field name="drain"/>
+                                         <field name="drain_size"/>
+                                    </group>
+                                    <group>
+                                         <field name="vent"/>
+                                         <field name="vent_size"/>
+                                         <field name="testing_options" options="{'no_edit': True}" widget="many2many_tags"/>
+                                         <field name="approval_cert" options="{'no_edit': True}" widget="many2many_tags"/>
+                                         <field name="other_spec"/>
+                                         <field name="special_features"/>
+                                         <!-- <field name="production_sl_no"/>
+                                         <field name="instrument_sl_no"/> -->
+                                         <field name="desired_delivery_date"/>
+                                         <field name="iwo_prepared_by"/>
+                                         <field name="processed_by"/>
+                                         <field name="packing_details"/>
+                                         <field name="invoice_no"/>
+                                         <field name="earlier_ref"/>
+                                         <field name="verified_by" />
+                                         <field name="drawing_no" />
+                                    </group>
+                                </group>
+                                 <separator string="Connection Details"/>
+                                 <field name="connection"/>
+
+
+                                <field name="excs_line_id">
+                                    <tree string="excs" editable="bottom">
+                                        <field name="tag_no1"/>
+                                        <field name="ccdistance"/>
+                                        <field name="total_length"/>
+                                        <field name="quantity" />
+                                        <field name="product_uom_id" />
+                                    </tree>
+                                </field>
+                            </page>
+                </xpath>
+            </field>
+        </record>
+
+      <record id="view_work_order_quotation_line_form_inherit" model="ir.ui.view">
+            <field name="name">work.order.quotation.line.form1</field>
+            <field name="model">work.order.quotation.line</field>
+            <field name="inherit_id" ref="sale_to_mrp.view_work_order_quotation_line_form"/>
+            <field name="arch" type="xml">
+
+                 <xpath expr="//field[@name='bool_state']"
+                       position="after">
+<!--                <xpath expr="//form/sheet/notebook/page[@name='work_order_line']/field[@name='work_order_line']/form/sheet/group/group[1]/field[@name='bool_state']" position="after">-->
+                    <field name="product_category_id"/>
+                     <field name="total" invisible="1" />
+                     <field name="cls_total" invisible="1"/>
+                     <field name="flx_total" invisible="1"/>
+                     <field name="sli_total" invisible="1"/>
+                     <field name="hfs_total" invisible="1"/>
+                     <field name="mli_total" invisible="1"/>
+                     <field name="excs_total" invisible="1"/>
+
+                </xpath>
+                <xpath expr="//field[@name='bom_type']" position = "after">
+                    <field name="note"/>
+                </xpath>
+
+<!--                <xpath expr="//form/sheet/notebook[0]/page[@name='work_order_line']/form/sheet/notebook[0]/page[1]" position="before">-->
+<!--                <xpath expr="//form/sheet/notebook/page[@name='work_order_line']" position="inside">-->
+                    <xpath expr="//page[1]" position="after">
+                    <page string="VFS-BVFS-MVFS" name="vfs_line" attrs="{'invisible': [('product_category_id', 'not in', ['VFS','BVFS','MVFS'])]}">
+                                <group>
+                                    <group>
+                                         <field name="customer_ref" />
+                                         <field name="application" />
+                                         <field name="temp_pressure" />
+                                         <field name="stem_moc"/>
+                                         <field name="stem_dia"/>
+                                         <field name ="float_moc"/>
+                                         <field name="float_dia"/>
+                                         <field name="connection_type"/>
+                                         <field name="no_of_floats"/>
+                                         <field name="od"/>
+                                         <field name="pcd"/>
+                                         <field name="thickness"/>
+                                         <field name="hole_dia"/>
+                                         <field name="flange_moc"/>
+                                         <field name="size"/>
+                                         <field name="standard"/>
+                                         <field name="adaptor_moc"/>
+                                         <field name="connector_vfs"/>
+                                         <field name="lead_wire"/>
+                                         <field name="potting"/>
+                                     </group>
+                                     <group>
+                                         <field name="gaskets"/>
+                                         <field name="gasket_moc" />
+                                         <field name="flange_adapter"/>
+                                         <field name="satuatory"/>
+                                         <field name="all_dimension"/>
+                                         <field name="other_info"/>
+                                         <field name="tag_no"/>
+                                         <field name="connection_detail"/>
+                                         <!-- <field name="production_sl_no"/>
+                                         <field name="instrument_sl_no"/> -->
+                                         <field name="desired_delivery_date"/>
+                                         <field name="iwo_prepared_by"/>
+                                         <field name="processed_by"/>
+                                         <field name="packing_details"/>
+                                         <field name="invoice_no"/>
+                                         <field name="earlier_ref"/>
+                                         <field name="verified_by" />
+                                         <field name="drawing_no" />
+                                     </group>
+
+                                </group>
+                                    <separator string="Connection Details"/>
+                                        <field name="connection"/>
+                                        <field name="vfs_line_id"  >
+                                        <tree string="VFS-BVFS-MVFS" editable="bottom">
+                                        <field name="l" />
+                                        <field name="d1" />
+                                        <field name="d1_state" />
+                                        <field name="d2" />
+                                        <field name="d2_state" />
+                                        <field name="d3" />
+                                        <field name="d3_state" />
+                                        <field name="d4"/>
+                                        <field name="d4_state" />
+                                        <field name="d5" />
+                                        <field name="d5_state" />
+                                        <field name ="d6" />
+                                        <field name="d6_state" />
+                                        <field name="quantity" />
+                                        <field name="product_uom_id" />
+                                    </tree>
+                                </field>
+                            </page>
+
+                            <page string = "Non Category"  name="non_line" attrs="{'invisible': [('product_category_id', 'in', ['CLS','HFS','VFS','MVFS','BVFS','SLI','MLI','FLX','EXCS','MHFS'])]}" >
+                                <group>
+                                     <group>
+                                         <field name="application"/>
+                                         <field name="temp_pressure" />
+                                         <field name="other_info"/>
+                                         <field name="tag_no"/>
+                                         <!-- <field name="production_sl_no"/>
+                                         <field name="instrument_sl_no"/> -->
+                                         <field name="desired_delivery_date"/>
+                                     </group>
+                                    <group>
+                                         <field name="iwo_prepared_by"/>
+                                         <field name="processed_by"/>
+                                         <field name="verified_by" />
+                                         <field name="packing_details"/>
+                                         <field name="invoice_no"/>
+                                         <field name="earlier_ref"/>
+                                    </group>
+                                </group>
+                                 <separator string="Remarks"/>
+                                 <field name="remarks"/>
+                            </page>
+
+                            <page string = "CLS"  name="cls_line" attrs="{'invisible': [('product_category_id', 'not in', ['CLS'])]}" >
+                                <group>
+                                     <group>
+                                         <field name="tracking_no"/>
+                                         <field name="customer_ref" />
+                                         <field name="application" />
+                                         <field name="temp_pressure" />
+                                         <field name="wetted_moc" />
+                                         <field name ="probe_size"/>
+                                         <field name="od"/>
+                                         <field name="pcd"/>
+                                         <field name="thickness"/>
+                                         <field name="hole_dia"/>
+                                         <field name="standard" />
+                                         <field name="flange_moc"/>
+                                         <field name="adapter_od"/>
+                                         <field name="adapter_standard"/>
+                                         <field name="adaptor_moc" />
+                                     </group>
+                                    <group>
+                                         <field name="enclosure"/>
+                                         <field name="potting"/>
+                                         <field name="gaskets"/>
+                                         <field name="gasket_moc" />
+                                         <field name="flange_stem"/>
+                                         <field name="insulation"/>
+                                         <field name="connection_detail"/>
+                                         <field name="tag_no"/>
+                                         <!-- <field name="production_sl_no"/>
+                                         <field name="instrument_sl_no"/> -->
+                                         <field name="desired_delivery_date"/>
+                                         <field name="iwo_prepared_by"/>
+                                         <field name="processed_by"/>
+                                         <field name="verified_by" />
+                                         <field name="packing_details"/>
+                                         <field name="invoice_no"/>
+                                         <field name="earlier_ref"/>
+                                         <field name="drawing_no" />
+                                    </group>
+                                </group>
+                                 <separator string="Connection Details"/>
+                                 <field name="connection"/>
+                                 <field name="cls_line_id">
+                                    <tree string="cls" editable="bottom">
+                                        <field name="l" />
+                                        <field name="d1" />
+                                        <field name="d2" />
+                                         <field name="d3" />
+                                        <field name="d4"/>
+                                        <field name="d5" />
+                                        <field name ="d6" />
+                                        <field name="quantity" />
+                                        <field name="product_uom_id" />
+                                    </tree>
+                                </field>
+                            </page>
+
+                            <page string = "FLX"  name="flx_line" attrs="{'invisible': [('product_category_id', 'not in', ['FLX'])]}" >
+                                <group>
+                                    <group>
+                                         <field name="customer_ref" />
+                                         <field name="application" />
+                                         <field name="temp_pressure" />
+                                         <field name="stem_moc"/>
+                                         <field name="stem_dia"/>
+                                         <field name ="float_moc"/>
+                                         <field name="float_dia"/>
+                                         <field name="no_of_floats"/>
+                                         <field name="flange_dimension"/>
+                                         <field name="process_connection"/>
+                                         <field name="od"/>
+                                         <field name="pcd"/>
+                                         <field name="thickness"/>
+                                         <field name="hole_dia"/>
+                                         <field name="standard"/>
+                                         <field name="flange_moc"/>
+                                         <field name="size"/>
+                                         <field name="adaptor_moc"/>
+                                         <field name="adapter_standard"/>
+                                         <field name="connector_flx"/>
+                                    </group>
+                                    <group>
+                                         <field name="potting"/>
+                                         <field name="gaskets"/>
+                                         <field name="gasket_moc" />
+                                         <field name="flange_adapter"/>
+                                         <field name="satuatory"/>
+                                         <field name="other_info"/>
+                                         <field name="tag_no"/>
+                                         <field name="circuit"/>
+                                         <field name="output"/>
+                                         <!-- <field name="production_sl_no"/>
+                                         <field name="instrument_sl_no"/> -->
+                                         <field name="desired_delivery_date"/>
+                                         <field name="iwo_prepared_by"/>
+                                         <field name="processed_by"/>
+                                         <field name="packing_details"/>
+                                         <field name="invoice_no"/>
+                                         <field name="earlier_ref"/>
+                                         <field name="verified_by" />
+                                         <field name="drawing_no" />
+                                    </group>
+                                </group>
+                                 <separator string="Connection Details"/>
+                                 <field name="connection"/>
+                                 <field name="flx_line_id">
+                                    <tree string="flx" editable="bottom">
+                                        <field name="gsl"/>
+                                        <field name="mr"/>
+                                        <field name="quantity" />
+                                        <field name="product_uom_id" />
+                                    </tree>
+                                </field>
+                            </page>
+
+                            <page string = "SLI"  name="sli_line" attrs="{'invisible': [('product_category_id', 'not in', ['SLI'])]}" >
+                                <group>
+                                     <group>
+                                         <field name="customer_ref" />
+                                         <field name="application" />
+                                         <field name="temp_pressure" />
+                                         <field name ="float_moc"/>
+                                         <field name="float_dia"/>
+                                         <field name="flange_moc"/>
+                                         <field name="adaptor_moc"/>
+                                         <field name="flange_dimension"/>
+                                         <field name ="enclosure"/>
+                                         <field name="lead_cable"/>
+                                         <field name="satuatory"/>
+                                     </group>
+                                     <group>
+                                         <field name="gaskets"/>
+                                         <field name="gasket_moc"/>
+                                         <field name="connector"/>
+                                         <field name="other_info"/>
+                                         <field name="tag_no"/>
+                                         <!-- <field name="production_sl_no"/>
+                                         <field name="instrument_sl_no"/> -->
+                                         <field name="desired_delivery_date"/>
+                                         <field name="iwo_prepared_by"/>
+                                         <field name="processed_by"/>
+                                         <field name="packing_details"/>
+                                         <field name="invoice_no"/>
+                                         <field name="earlier_ref"/>
+                                         <field name="verified_by" />
+                                         <field name="drawing_no" />
+                                    </group>
+                                </group>
+                                 <separator string="Connection Details"/>
+                                 <field name="connection"/>
+                                 <field name="sli_line_id">
+                                    <tree string="sli" editable="bottom">
+                                        <field name="description"/>
+                                        <field name="quantity" />
+                                        <field name="product_uom_id" />
+                                    </tree>
+                                </field>
+                            </page>
+
+
+                            <page string = "HFS-MHFS"  name="hfs_line" attrs="{'invisible': [('product_category_id', 'not in', ['HFS','MHFS'])]}" >
+                                <group>
+                                     <group>
+                                         <field name="customer_ref" />
+                                         <field name="application" />
+                                         <field name="temp_pressure" />
+                                         <field name ="float_moc"/>
+                                         <field name="float_dia"/>
+                                         <field name="connection_type"/>
+                                         <field name ="flange_moc"/>
+                                         <field name="od"/>
+                                         <field name="pcd"/>
+                                         <field name="thickness"/>
+                                         <field name="hole_dia"/>
+                                         <field name="standard"/>
+                                         <field name="adapter_od"/>
+                                         <field name="adapter_standard"/>
+                                         <field name ="enclosure"/>
+                                         <field name="magnets" options="{'no_edit': True}" widget="many2many_tags"/>
+                                         <field name="micro_potting"/>
+                                     </group>
+                                     <group>
+                                         <field name="satuatory"/>
+                                         <field name="gaskets"/>
+                                         <field name="gasket_moc"/>
+                                         <field name ="flange_enclosure"/>
+                                         <field name="connector"/>
+                                         <field name="other_info"/>
+                                         <field name="tag_no"/>
+                                         <!-- <field name="production_sl_no"/>
+                                         <field name="instrument_sl_no"/> -->
+                                         <field name="desired_delivery_date"/>
+                                         <field name="iwo_prepared_by"/>
+                                         <field name="processed_by"/>
+                                         <field name="packing_details"/>
+                                         <field name="invoice_no"/>
+                                         <field name="earlier_ref"/>
+                                         <field name="verified_by" />
+                                         <field name="drawing_no" />
+                                    </group>
+                                </group>
+                                 <separator string="Connection Details"/>
+                                 <field name="connection"/>
+                                 <field name="hfs_line_id">
+                                    <tree string="hfs" editable="bottom">
+                                        <field name="description"/>
+                                        <field name="quantity" />
+                                        <field name="product_uom_id" />
+                                    </tree>
+                                </field>
+                            </page>
+
+                            <page string = "MLI"  name="mli_line" attrs="{'invisible': [('product_category_id', 'not in', ['MLI'])]}" >
+                                <group>
+                                     <group>
+                                         <field name="customer_ref" />                                        
+                                         <field name="application" />
+                                         <field name="temp_pressure" />
+                                         <field name="mount_type"/>
+                                         <field name="moc" />
+                                         <field name="chamber_design_top"/>
+                                         <field name="chamber_design_bottom"/>
+                                         <field name="process_connection"/>                                         
+                                         <field name="process_flange_details"/>
+                                         <field name="process_thread_details"/>
+                                         <field name="indication_type"/>
+                                         <field name ="float_dimension"/>
+                                         <field name="magnetic_switches"/>
+                                         <field name="level_transmitter"/>
+                                         <field name="isolation_valves"/>
+                                         <field name="enclosure_type"/>
+                                         <field name="gaskets"/>
+                                         <field name="gasket_moc"/>
+                                     </group>
+                                     <group>
+                                         <field name="vent"/>
+                                         <field name="vent_size"/>
+                                         <field name="fasteners"/>
+                                         <field name="fasteners_moc"/>                                         
+                                         <field name="drain"/>
+                                         <field name="drain_size"/>
+                                         <field name="special_features"/>
+                                         <field name="testing_options"  options="{'no_edit': True}" widget="many2many_tags"/>
+                                         <field name="approval_cert" options="{'no_edit': True}" widget="many2many_tags"/>
+                                        <!--  <field name="production_sl_no"/> -->
+                                         <field name="instrument_sl_no"/>
+                                         <field name="desired_delivery_date"/>
+                                         <field name="iwo_prepared_by"/>
+                                         <field name="processed_by"/>
+                                         <field name="packing_details"/>
+                                         <field name="invoice_no"/>
+                                         <field name="earlier_ref"/>
+                                         <field name="verified_by" />
+                                         <field name="drawing_no" />
+                                    </group>
+                                </group>
+                                 <separator string="Connection Details"/>
+                                 <field name="connection"/>
+                                 <field name="mli_line_id">
+                                    <tree string="mli" editable="bottom">
+                                        <field name="tag_no1"/>
+                                        <field name="ccdistance"/>
+                                        <field name="total_length"/>
+                                        <field name="quantity" />
+                                        <field name="product_uom_id" />
+                                    </tree>
+                                </field>
+                            </page>
+
+                            <page string = "EXCS"  name="excs_line" attrs="{'invisible': [('product_category_id', 'not in', ['EXCS'])]}" >
+                                <group>
+                                    <group>
+                                         <field name="customer_ref" />
+                                         <field name="application" />
+                                         <field name="temp_pressure" />
+                                         <field name="chamber_moc"/>
+                                         <field name="chamber_flange_type"/>
+                                         <field name="process_pipe_size"/>
+                                         <field name="process_connection"/>
+                                         <field name="process_flange_rating"/>
+                                         <field name="gaskets"/>
+                                         <field name="gasket_moc" />
+                                         <field name="isolation_valves"/>
+                                         <field name="drain"/>
+                                         <field name="drain_size"/>
+                                    </group>
+                                    <group>
+                                         <field name="vent"/>
+                                         <field name="vent_size"/>                                        
+                                         <field name="testing_options" options="{'no_edit': True}" widget="many2many_tags"/>
+                                         <field name="approval_cert" options="{'no_edit': True}" widget="many2many_tags"/>
+                                         <field name="other_spec"/>
+                                         <field name="special_features"/>
+                                         <!-- <field name="production_sl_no"/>
+                                         <field name="instrument_sl_no"/> -->
+                                         <field name="desired_delivery_date"/>
+                                         <field name="iwo_prepared_by"/>
+                                         <field name="processed_by"/>
+                                         <field name="packing_details"/>
+                                         <field name="invoice_no"/>
+                                         <field name="earlier_ref"/>
+                                         <field name="verified_by" />
+                                         <field name="drawing_no" />
+                                    </group>
+                                </group>
+                                 <separator string="Connection Details"/>
+                                 <field name="connection"/>
+
+
+                                <field name="excs_line_id">
+                                    <tree string="excs" editable="bottom">
+                                        <field name="tag_no1"/>
+                                        <field name="ccdistance"/>
+                                        <field name="total_length"/>
+                                        <field name="quantity" />
+                                        <field name="product_uom_id" />
+                                    </tree>
+                                </field>
+                            </page>
+                </xpath>
+            </field>
+        </record>
+
+
+
+         <record id="res_company_view_form_inherited_doc_" model="ir.ui.view">
+            <field name="name">res.company</field>
+            <field name="model">res.company</field>
+            <field name="inherit_id" ref="base.view_company_form"/>
+            <field name="priority">11</field>
+            <field name="arch" type="xml">
+                 <xpath expr="/form/sheet/notebook/page[1]" position="after">
+                    <page string="Doc Number Details">
+                        <group>
+                            <group>
+            		            <field name="doc_num_vfs"/>
+            		            <field name="doc_num_cls"/>
+            		            <field name="doc_num_flx"/>
+            		            <field name="doc_num_sli"/>
+            		            <field name="doc_num_hfs"/>
+            		            <field name="doc_num_mli"/>
+            		            <field name="doc_num_excs"/>
+                                <field name="doc_num_noncateg"/>
+                                <field name="doc_num_rigs"/>
+               		       </group>
+                        </group>
+                    </page>
+                </xpath>
+
+                 <xpath expr="/form/sheet/notebook/page[2]" position="after">
+                    <page string="ISO Doc Number Details">
+                        <group>
+                            <group>
+                                <field name="doc_num_qtn"/>
+                                <field name="doc_num_so"/>
+                                <field name="doc_num_po"/>
+                                <field name="doc_num_bom"/>
+                                <field name="doc_num_grir"/>
+                                <field name="doc_num_inv"/>
+                                <field name="doc_num_bill"/>
+                                <field name="doc_num_inspection"/>
+                                <field name="doc_num_production_plan"/>
+                                <field name="doc_num_cgr"/>
+                                <field name="doc_num_diaphragm"/>
+                                <field name="doc_num_fill"/>
+                           </group>
+            		</group>
+        	    </page>
+                </xpath>
+          </field>
+        </record>
+
+  </data>
+</odoo>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

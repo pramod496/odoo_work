@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="account_invoice_hsn_table" model="ir.ui.view">
+        <field name="name">account.move.form</field>
+        <field name="model">account.move</field>
+<!--        <field name="inherit_id" ref="sale_to_mrp.account_inherited_form_view"/>-->
+        <field name="inherit_id" ref="account.view_move_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header" position="inside">
+                <button name="compute_hsn" string="Compute HSN Table" type="object" class="btn-primary"/>
+<!--                        attrs="{'invisible': [('state', 'not in', 'draft')]}"/>-->
+<!--                <button name="compute_hsn" string="Compute HSN Table" type="object" class="btn-primary" attrs="{'invisible': [('state', 'not in', 'draft')]}"/>-->
+            </xpath>
+
+<!--            <xpath expr="//form/sheet/notebook/page[@name='invoice_line_ids']/group/field[@name='amount_total']" position="after">-->
+<!--            <xpath expr="//field[@name='invoice_line_ids']/group/field[@name='amount_total']" position="after">-->
+<!--            <xpath expr="//form/sheet/notebook/page[0]/group" position="inside">-->
+<!--            <xpath expr="//field[@name='partner_id']" position="after">-->
+<!--                <field name="executes_hsn_table" invisible="0"/>-->
+<!--            </xpath>-->
+            <xpath expr="//field[@name='tax_totals_json']" position="after">
+<!--            <xpath expr="//field[@name='comment_proforma']" position="after">-->
+<!--                <group>-->
+                <group class="oe_subtotal_footer oe_right">
+                    <field name="converted_inr"/>
+                </group>
+                <field name="hsn_line_ids" widget="section_and_note_one2many" attrs="{'readonly': [('state', 'not in', 'draft')]}">
+                    <tree string="HSN Table" create="0" editable="bottom" >
+                        <field name="invoice_id" invisible="1"/>
+                        <field name="hsn_code" readonly="1"/>
+                        <field name="taxable_value" readonly="1"/>
+                        <field name="cgst_rate" readonly="1"/>
+                        <field name="cgst_amt" readonly="1"/>
+                        <field name="sgst_rate" readonly="1"/>
+                        <field name="sgst_amt" readonly="1"/>
+                        <field name="igst_rate" readonly="1"/>
+                        <field name="igst_amt" readonly="1"/>
+<!--                        <field name="extra_charges" readonly="1"/>-->
+                        <field name="total_tax_amount" readonly="0"/>
+<!--                        <field name="total_tax_amount_rounded" readonly="0"/>-->
+                    </tree>
+                </field>
+<!--                </group>-->
+                <group class="oe_subtotal_footer oe_right">
+                    <field name="total_cgst_amount" attrs="{'readonly': [('state', 'not in', 'draft')]}" style="padding-right:10px;"/>
+                    <field name="total_sgst_amount" attrs="{'readonly': [('state', 'not in', 'draft')]}" style="padding-right:10px;"/>
+                    <field name="total_igst_amount" attrs="{'readonly': [('state', 'not in', 'draft')]}" style="padding-right:10px;"/>
+<!--                    <field name="total_extra_charges_amount_round" attrs="{'readonly': [('state', 'not in', 'draft')]}"/>-->
+<!--                    <field name="total_extra_charges_amount" invisible="1"/>-->
+                    <field name="tax_total" readonly="1" class="oe_subtotal_footer_separator"
+                       style="font-weight: normal;font-size: 1em;border-top:1px solid black;"/>
+<!--                    <field name="tax_total_rounded" readonly="1"/>-->
+                </group>
+            </xpath>
+<!--            <xpath expr="//notebook/page/group/field[@name='amount_untaxed']" position="after">-->
+<!--                <field name="amount_untaxed_rounded" class="oe_subtotal_footer_separator"-->
+<!--                       style="font-weight: normal;font-size: 1em;border-top:1px solid black;padding-right:25px;"/>-->
+<!--            </xpath>-->
+<!--            <xpath expr="//notebook/page/group/field[@name='amount_tax']" position="after">-->
+<!--                <field name="amount_tax_rounded" class="oe_subtotal_footer_separator"-->
+<!--                       style="font-weight: normal;font-size: 1em;border-top:1px solid black;padding-right:25px;"/>-->
+<!--            </xpath>-->
+<!--            <xpath expr="//notebook/page/group/field[@name='amount_tax']" position="replace">-->
+<!--                <field name="amount_tax" class="oe_subtotal_footer_separator"-->
+<!--                       style="font-weight: normal;font-size: 1em;border-top:1px solid black;"/>-->
+<!--            </xpath>-->
+<!--            <xpath expr="//field[@name='freight_amount']" position="attributes">-->
+<!--                <attribute name="style">padding-right:10px;</attribute>-->
+<!--            </xpath>-->
+<!--            <xpath expr="//field[@name='packing_amount']" position="attributes">-->
+<!--                <attribute name="style">padding-right:10px;</attribute>-->
+<!--            </xpath>-->
+<!--            <xpath expr="//field[@name='testing_amount']" position="attributes">-->
+<!--                <attribute name="style">padding-right:10px;</attribute>-->
+<!--            </xpath>-->
+<!--            <xpath expr="//field[@name='loading_amount']" position="attributes">-->
+<!--                <attribute name="style">padding-right:10px;</attribute>-->
+<!--            </xpath>-->
+        </field>
+    </record>
+
+<!--    <record model="ir.ui.view" id="invoice__extend_round_off_view1">-->
+<!--        <field name="name">invoice.line.extend_round_off</field>-->
+<!--        <field name="model">account.move</field>-->
+<!--        <field name="inherit_id" ref="account.view_move_form"/>-->
+<!--        <field name="arch" type="xml">-->
+
+<!--             <xpath expr="//field[@name='tax_totals_json']" position="after">-->
+<!--                 <field name="hsn_line_ids" widget="section_and_note_one2many" attrs="{'readonly': [('state', 'not in', 'draft')]}">-->
+<!--                    <tree string="HSN Table" create="0" editable="bottom" >-->
+<!--                        <field name="invoice_id" invisible="1"/>-->
+<!--                        <field name="hsn_code" readonly="1"/>-->
+<!--                        <field name="taxable_value" readonly="1"/>-->
+<!--                        <field name="cgst_rate" readonly="1"/>-->
+<!--                        <field name="cgst_amt" readonly="1"/>-->
+<!--                        <field name="sgst_rate" readonly="1"/>-->
+<!--                        <field name="sgst_amt" readonly="1"/>-->
+<!--                        <field name="igst_rate" readonly="1"/>-->
+<!--                        <field name="igst_amt" readonly="1"/>-->
+<!--&lt;!&ndash;                        <field name="extra_charges" readonly="1"/>&ndash;&gt;-->
+<!--                        <field name="total_tax_amount" readonly="0"/>-->
+<!--&lt;!&ndash;                        <field name="total_tax_amount_rounded" readonly="0"/>&ndash;&gt;-->
+<!--                    </tree>-->
+<!--                </field>-->
+<!--                <group class="oe_subtotal_footer oe_right">-->
+<!--                    <field name="total_cgst_amount" attrs="{'readonly': [('state', 'not in', 'draft')]}" style="padding-right:10px;"/>-->
+<!--                    <field name="total_sgst_amount" attrs="{'readonly': [('state', 'not in', 'draft')]}" style="padding-right:10px;"/>-->
+<!--                    <field name="total_igst_amount" attrs="{'readonly': [('state', 'not in', 'draft')]}" style="padding-right:10px;"/>-->
+<!--&lt;!&ndash;                    <field name="total_extra_charges_amount_round" attrs="{'readonly': [('state', 'not in', 'draft')]}"/>&ndash;&gt;-->
+<!--&lt;!&ndash;                    <field name="total_extra_charges_amount" invisible="1"/>&ndash;&gt;-->
+<!--                    <field name="tax_total" readonly="1" class="oe_subtotal_footer_separator"-->
+<!--                       style="font-weight: normal;font-size: 1em;border-top:1px solid black;"/>-->
+<!--&lt;!&ndash;                    <field name="tax_total_rounded" readonly="1"/>&ndash;&gt;-->
+<!--                </group>-->
+<!--            </xpath>-->
+<!--&lt;!&ndash;            <xpath expr="//notebook/page/group/field[@name='amount_untaxed']" position="after">&ndash;&gt;-->
+<!--&lt;!&ndash;                <field name="amount_untaxed_rounded" class="oe_subtotal_footer_separator"&ndash;&gt;-->
+<!--&lt;!&ndash;                       style="font-weight: normal;font-size: 1em;border-top:1px solid black;padding-right:25px;"/>&ndash;&gt;-->
+<!--&lt;!&ndash;            </xpath>&ndash;&gt;-->
+<!--&lt;!&ndash;            <xpath expr="//notebook/page/group/field[@name='amount_tax']" position="after">&ndash;&gt;-->
+<!--&lt;!&ndash;                <field name="amount_tax_rounded" class="oe_subtotal_footer_separator"&ndash;&gt;-->
+<!--&lt;!&ndash;                       style="font-weight: normal;font-size: 1em;border-top:1px solid black;padding-right:25px;"/>&ndash;&gt;-->
+<!--&lt;!&ndash;            </xpath>&ndash;&gt;-->
+<!--&lt;!&ndash;            <xpath expr="//notebook/page/group/field[@name='amount_tax']" position="replace">&ndash;&gt;-->
+<!--&lt;!&ndash;                <field name="amount_tax" class="oe_subtotal_footer_separator"&ndash;&gt;-->
+<!--&lt;!&ndash;                       style="font-weight: normal;font-size: 1em;border-top:1px solid black;"/>&ndash;&gt;-->
+<!--&lt;!&ndash;            </xpath>&ndash;&gt;-->
+<!--            <xpath expr="//field[@name='freight_amount']" position="attributes">-->
+<!--                <attribute name="style">padding-right:10px;</attribute>-->
+<!--            </xpath>-->
+<!--            <xpath expr="//field[@name='packing_amount']" position="attributes">-->
+<!--                <attribute name="style">padding-right:10px;</attribute>-->
+<!--            </xpath>-->
+<!--            <xpath expr="//field[@name='testing_amount']" position="attributes">-->
+<!--                <attribute name="style">padding-right:10px;</attribute>-->
+<!--            </xpath>-->
+<!--            <xpath expr="//field[@name='loading_amount']" position="attributes">-->
+<!--                <attribute name="style">padding-right:10px;</attribute>-->
+<!--            </xpath>-->
+
+
+
+<!--        </field>-->
+<!--    </record>-->
+    <record id="account_invoice_hsn_table1" model="ir.ui.view">
+        <field name="name">account.move.form1</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="sale_to_mrp.account_inherited_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header" position="inside">
+                <button name="compute_hsn" string="Compute HSN Table" type="object" class="btn-primary"/>
+            </xpath>
+
+        </field>
+    </record>
+
+</odoo>

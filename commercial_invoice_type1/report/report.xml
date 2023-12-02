@@ -1,0 +1,23 @@
+<odoo>
+    <data>
+    	<record id="paperformat_commercial_invoice_type1" model="report.paperformat">
+    		<field name="name">Custom</field>
+    		<field name="default" eval="True"/>
+    		<field name="format">custom</field>
+    		<field name="page_height">297</field>
+    		<field name="page_width">210</field>
+    		<field name="orientation">Portrait</field>
+            <field name="margin_top">30</field>
+    		<field name="margin_bottom">35</field>
+    		<field name="margin_left">9</field>
+    		<field name="margin_right">9</field>
+    	</record>
+        <report id="report_account_invoice"
+                string="Export Commercial Invoice"
+                model="account.move"
+                report_type="qweb-pdf"
+                file="commercial_invoice_type1.report_accountinvoice"
+                name="commercial_invoice_type1.report_accountinvoice"
+                paperformat="commercial_invoice_type1.paperformat_commercial_invoice_type1"/>
+    </data>
+</odoo>

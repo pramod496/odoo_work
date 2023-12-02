@@ -1,0 +1,140 @@
+<?xml version="1.0" ?>
+<odoo>
+
+    <!-- Mail template are declared in a NOUPDATE block
+         so users can freely customize/delete them -->
+    <data noupdate="0">
+        <!--Email template -->
+<!--        <record id="email_template_edi_invoice_pro" model="mail.template">-->
+<!--            <field name="name">PRO-FORMA: Send by email</field>-->
+<!--            <field name="model_id" ref="account.model_account_move"/>-->
+<!--            <field name="email_from">${object.user_id.email_formatted |safe}</field>-->
+<!--            <field name="partner_to">${object.partner_id.id}</field>-->
+<!--            <field name="subject">${object.company_id.name} Invoice (Ref ${object.seq_pro_forma or 'n/a'})</field>-->
+<!--            <field name="body_html" type="html">-->
+<!--<div style="margin: 0px; padding: 0px;">-->
+<!--    <p style="margin: 0px; padding: 0px; font-size: 13px;">-->
+<!--        Dear ${object.partner_id.name}-->
+<!--        % if object.partner_id.parent_id:-->
+<!--            (${object.partner_id.parent_id.name})-->
+<!--        % endif-->
+<!--        <br /><br />-->
+<!--        Here is your -->
+<!--        % if object.number:-->
+<!--            invoice <strong>${object.number}</strong>-->
+<!--        % else:-->
+<!--            invoice-->
+<!--        %endif-->
+<!--        % if object.origin:-->
+<!--            (with reference: ${object.origin})-->
+<!--        % endif-->
+<!--        amounting in <strong>${format_amount(object.amount_total, object.currency_id)}</strong>-->
+<!--        from ${object.company_id.name}.-->
+<!--        % if object.state=='paid':-->
+<!--            This invoice is already paid.-->
+<!--        % else:-->
+<!--            Please remit payment at your earliest convenience.-->
+<!--        % endif-->
+<!--        <br /><br />-->
+<!--        Do not hesitate to contact us if you have any question.-->
+<!--    </p>-->
+<!--</div>-->
+<!--            </field>-->
+<!--            <field name="report_template" ref="account.account_invoices"/>-->
+<!--            <field name="report_name">PRO-FORMA_${(object.number or '').replace('/','_')}${object.state == 'draft' and '_draft' or ''}</field>-->
+<!--            <field name="lang">${object.partner_id.lang}</field>-->
+<!--            <field name="user_signature" eval="False"/>-->
+<!--            <field name="auto_delete" eval="True"/>-->
+<!--        </record>-->
+
+        <record id="email_template_edi_quotation" model="mail.template">
+            <field name="name">ORDER ACKNOLEDGEMENT</field>
+            <field name="model_id" ref="sale.model_sale_order"/>
+<!--            <field name="email_from">${object.user_id.email_formatted |safe}</field>-->
+<!--            <field name="partner_to">${object.partner_id.id}</field>-->
+            <field name="subject">Order Acknoledgement</field>
+            <field name="body_html" type="html">
+                <div style="margin: 0px; padding: 0px;">
+                    <p style="margin: 0px; padding: 0px; font-size: 13px;">
+                        <t t-if="object.partner_id and object.kind_attn">
+                            <t t-out="object.kind_attn.name or ''"/>,<t t-out="object.partner_id.name or ''"/>
+
+                            ,
+                        </t>
+<!--                        % if object.partner_id and object.kind_attn:-->
+<!--                        Dear ${object.kind_attn.name},${object.partner_id.name}-->
+<!--                        % else:-->
+<!--                        Dear Sir/Madam,${object.partner_id.name}-->
+<!--                        % endif-->
+                        <br/>
+                        <br/>
+                        You have been provided with access to purchase order placed by your organisation to
+                         <t t-out="object.company_id.name or ''"/>
+<!--                        ${object.company_id.name}-->
+                        <br/>
+                        <br/>
+                        All Order related information shall be available live
+                        <br/>
+                        <br/>
+                        Do not hesitate to contact us if you have any question.
+                        <br/>
+                        <br/>
+                        Thank you,
+                        <br/>
+                        <t t-out="object.company_id.name or ''"/>
+<!--                        ${object.company_id.name}-->
+                        <br/>
+                        <t t-out="object.company_id.email or ''"/>
+<!--                        ${object.company_id.email}-->
+                        <br/>
+                        <t t-out="object.company_id.phone or ''"/>
+<!--                        ${object.company_id.phone}-->
+                    </p>
+                </div>
+            </field>
+<!--            <field name="report_template" ref="sale.action_report_saleorder"/>-->
+<!--            <field name="report_name">-->
+<!--                ${(object.name or '').replace('/','_')}${object.state == 'draft' and '_draft' or ''}-->
+<!--            </field>-->
+<!--            <field name="lang">${object.partner_id.lang}</field>-->
+<!--            <field name="user_signature" eval="False"/>-->
+<!--            <field name="auto_delete" eval="True"/>-->
+        </record>
+
+
+
+
+        <record id="email_template_purchase_approval" model="mail.template">
+            <field name="name">ORDER APPROVAL</field>
+            <field name="model_id" ref="purchase.model_purchase_order"/>
+            <field name="email_from">${object.user_id.email_formatted |safe}</field>
+            <field name="partner_to">${object.approval_user_id.partner_id.id}</field>
+            <field name="subject">Order Approval</field>
+            <field name="body_html" type="html">
+<div style="margin: 0px; padding: 0px;">
+    <p style="margin: 0px; padding: 0px; font-size: 13px;">
+        
+        Dear ${object.approval_user_id.name}
+        <br /><br />
+        You are assigned to approve a purchase order ${object.name}
+        <br /><br />
+        <br /><br />
+        <br /><br />
+        <br /><br />
+        Thank you,
+        <br />
+        ${object.company_id.name}
+        <br />
+        ${object.company_id.email}
+        <br />
+        ${object.company_id.phone}
+    </p>
+</div>
+            </field>
+            <field name="lang">${object.partner_id.lang}</field>
+            <field name="user_signature" eval="False"/>
+            <field name="auto_delete" eval="True"/>
+        </record>
+
+    </data>
+</odoo>

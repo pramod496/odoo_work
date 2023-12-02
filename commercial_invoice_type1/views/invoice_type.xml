@@ -1,0 +1,41 @@
+<odoo>
+    <data>
+
+    <!--Invoice Type -->
+
+    <record id="view_invoice_type_tree" model="ir.ui.view">
+        <field name="name">invoice.type.tree</field>
+        <field name="model">invoice.type</field>
+        <field name= "arch" type = "xml">
+            <tree string="Invoice Type">
+                <field name="invoice_type"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="view_invoice_type_form">
+        <field name="name">invoice.typeform</field>
+        <field name="model">invoice.type</field>
+        <field name="arch" type="xml">
+            <form string="Invoice Type">
+                <sheet>
+                    <group>
+                        <field name="invoice_type"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_invoice_type" model="ir.actions.act_window">
+        <field name="name">Invoice Type</field>
+        <field name="res_model">invoice.type</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="menu_invoice_type_view" name="Invoice Type" parent="account.menu_finance_receivables" action="action_invoice_type" sequence="111"/>
+
+
+    </data>
+</odoo>
+

@@ -1,0 +1,11 @@
+.o_mail_thread .o_thread_message .o_thread_icon.text-read{
+    color:green;
+}
+
+.o_mail_thread .o_thread_message .o_thread_message_core .o_thread_message_star{
+    padding: 4px;
+}
+
+.o_mail_thread .o_thread_message .o_thread_icon.fa-check{
+	opacity:0.6;
+}

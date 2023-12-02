@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="view_account_payment_form_view" model="ir.ui.view">
+            <field name="name">account.payment.form</field>
+            <field name="model">account.payment</field>
+            <field name="inherit_id" ref="account.view_account_payment_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//form/sheet/group/group[2]/field[@name='communication']" position="after">
+                    <field name="performa_id" domain="[('bool_sale_proforma','=',True)]"
+                    context="{'tree_view_ref':'sale_to_mrp.invoice_tree_performa',
+                    'search_view_ref':'sale_to_mrp.view_account_invoice_filter_proforma',
+                    'form_view_ref': 'sale_to_mrp.account_inherited_form_view'}" options="{'no_create': True,'no_open': True,'no_edit': True}"/>
+                </xpath>
+            </field>
+        </record>
+        <record id="view_picking_form_extnd" model="ir.ui.view">
+            <field name="name">stock.picking.form</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="stock.view_picking_form"/>
+            <field eval="12" name="priority"/>
+            <field name="arch" type="xml">
+               <field name="location_dest_id" position="replace">
+                    <field name="location_dest_id" groups="stock.group_stock_multi_locations"/>
+                </field>
+                <field name="location_dest_id" position="after">
+                    <field name="dc_type" attrs="{'invisible': [('picking_type_code', 'in', ('incoming','internal','mrp_operation'))]}"/>
+                </field>
+                <field name="origin" position="after">
+                    <field name="po_id" widget='many2many_tags' attrs="{'invisible': [('picking_type_code', 'in', ('outgoing','internal'))]}"/>
+                </field>
+                 <xpath expr="//form/sheet/notebook/page/field[@name='move_ids_without_package']/tree/field[@name='product_id']" position="after">
+                    <field name="po_ref" />
+                 </xpath>
+                 <xpath expr="//form/sheet/notebook/page/field[@name='move_ids_without_package']/tree/field[@name='product_uom_qty']" position="after">
+                    <field name="price_unit" />
+                    <field name="discount" invisible="1"/>
+                    <field name="taxes_id" widget='many2many_tags'/>
+                 </xpath>
+                 <xpath expr="//form/sheet/notebook/page/field[@name='move_ids_without_package']/tree/field[@name='product_uom']" position="after">
+                    <field name="price_subtotal" />
+                 </xpath>
+
+                 <xpath expr="//form/sheet/notebook/page/field[@name='move_ids_without_package']" position="after">
+                    <group class="oe_subtotal_footer oe_right">
+                        <field name="amount_untaxed" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                        <field name="amount_tax" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                        <div class="oe_subtotal_footer_separator oe_inline">
+                            <label for="amount_total"/>
+                        </div>
+                        <field name="amount_total" nolabel="1" class="oe_subtotal_footer_separator" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                    </group>
+                 </xpath>
+                 <xpath expr="//form/sheet/notebook/page/field[@name='move_ids_without_package']/tree/field[@name='quantity_done']" position="replace">
+                    <field name="quantity_done" readonly="0"/>
+                 </xpath>
+                <xpath expr="//notebook/page/field/tree/field[@name='product_uom']" position="after">
+		          <field name="rejected_qty"/>
+		  </xpath>
+            </field>
+        </record>
+
+
+        <record id="view_stock_move_line_operation_tree_inherit" model="ir.ui.view">
+            <field name="name">stock.move.line.operations.tree</field>
+            <field name="model">stock.move.line</field>
+            <field name="inherit_id" ref="stock.view_stock_move_line_operation_tree"/>
+            <field name="priority">1000</field>
+            <field name="arch" type="xml">
+                <field name="lot_id" position="replace">
+                    <field name="sale_id" invisible="1"/>
+                    <field name="lot_id" attrs="{'readonly': ['&amp;', ('package_level_id', '!=', False), ('parent.picking_type_entire_packs', '=', True)]}"  domain="[('product_id', '=', parent.product_id)]" groups="stock.group_production_lot" context="{'default_product_id': parent.product_id, 'active_picking_id': picking_id}"/>
+                </field>   
+            </field>
+        </record>
+    </data>
+</odoo>

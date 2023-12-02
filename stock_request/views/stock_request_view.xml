@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<data>
+		<record id="view_location_form_extnd" model="ir.ui.view">
+            <field name="name">stock.location.form.entented</field>
+            <field name="model">stock.location</field>
+            <field name="inherit_id" ref="stock.view_location_form"/>
+            <field name="arch" type="xml">
+                <field name="scrap_location" position="after">
+                    <field name="wip_location"/>
+                </field>
+            </field>
+        </record>
+
+
+          <record id="view_stock_picking_type_inherit_id" model="ir.ui.view">
+            <field name="name">stock.picking.type</field>
+            <field name="model">stock.picking.type</field>
+            <field name="inherit_id" ref="stock.view_picking_type_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='barcode']" position="after">
+                     <field name="stock_request"/>
+                </xpath>
+            </field>
+        </record>
+
+		<record id="view_stock_request_form" model="ir.ui.view">
+            <field name="name">stock.request.form</field>
+            <field name="model">stock.request</field>
+            <field name="arch" type="xml">
+                <form string="Stock Request" >
+
+						<header>
+
+						<!--<button name="mrp_stock_request_confirm" string="Confirm" states="draft" type="object"-->
+							<!--class="oe_highlight"/>-->
+
+						<!--<button name="action_assign" string="Approve" type="object"-->
+							<!--class="oe_highlight" groups="stock.group_stock_manager"-->
+								<!--attrs="{'invisible': [('state', '!=', 'waiting_issue')]}"/>-->
+
+
+							<field name="state" widget="statusbar"
+							statusbar_visible="waiting_issue,done"
+							statusbar_colors='{"reject":"red"}' />
+
+                                        <!--<field name="field_state"/>-->
+						</header>
+					<sheet>
+					<div class="oe_button_box" name="button_box">
+
+                        </div>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name" readonly="1"/>
+                            </h1>
+                        </div>
+                        <group>
+                           <group>
+
+                                <field name="company_id" readonly="0"/>
+							   <field name="requested_by" />
+                               <field name="origin" readonly="True"/>
+								<field name="iwo_ref" readonly="True"/>
+                                <!--<field name="bom_id"/>-->
+                            </group>
+                            <group>
+								<field name="request_date" readonly="0"/>
+                                <field name="issued_date" invisible="1" readonly="0"/>
+                                <button name="update_quantity_all" type='object' string="Issue All" class="btn-primary"/>
+                            </group>
+                        </group>
+
+
+
+                        <notebook>
+                            <page string="Products" name="stock_line">
+                                <field name="stock_line"  editable="top">
+
+
+                                    <tree string="Products" >
+                                        <field name="product_id" readonly="1" />
+										<field name="name" readonly="1"/>
+                                        <field name="qty_available" />
+                                        <field name="product_uom_qty" readonly="1"/>
+                            <field name="qty_issue" string="Issued Quantity"/>
+										<field name="pending_qty" readonly="0" />
+                                        <field name="product_uom" string="Unit" groups="product.group_uom"/>
+										<field name="location_id"/>
+										<field name ="location_dest_id" />
+                                        <!--<field name="stock_move_id"/>-->
+                                        <field name="state" string="Status"/>
+
+										<!--<field name="stock_id" />-->
+                                        <!--<field name="description" readonly="1"/>-->
+                                        <!--<field name="approve_need"/>-->
+                                        <!--<field name="state"/>-->
+                                        <!--<button name="boq_update" type="object" class="btn-primary" string="BOQ"/>-->
+                                    </tree>
+
+                                </field>
+
+                            </page>
+
+							<!--<page string="Other Info">-->
+								<!--<group>-->
+									<!--<group><field name="origin" readonly="True"/></group>-->
+                                    <!--<group><field name="iwo_ref" readonly="True"/></group>-->
+								<!--</group>-->
+							<!--</page>-->
+
+
+                        </notebook>
+                    </sheet>
+
+                </form>
+            </field>
+        </record>
+
+        <!-- BOM Line -->
+        <record id="stock_request_line_view_form" model="ir.ui.view">
+            <field name="name">stock.request.line.view.form</field>
+            <field name="model">stock.request.line</field>
+            <field name="arch" type="xml">
+                <form string="Bill of Material line">
+
+                    <header>
+                        <field name="state" widget="statusbar"
+							statusbar_visible="draft,partial,done"
+							statusbar_colors='{"reject":"red"}' />
+
+
+                    </header>
+                    <group>
+                        <group string="Product">
+                            <field name="product_id" readonly="1"/>
+                            <field name="qty_available" />
+                            <label for="product_uom_qty" string="Initial Demand"/>
+                            <div class="o_row">
+                                <field name="product_uom_qty" readonly="1"/>
+                                <field name="product_uom" options="{'no_open':True,'no_create':True}"
+                                       groups="uom.group_uom" readonly="1"/>
+                            </div>
+                            <label for="issued_qty" string="Issue Qty"/>
+                            <div class="o_row">
+
+                    <field name="issued_qty" string="Produced Quantity" readonly="0"/>
+                     <button name="update_quantity" type='object' string="Update" class="btn-primary"/>
+                            </div>
+                            <field name="pending_qty" string ="Pending Qty" readonly ="1"/>
+                            <field name="qty_issue" readonly="1" string="Issued Quantity"/>
+                        </group>
+                        <group >
+
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Issued Details">
+                            <field name="stock_update_line" editable="bottom">
+                                <tree editable="bottom">
+                                    <field name="date" required='1' string="Issued Date" />
+                                    <field name="quantity" required='1' string="Issued Quantity"  />
+                                    <field name="remarks" />
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </form>
+            </field>
+        </record>
+
+
+
+
+
+		 <!--Stock Request Tree View -->
+        <record id='view_stock_request_tree' model='ir.ui.view'>
+			<field name="name">stock.request.tree</field>
+			<field name="model">stock.request</field>
+			<field name="arch" type="xml">
+				<tree string="Stock Request">
+					<field name="name" />
+					<field name="request_date" />
+                    <field name="iwo_ref" />
+					<field name="state"  string="Status"/>
+				</tree>
+			</field>
+		</record>
+
+		<record id="view_stock_request_search" model="ir.ui.view">
+            <field name="name">stock.request.list.select</field>
+            <field name="model">stock.request</field>
+            <field name="arch" type="xml">
+                <search string="Search Projects">
+                    <field name="name" string="Name"/>
+                    <separator/>
+                    <field name="name"/>
+
+
+                </search>
+            </field>
+        </record>
+
+
+        <record model="ir.actions.act_window" id="menu_stock_request_action">
+            <field name="name">Stock Request</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">stock.request</field>
+<!--            <field name="view_type">form</field>-->
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="view_stock_request_search"/>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Click to start a new Projects process.
+                </p>
+                <p>
+                    A Projects is an instruction to requesting
+                    a certain quantity of materials , so that they are
+                    available at a certain point in time.
+                </p>
+            </field>
+        </record>
+
+        <!-- Stock Request Window Action -->
+		<!--<record id='menu_stock_request' model='ir.actions.act_window'>-->
+			<!--<field name="name">Stock Request</field>-->
+			<!--<field name="res_model">stock.request</field>-->
+			<!--<field name="view_type">form</field>-->
+			<!--<field name="view_mode">tree,form</field>-->
+			<!--&lt;!&ndash;<field name="domain">[('state', 'in', ('draft','waiting_approval','inprogress','move_created','done','reject'))]</field>&ndash;&gt;-->
+			<!--<field name="view_ids"-->
+                   <!--eval="[(5, 0, 0),-->
+                          <!--(0, 0, {'view_mode': 'tree', 'view_id': ref('view_stock_request_tree')}),-->
+                          <!--(0, 0, {'view_mode': 'form', 'view_id': ref('view_stock_request_form')})]"/>-->
+
+			<!--<field name="help" type="html">-->
+				<!--<p class="oe_view_nocontent_create">-->
+					<!--Click to create a new Stock Request.-->
+				<!--</p>-->
+			<!--</field>-->
+		<!--</record>-->
+
+        <!--<menuitem id="menu_stock_request_main" name="Stock Request"-->
+                <!--parent="mrp.menu_mrp_root" sequence="11"  groups="mrp.group_mrp_user"/>-->
+        <!--<menuitem action="menu_stock_request_action"-->
+                <!--id="menu_mrp_production_order_stock_request_action" name="Stock Request"-->
+                <!--parent="menu_stock_request_main" sequence="2"-->
+                  <!--groups="mrp.group_mrp_manager,mrp.group_mrp_user"/>-->
+    </data>
+</odoo>

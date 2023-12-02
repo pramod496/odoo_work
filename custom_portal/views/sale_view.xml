@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_order_tree_msg_view" model="ir.ui.view">
+            <field name="name">sale.order.tree</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale_to_mrp.view_order_tree_inherited"/>            
+            <field name="arch" type="xml">
+	            <field name="state" position="after">
+	                <field name="msg_count" options='{"bg_color": "#00cc5f: msg_count &gt; 0"}'/>
+	            </field>
+	            <xpath expr="//tree" position="attributes">
+       				<attribute name="decoration-info">msg_count &gt; 0</attribute>
+				</xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

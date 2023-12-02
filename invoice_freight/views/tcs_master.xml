@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem name="TCS Master"
+              parent="account_accountant.menu_accounting"
+              action="action_tcs"
+              id="menu_pos_copan_setting"/>
+    <!--    <data>-->
+    <record id="tcs_tcs_form" model="ir.ui.view">
+        <field name="name">tcs.tcs.form</field>
+        <field name="model">tcs.tcs</field>
+        <field name="arch" type="xml">
+            <form string="TCS">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_tcs_tree_view" model="ir.ui.view">
+        <field name="name">tcs.tree.view</field>
+        <field name="model">tcs.tcs</field>
+        <field name="arch" type="xml">
+            <tree string="TCS">
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_tcs" model="ir.actions.act_window">
+        <field name="name">TCS Master</field>
+        <field name="res_model">tcs.tcs</field>
+        <field name="view_mode">tree,form</field>
+        <field name="target">current</field>
+        <!--            &lt;!&ndash;        <field name="context">{'module' : 'account'}</field>&ndash;&gt;-->
+    </record>
+</odoo>

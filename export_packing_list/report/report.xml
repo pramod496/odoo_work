@@ -1,0 +1,28 @@
+<odoo>
+ <data>
+
+     <record id="paperformat_export_packing_list" model="report.paperformat">
+            <field name="name">US Letter</field>
+            <field name="default" eval="True" />
+            <field name="format">custom</field>
+            <field name="page_height">297</field>
+            <field name="page_width">210</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">15</field>
+            <field name="margin_bottom">20</field>
+            <field name="margin_left">10</field>
+            <field name="margin_right">10</field>
+            <field name="header_line" eval="False" />
+            <field name="header_spacing">0</field>
+            <field name="dpi">90</field>
+        </record>
+
+    <report id="report_export_packing_list"
+            string="Export Packing List"
+            model="stock.picking"
+            report_type="qweb-pdf"
+            file="export_packing_list.report_export_packing_list"
+            name="export_packing_list.report_export_packing_list"
+            paperformat="export_packing_list.paperformat_export_packing_list"/>
+</data>
+</odoo>

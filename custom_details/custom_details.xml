@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_res_partner_form_extnd" model="ir.ui.view">
+        <field name="name">res.partner.form.entented</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form/sheet/notebook/page/group/group/field[@name='ref']" position='after'>
+                <field name="vendor_code"/>
+                <field name="vendor_id"/>
+                <field name="product_details"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_crm_lead_form_extnd" model="ir.ui.view">
+        <field name="name">crm.lead.form.entented</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.crm_lead_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form/sheet/group/group/field[@name='mobile']" position='after'>
+                <field name="fax_number"/>
+<!--                <field name="lead_id" invisible="1"/>-->
+                <field name="depatmnt"/>
+                <field name="vendor_region"/>
+                <field name="save_date"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="quality_check_view_search_inherit" model="ir.ui.view">
+        <field name="name">quality.check.view.search</field>
+        <field name="model">quality.check</field>
+        <field name="type">search</field>
+        <field name="inherit_id" ref="quality_control.quality_check_view_search"/>
+        <field name="arch" type="xml">
+            <field name="team_id" position="before">
+                <field name="name" string="Name" filter_domain="['|',('name','ilike', self),('name','ilike', self)]"/>
+                <field name="point_id" string="QCP"
+                       filter_domain="['|',('point_id','ilike', self),('point_id','ilike', self)]"/>
+                <field name="product_id" string="Product"
+                       filter_domain="['|',('product_id','ilike', self),('product_id','ilike', self)]"/>
+            </field>
+        </field>
+    </record>
+
+<!--    <record id="mrp_bom_form_view_inherit_route" model="ir.ui.view">-->
+<!--        <field name="name">mrp.bom.form</field>-->
+<!--        <field name="model">mrp.bom</field>-->
+<!--        <field name="inherit_id" ref="mrp.mrp_bom_form_view"/>-->
+<!--        <field name="arch" type="xml">-->
+<!--            <xpath expr="//field[@name='routing_id']" position='attributes'>-->
+<!--                <attribute name="required">True</attribute>-->
+<!--            </xpath>-->
+<!--        </field>-->
+<!--    </record>-->
+
+    <record id="view_quotation_tree_with_onboarding_inherit_order" model="ir.ui.view">
+        <field name="name">sale.order.tree</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_quotation_tree_with_onboarding"/>
+        <field name="arch" type="xml">
+            <xpath expr="//tree" position="attributes">
+                <attribute name="default_order">create_date desc</attribute>
+            </xpath>
+        </field>
+    </record>
+
+
+    <record id="view_order_tree_inherit_order" model="ir.ui.view">
+        <field name="name">sale.order.tree</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//tree" position="attributes">
+                <attribute name="default_order">create_date desc</attribute>
+            </xpath>
+            <!--                <xpath expr="/tree/field[@name='state']" position="after">
+                                <field name="invoice_status"/>
+                            </xpath> -->
+        </field>
+    </record>
+
+    <record id="purchase_order_tree_inherit_order" model="ir.ui.view">
+        <field name="name">purchase.order.tree</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.purchase_order_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//tree" position="attributes">
+                <attribute name="default_order">create_date desc</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="invoice_tree_with_onboarding_inherit_order" model="ir.ui.view">
+        <field name="name">account.move.tree</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_invoice_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//tree" position="attributes">
+                <attribute name="default_order">number desc</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="invoice_supplier_tree_inherit_order" model="ir.ui.view">
+        <field name="name">account.move.tree</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_invoice_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//tree" position="attributes">
+                <attribute name="default_order">create_date desc</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="vpicktree_inherit_order" model="ir.ui.view">
+        <field name="name">stock.picking.tree</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.vpicktree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//tree" position="attributes">
+                <attribute name="default_order">create_date desc</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="mrp_production_tree_view_inherit_order" model="ir.ui.view">
+        <field name="name">mrp.production.tree</field>
+        <field name="model">mrp.production</field>
+        <field name="inherit_id" ref="mrp.mrp_production_tree_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//tree" position="attributes">
+                <attribute name="default_order">create_date desc</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="account_inherited_form_view_inherit_duedate" model="ir.ui.view">
+        <field name="name">account.move.form</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="sale_to_mrp.account_inherited_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='invoice_date_due']" position='replace'>
+                <field name="invoice_date_due" attrs="{'readonly': [('state_pro', '=', 'submit')]}"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="invoice_form_inherit_duedate" model="ir.ui.view">
+        <field name="name">account.move.form</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='invoice_date_due']" position='replace'>
+                <field name="invoice_date_due" attrs="{'readonly': [('state', 'in', ['open', 'in_payment', 'paid'])]}"/>
+            </xpath>
+        </field>
+    </record>
+
+
+</odoo>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="res_company_inherit_aws_credentials" model="ir.ui.view">
+        <field name="name">res.company.aws.credentials</field>
+        <field name="model">res.company</field>
+        <field name="inherit_id" ref="base.view_company_form" />
+        <field name="arch" type="xml">
+            <data>
+                <xpath expr="//notebook" position="inside">
+                    <page string="AWS S3 Configuration">
+                        <group>
+                            <field name="conf_file" readonly="1"/>
+                            <field name="region_name" readonly="1"/>
+                            <field name="aws_access_key_id" readonly="1"/>
+                            <field name="aws_secret_access_key" readonly="1"/>
+                            <field name="bucket_name" readonly="1"/>
+                            <field name="Object" readonly="1"/>
+                            <field name="date_interval" readonly="1"/>
+                        </group>
+                    </page>
+                </xpath>
+            </data>
+        </field>
+    </record>
+</odoo>

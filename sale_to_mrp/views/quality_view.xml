@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="quality_check_view_form_small_inherit" model="ir.ui.view">
+            <field name="name">quality.check.form</field>
+            <field name="model">quality.check</field>
+            <field name="inherit_id" ref="quality_control.quality_check_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='point_id']" position="after">
+                    <field name="check_deviation"/>
+                </xpath>
+            </field>
+        </record>
+
+
+           <record id="account_invoice_inherit" model="ir.ui.view">
+            <field name="name">account.move</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_move_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='name']" position="after">
+                    <field name="hsn_code"/>
+                </xpath>
+            </field>
+        </record>
+
+<!--         <record id="quality_check_view_tree_inherit" model="ir.ui.view">
+            <field name="name">quality.check.tree</field>
+            <field name="model">quality.check</field>
+            <field name="inherit_id" ref="quality_control.quality_check_view_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='product_id']" position="after">
+                    <field name="title"/>
+                </xpath>
+            </field>
+        </record>
+ -->
+        <record id="quality_check_view_form_inherit1" model="ir.ui.view">
+            <field name="name">quality.check.form1</field>
+            <field name="model">quality.check</field>
+            <field name="inherit_id" ref="quality_control.quality_check_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='point_id']" position="after">
+<!--                     <field name="picking_id_iwo" attrs="{'invisible': [('production_id', '=', False)]}"/>
+ -->                <field name="iwo_id" string="IWO Reference" attrs="{'invisible': [('production_id', '=', False)]}"/>
+                    <field name="title"/>
+                    <field name="production_id" invisible="1"/>
+                </xpath>
+                <field name="lot_id" position="after">
+                    <field name="inspected_qty"/>
+                    <field name="rejected_qty"/>
+                    <field name="rejected_qty_val" invisible="1" />
+                    <field name="mo_qty" attrs="{'invisible': [('production_id', '=', False)]}"/>
+                    <field name="grn_qty" attrs="{'invisible': [('picking_id', '=', False)]}"/>
+                </field>
+            </field>
+        </record>
+
+
+         <record id="quality_check_view_tree_inherit" model="ir.ui.view">
+            <field name="name">quality.check.view.tree</field>
+            <field name="model">quality.check</field>
+            <field name="inherit_id" ref="quality_control.quality_check_view_tree"/>
+            <field name="arch" type="xml">
+                <field name="lot_id" position="after">
+                    <field name="inspected_qty"/>
+                    <field name="rejected_qty"/>
+                    <field name="mo_qty"/>
+                    <field name="grn_qty"/>
+                </field>
+            </field>
+        </record>
+
+
+        <record id="mrp_workorder_view_form_tablet_inherit_quality_inherit" model="ir.ui.view">
+            <field name="name">mrp.workorder.view.form.inherit.quality.tablet</field>
+            <field name="model">mrp.workorder</field>
+            <field name="inherit_id" ref="mrp_workorder.mrp_workorder_view_form_tablet"/>
+            <field name="arch" type="xml">
+                <!--<xpath expr="//field[@name='worksheet_page']" position="after">-->
+                <!--<field name="measure_success" invisible="1"/>-->
+                <!--</xpath>-->
+                <!--<xpath expr="//button[@name='record_production']" position="before">-->
+                <!--<button name="do_fail" type="object" class="btn-danger" attrs="{'invisible': [('test_type', '!=', 'passfail')]}" barcode_trigger="fail" string="Fail"/>-->
+                <!--<button name="do_pass" type="object" class="btn-success" attrs="{'invisible': [('test_type', '!=', 'passfail')]}" barcode_trigger="pass" string="Pass"/>-->
+                <!--<button name="do_measure" type="object" class="btn-primary" string="Validate" attrs="{'invisible': [('test_type', '!=', 'measure')]}" barcode_trigger="next"/>-->
+                <!--</xpath>-->
+
+               <!--  <xpath expr="//button[@name='record_production']" position="replace">
+                    <button name="record_production_flow" type="object" string="RECORD PRODUCTION" class="btn-primary" attrs="{'invisible': ['|', '|', '|', ('is_produced', '=', True), ('working_state', '=', 'blocked'), ('state', '!=', 'progress'), ('is_user_working', '=', False)]}"/>
+                    <button name="record_production" type="object" string="Done" class="btn-success" attrs="{'invisible': ['|', '|', '|', ('is_produced', '=', True), ('working_state', '=', 'blocked'), ('state', '!=', 'progress'), ('is_user_working', '=', False)]}" invisible="1"/>
+                </xpath> -->
+                <xpath expr="//field[@name='note']" position="before">
+                    <h2><label for="measure" string="Accept with Deviation: "/>
+                    <field name="check_deviation" style="background-color: #FFFFFF;"/></h2>
+
+                </xpath>
+            </field>
+        </record>
+
+
+
+    <record id="product_template_form_view_inherit" model="ir.ui.view">
+        <field name="name">product.template.common.form</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='purchase_ok']" position="before">
+                <div>
+                    <field name="is_quality"/>
+                    <label for="is_quality" string="QC Required"/>
+                </div>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_category_property_form_extnd" model="ir.ui.view">
+        <field name="name">product.category.form</field>
+        <field name="model">product.category</field>
+        <field name="inherit_id" ref="account.view_category_property_form" />
+        <field name="arch" type="xml">
+            <xpath expr="/form/*" position="before">
+                <header>
+                   <button name="create_control_points" type="object" string="Create Control Points"/>
+                </header>
+            </xpath>
+            <group name="account_property" position="after">
+                <notebook>
+                    <page string="Hold Parameters" name="parameters_hold">
+                        <field name="parameter_ids">
+                            <tree editable="bottom">
+                                <field name="name"/>
+                            </tree>
+                        </field>
+                    </page>
+                </notebook>
+            </group>
+        </field>
+    </record>
+
+    </data>
+
+
+</odoo>

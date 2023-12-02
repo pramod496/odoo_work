@@ -1,0 +1,38 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_work_order_quotation_manager,work_order_quotation group_user,model_work_order_quotation,sales_team.group_sale_salesman,1,1,1,1
+access_work_order_quotation_line_manager,work_order_quotation_line group_user,model_work_order_quotation_line,sales_team.group_sale_salesman,1,1,1,1
+access_work_order_quotation_line_manager_mrp,work_order_quotation_line group_mrp_user,model_work_order_quotation_line,mrp.group_mrp_user,1,1,1,1
+access_work_order_quotation_user_mrp,work_order_quotation group_mrp_manager,model_work_order_quotation,mrp.group_mrp_manager,1,1,1,1
+access_work_order_quotation_line_manager_mrp_line,work_order_quotation_line group_mrp_user,model_work_order_quotation,mrp.group_mrp_user,1,1,1,1
+,,,,,,,
+access_work_order_quotation_user_mrp_line,work_order_quotation group_mrp_manager,model_work_order_quotation_line,mrp.group_mrp_manager,1,1,1,1
+access_bom_mrp_line_line,bom_line_id group_mrp_manager,mrp.model_mrp_bom_line,mrp.group_mrp_manager,1,1,1,1
+access_bom_mrp_line_manager,bom_line_id group_mrp_manager,mrp.model_mrp_bom_line,mrp.group_mrp_user,1,1,1,1
+access_bom_mrp_use,bom_line_id group_mrp_manager,mrp.model_mrp_bom,mrp.group_mrp_manager,1,1,1,1
+access_bom_mrp_manager,bom_line_id group_mrp_manager,mrp.model_mrp_bom,mrp.group_mrp_user,1,1,1,1
+access_quality_parameters,quality_parameters_group_user,model_quality_parameter,sales_team.group_sale_salesman,1,1,1,1
+access_account_invoice_use,account_invoice group_mrp_user,account.model_account_move,mrp.group_mrp_manager,1,1,1,1
+access_account_invoice_manager,account_invoice group_mrp_manager,account.model_account_move,mrp.group_mrp_user,1,1,1,1
+access_lot_allocation,lot_allocation_group_user,model_work_order_lot_productin_allotment,sales_team.group_sale_salesman,1,1,1,1
+,,,,,,,
+,,,,,,,
+access_purchase_order_use,purchase_order group_mrp_user,purchase.model_purchase_order,mrp.group_mrp_manager,1,1,1,1
+access_purchase_order_manager,purchase_order group_mrp_manager,purchase.model_purchase_order,mrp.group_mrp_user,1,1,1,1
+,,,,,,,
+,,,,,,,
+access_product_template_use,product_template group_mrp_user,product.model_product_template,mrp.group_mrp_manager,1,1,1,1
+access_product_template_manager,product_template group_mrp_manager,product.model_product_template,mrp.group_mrp_user,1,1,1,1
+,,,,,,,
+access_product_product_use,product_product group_mrp_user,product.model_product_product,mrp.group_mrp_manager,1,1,1,1
+access_product_product_manager,product_product group_mrp_manager,product.model_product_product,mrp.group_mrp_user,1,1,1,1
+,,,,,,,
+,,,,,,,
+access_mrp_bom_custom_use,mrp_bom_custom group_mrp_user,model_mrp_bom_custom,mrp.group_mrp_manager,1,1,1,1
+access_mrp_bom_custom_manager,mrp_bom_custom group_mrp_manager,model_mrp_bom_custom,mrp.group_mrp_user,1,1,1,1
+
+access_account_delivery_term_manager,account.delivery.term,model_account_delivery_term,account.group_account_manager,1,1,1,1
+access_account_delivery_term_partner_manager,account.delivery.term partner manager,model_account_delivery_term,base.group_user,1,0,0,0
+
+
+access_product_specification_line,product.specification.line access internal user,model_product_specification_line,base.group_user,1,0,0,0
+access_sale_order_import_wizard,sale.order.import.wizard access internal user,model_sale_order_import_wizard,base.group_user,1,0,0,0

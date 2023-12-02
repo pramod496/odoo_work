@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+    	 <record id="sale_inherited_form_field_view_1" model="ir.ui.view">
+            <field name="name">sale.order.inherit.form</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+            	 <xpath expr="//form/sheet/notebook/page/field/form/group/group/field[@name='product_id']" position="after">
+                    <field name="approve_num" string ='Drawing Number'/>
+                </xpath>
+                <xpath expr="//page[5]" position="attributes">
+                    <attribute name="string">Authorization Signature</attribute>
+                </xpath>
+            	 <xpath expr="//field[@name='order_line']/tree/field[@name='product_uom']" position="after">
+                    <field name="approve_num" string ='Drawing Number'/>
+                 </xpath>
+                <xpath expr="//page[@name='other_information']/group/group[@name='sale_shipping']" position="inside">
+
+                    <field name="enclosure"/>
+                    <field name="contact" widget="many2many_tags" string='Contact'/>
+                </xpath>
+                <xpath expr="//field[@name='sale_order_template_id']" position="after">
+                    <field name="ref" string='Reference'/>
+                    <field name="offer_desc" string="Offer Description"/>
+                    <field name="approve_num" string='Drawing Number'/>
+                    <field name="subject"/>
+                </xpath>
+
+                <xpath expr="//field[@name='terms_condition']" position="before">
+                    <field name="kind_attn"  widget="selection" domain="[('parent_id', '=', partner_id)]"/>
+                </xpath>                
+                
+             </field>
+         </record>
+<!--        <record id="sale_inherited_form_field_view_line" model="ir.ui.view">-->
+<!--            <field name="name">sale.order.line.inherit.form</field>-->
+<!--            <field name="model">sale.order.line</field>-->
+<!--            <field name="inherit_id" ref="sale.view_order_form"/>-->
+<!--            <field name="arch" type="xml">-->
+<!--                <xpath expr="//field[@name='commitment_date']" position="after">-->
+<!--                    <field name="enclosure"/>-->
+<!--                    <field name="contact" widget="many2many_tags" string='Contact'/>-->
+<!--                </xpath>-->
+<!--            </field>-->
+<!--         </record>-->
+
+        <!--<record id="res_inherited_form_field_view" model="ir.ui.view">-->
+            <!--<field name="name">res.partner.inherit.form</field>-->
+            <!--<field name="model">res.partner</field>-->
+            <!--<field name="inherit_id" ref="base.view_partner_form"/>-->
+            <!--<field name="arch" type="xml">-->
+            	 <!--<xpath expr="//form/sheet/group/group/field[@name='email']" position="after">-->
+                    <!--<field name="cin_num" string ='CIN No'/>-->
+
+                <!--</xpath>-->
+            	 <!--<xpath expr="//field[@name='order_line']/tree/field[@name='product_uom']" position="after">-->
+<!--<field name="approve_num" string ='Drawing Number'/>-->
+                 <!--</xpath>-->
+         <record id="res_partner_view_form_inherited" model="ir.ui.view">
+            <field name="name">res.partner</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+
+        <field name="priority">11</field>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='email']" position="after">
+                    <field name="cin_num" />
+                    <field name="ISO_Num" />
+                    <field name="pan"/>
+                    
+                </xpath>
+            </field>
+
+
+        </record>
+
+
+
+        <record id="view_production_lot_form_inherit" model="ir.ui.view">
+            <field name="name">stock.production.lot.form</field>
+            <field name="model">stock.production.lot</field>
+            <field name="inherit_id" ref="stock.view_production_lot_form"/>
+            <field name="arch" type="xml">
+
+                 <xpath expr="//form/sheet/group/group/field[@name='product_id']" position="after">
+                <field name="warranty_date"  />
+            </xpath>
+
+            </field>
+        </record>
+
+        <record id="view_production_lot_form_simple_inherit" model="ir.ui.view">
+            <field name="name">stock.production.lot.form.simple</field>
+            <field name="model">stock.production.lot</field>
+            <field name="inherit_id" ref="stock.view_production_lot_form"/>
+            <field name="priority">1</field>
+            <field name="arch" type="xml">
+
+                 <xpath expr="//field[@name='ref']" position="after">
+                <field name="warranty_date"  />
+            </xpath>
+
+            </field>
+        </record>
+        <record id="res_company_view_form_inherited" model="ir.ui.view">
+            <field name="name">res.company</field>
+            <field name="model">res.company</field>
+            <field name="inherit_id" ref="base.view_company_form"/>
+
+            <field name="priority">11</field>
+            <field name="arch" type="xml">
+                <xpath expr="//form/sheet/notebook/page/group/group[1]/div[@class='o_address_format']" position="after">
+                   <field name="logo2" widget="image" class="oe_avatar"/>
+                </xpath>
+                <xpath expr="//field[@name='logo2']" position="after">
+                   <label for="streets" string="Address2"/>
+                 <div class="o_address_format">
+                    <field name="streets" placeholder="Street..." class="o_address_street"/>
+                 <field name="streets2" placeholder="Street 2..." class="o_address_street"/>
+                     <field name="citys" placeholder="City" class="o_address_city"/>
+                    <field name="state_id" class="o_address_state" placeholder="State" />
+                 <field name="zips" placeholder="ZIP" class="o_address_zip"/>
+                 <field name="country_id" placeholder="Country" class="o_address_country"/>
+                 </div>
+                </xpath>
+
+                <xpath expr="/form/sheet/notebook/page[1]" position="after">
+                    <page string="Invoice Report Details">
+                        <group>
+                            <group>
+                                <field name="remarks" string="Remarks for quotation"/>
+                                <field name="quotation_doc"/>
+                                <field name="commer_decl"/>
+                                <field name="declaration"/>
+                                <field name="waranty_inc"/>
+                                <field name="lut_no"/>
+                                <field name="lut_date"/>
+                                <field name="receiver_email_id"/>
+                            </group>
+                        </group>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="account_invoice_inherited_form_view" model="ir.ui.view">
+            <field name="name">account.move.inherit.form</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="sale_to_mrp.account_inherited_form_view"/>
+            <field name="priority">11</field>
+            <field name="arch" type="xml">
+                 <xpath expr="/form/sheet/notebook/page[@name='other_info']/group/group/field[@name='account_id']" position="after">
+<!--                <xpath expr="//page[@name='other_info']/group/group/field[@name='account_id']"-->
+<!--                       position="after">-->
+                    <field name="despatched_through"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

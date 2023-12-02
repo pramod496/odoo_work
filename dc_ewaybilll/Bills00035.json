@@ -1,0 +1,59 @@
+
+{
+    "billLists": [
+        {
+            "actualFromStateCode": "29",
+            "actualToStateCode": false,
+            "cessValue": 0.0,
+            "cgstValue": 0.0,
+            "docDate": "30-04-2019",
+            "docNo": "WH/OUT/00035",
+            "docType": "INV",
+            "fromAddr1": "#B-54, KSSIDC  Industrial Estate",
+            "fromAddr2": " ",
+            "fromGstin": "29AAICS2464D1ZA",
+            "fromPinCode": "560074",
+            "fromPlace": "Bengaluru",
+            "fromStateCode": "29",
+            "fromTrdName": "SHRIDHAN AUTOMATION PVT. LTD.",
+            "igstValue": 0.0,
+            "itemList": [
+                {
+                    "cessRate": 0.0,
+                    "cgstRate": 0.0,
+                    "igstRate": 0.0,
+                    "itemNo": 1,
+                    "productDesc": "Aluminium Raw Flange",
+                    "productName": "Aluminium Raw Flange",
+                    "qtyUnit": " ",
+                    "quantity": 100.0,
+                    "sgstRate": 0.0,
+                    "taxableAmount": 0
+                }
+            ],
+            "sgstValue": 0.0,
+            "subSupplyType": 1,
+            "supplyType": "O",
+            "toAddr1": "B67 & 68, 3rd Stage, ",
+            "toAddr2": " ",
+            "toGstin": false,
+            "toPinCode": " 560058 \n",
+            "toPlace": "Bangalore",
+            "toStateCode": false,
+            "toTrdName": " Ceramed Engineers Limited",
+            "totInvValue": 0,
+            "totalValue": 0,
+            "transDistance": "3",
+            "transDocDate": "29/05/2019",
+            "transDocNo": " ",
+            "transMode": "1",
+            "transType": 1,
+            "transporterId": "1",
+            "transporterName": "test",
+            "userGSTIN": "29AAICS2464D1ZA",
+            "vehicleNo": "2",
+            "vehicleType": "truck"
+        }
+    ],
+    "version": "1.0.1118"
+}

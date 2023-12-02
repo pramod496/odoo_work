@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_status_sale_order1,status.sale.order1,model_status_sale_order1,sales_team.group_sale_salesman,1,1,1,1
+access_status_master,access_status_master,model_status_master,base.group_user,1,1,1,0

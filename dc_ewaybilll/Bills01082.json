@@ -1,0 +1,59 @@
+
+{
+    "billLists": [
+        {
+            "actualFromStateCode": "KA",
+            "actualToStateCode": "WB",
+            "cessValue": 0.0,
+            "cgstValue": 0.0,
+            "docDate": "17-06-2020",
+            "docNo": "WH/OUT/01082",
+            "docType": "INV",
+            "fromAddr1": "#B-54, KSSIDC  Industrial Estate",
+            "fromAddr2": " ",
+            "fromGstin": "29AAICS2464D1ZA",
+            "fromPinCode": "560074",
+            "fromPlace": "Bengaluru",
+            "fromStateCode": "KA",
+            "fromTrdName": "SHRIDHAN AUTOMATION PVT. LTD.",
+            "igstValue": 0.0,
+            "itemList": [
+                {
+                    "cessRate": 0.0,
+                    "cgstRate": 0.0,
+                    "igstRate": 0.0,
+                    "itemNo": 1,
+                    "productDesc": "Magnetic Float Level Transmitter",
+                    "productName": "Magnetic Float Level Transmitter",
+                    "qtyUnit": " ",
+                    "quantity": 1.0,
+                    "sgstRate": 0.0,
+                    "taxableAmount": 0
+                }
+            ],
+            "sgstValue": 0.0,
+            "subSupplyType": 1,
+            "supplyType": "O",
+            "toAddr1": "NH-6, Village : Jangalpur, P.O : Argori",
+            "toAddr2": " ",
+            "toGstin": "19AAACJ2054J1ZL",
+            "toPinCode": "711302",
+            "toPlace": "Howrah",
+            "toStateCode": "WB",
+            "toTrdName": "   Jindal India Ltd.",
+            "totInvValue": 0,
+            "totalValue": 0,
+            "transDistance": "Distance",
+            "transDocDate": "17/06/2020",
+            "transDocNo": " ",
+            "transMode": "Transport Mode",
+            "transType": 1,
+            "transporterId": "Transportation ID",
+            "transporterName": "Transporter Name",
+            "userGSTIN": "29AAICS2464D1ZA",
+            "vehicleNo": "Vehicle Number",
+            "vehicleType": "Vehicle Type"
+        }
+    ],
+    "version": "1.0.1118"
+}

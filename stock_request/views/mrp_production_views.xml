@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<data>
+		<record id='view_mrp_to_stock_request_form' model='ir.ui.view'>
+			<field name="name">stock.request.form</field>
+			<field name="model">stock.request</field>
+			<field name="arch" type="xml">
+				<form string="Stock Request" create="false" edit="false" delete="false">
+					<header>
+						<!--<button name="mrp_indent_confirm" string="Confirm" states="draft" type="object"-->
+							<!--class="oe_highlight" />-->
+						<field name="state" widget="statusbar"
+							statusbar_visible="waiting_issue,issue_approve,done"
+							statusbar_colors='{"reject":"red"}' />
+					</header>
+					<sheet>
+						<h1>
+							<field name="name" class="oe_inline" readonly="1"/>
+						</h1>
+						<group>
+							<group>
+
+                               <field name="company_id" groups="base.group_multi_company"/>
+								<field name="requested_by" />
+								<field name="origin" readonly="True"/>
+								<field name="iwo_ref" readonly="True"/>
+							</group>
+							<group>
+								<field name="request_date" readonly="0"/>
+                                <field name="issued_date" invisible="1" readonly="0"/>
+
+							</group>
+						</group>
+						<notebook>
+							<page string="Products">
+								<field name="stock_line">
+									<tree string="Products" colors="grey:state == 'cancel';green:state == 'done';red:(state not in ('cancel','done')) and date > current_date;black:(state not in ('cancel','done'))">
+                                        <field name="product_id"/>
+										<field name="name"/>
+										<field name="qty_available"/>
+										<field name="product_uom_qty" readonly="1"/>
+										<field name="qty_issue" />
+										<field name="pending_qty" />
+                                        <field name="product_uom" string="Unit" groups="product.group_uom"/>
+										<field name="location_id"/>
+										<field name ="location_dest_id" />
+										<field name="date" invisible="1"/>
+                                    </tree>
+								</field>
+
+							</page>
+							<!--<page string="Other Info">-->
+								<!--<group>-->
+									<!--<group><field name="origin" readonly="True"/></group>-->
+									<!--<group><field name="iwo_ref" readonly="True"/></group>-->
+								<!--</group>-->
+							<!--</page>-->
+						</notebook>
+					</sheet>
+				</form>
+			</field>
+		</record>
+
+		<record id='view_mrp_to_stock_request_tree' model='ir.ui.view'>
+			<field name="name">stock.request.tree</field>
+			<field name="model">stock.request</field>
+			<field name="arch" type="xml">
+				<tree string="Stock Request" create="false" edit="false" delete="false">
+<!--					colors="red:(state == 'waiting_approval') or (state == 'inprogress' );black:state=='draft';green:state=='inprogress';gray:state=='reject';">-->
+					<field name="name" />
+					<field name="request_date" />
+                    <field name="iwo_ref" />
+					<field name="state" string="Status"/>
+				</tree>
+			</field>
+		</record>
+
+		<record id="act_mrp_production_stock_request_view" model="ir.actions.act_window">
+            <field name="name">Stock Request Orders</field>
+            <field name="res_model">stock.request</field>
+<!--            <field name="view_type">form</field>-->
+            <field name="view_mode">tree,form</field>
+			<field name="view_ids"
+                   eval="[(5, 0, 0),
+                          (0, 0, {'view_mode': 'tree', 'view_id': ref('view_mrp_to_stock_request_tree')}),
+                          (0, 0, {'view_mode': 'form', 'view_id': ref('view_mrp_to_stock_request_form')})]"/>
+            <field name="domain">[('origin', '=', active_id)]</field>
+        </record>
+
+		<record id="mrp_production_stock_request_form_view" model="ir.ui.view">
+            <field name="name">mrp.production.form</field>
+            <field name="model">mrp.production</field>
+            <field name="inherit_id" ref="mrp.mrp_production_form_view"/>
+            <field name="arch" type="xml">
+<!-- 				<xpath expr="//button[@name='action_assign']" position="replace"> -->
+					<!--<button name="action_before_assign"-->
+                            <!--attrs="{'invisible': [('availability', 'in',  ('assigned', 'none'))]}"-->
+                            <!--string="Check availability" type="object" class="oe_highlight"/>-->
+					<!--<button name="mrp_stock_request_confirm"-->
+                            <!--attrs="{'invisible': [('indent_state', '!=', 'indent_created')]}"-->
+                            <!--string="Confirm the Indent" type="object" class="oe_highlight"/>-->
+<!-- 				</xpath> -->
+				<!--<xpath expr="//field[@name='availability']" position="after">-->
+					<!--<field name="indent_state" readonly="True"/>-->
+				<!--</xpath>-->
+<!--				<xpath expr="//button[@name='button_plan']" position="replace">-->
+<!--&lt;!&ndash;					<button name="dummy" type="object" string="Compelete Production" class="oe_highlight"/>&ndash;&gt;-->
+<!--&lt;!&ndash;					<button name="action_start_production" string="Start Production" type="object" class="oe_highlight"/>&ndash;&gt;-->
+<!--&lt;!&ndash;					<button name="button_plan" invisible="1" type="object" string="Compelete Production" class="oe_highlight"/>&ndash;&gt;-->
+<!--				</xpath>-->
+<!--				<xpath expr="//button[@name='action_assign']" position="before">-->
+<!--					<field name="production_status" invisible="1"/>-->
+<!--&lt;!&ndash;					<field name="availability" invisible="1"/>&ndash;&gt;-->
+<!--				</xpath>-->
+<!--				<xpath expr="//button[@name='action_assign']" position="after">-->
+<!--&lt;!&ndash;					<field name="routing_id" invisible="1"/>&ndash;&gt;-->
+<!--					<button name="open_produce_product"  string="Compelete Production" type="object"/>-->
+<!--				</xpath>-->
+<!--				<xpath expr="//button[@name='open_produce_product'][1]" position="replace">-->
+<!--					<button name="open_produce_product" attrs="{'invisible': ['|','|','|',('production_status','!=', True),('routing_id', '!=', False),('availability', 'not in', ['partially_available', 'assigned']),('check_to_done', '=', True)]}" string="Compelete Production" type="object" class="oe_highlight"/>-->
+<!--				</xpath>-->
+<!--				<xpath expr="//button[@name='open_produce_product'][2]" position="replace">-->
+<!--					<button name="open_produce_product"  attrs="{'invisible': ['|','|',('production_status','!=', True),('routing_id', '!=', False), ('availability', '!=', 'waiting')]}" string="Compelete Production" type="object"/>-->
+<!--				</xpath>-->
+				<xpath expr="//div[@name='button_box']" position="inside">
+
+					<button class="oe_inline oe_stat_button" type="action" name="%(act_mrp_production_stock_request_view)d" icon="fa-bars"
+							attrs="{'invisible':['|',('state','=','draft'),('stock_request_order_count','=',0)]}">
+
+						<field string="Stock Request" name="stock_request_order_count" widget="statinfo"/>
+					</button>
+				</xpath>
+
+
+				<!--<xpath expr="//div[@name='button_box']" position="inside">-->
+					<!--<button class="oe_inline oe_stat_button" type="action" name="%(act_mrp_production_stock_request_view)d"-->
+						<!--icon="fa-bars" attrs="{'invisible':['|',('state','=','draft'),('type_seq','=','subcontract')]}">-->
+						<!--<field string="Stock Request" name="stock_request_order_count"  widget="statinfo"/>-->
+					<!--</button>-->
+				<!--</xpath>-->
+			</field>
+		</record>
+    </data>
+</odoo>

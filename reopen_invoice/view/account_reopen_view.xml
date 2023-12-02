@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+        <record id="invoice_form_reopen_inherit" model="ir.ui.view">
+            <field name="name">invoice.form.reopen.inherit</field>
+            <field name="model">account.move</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="account.view_move_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="/form/sheet/notebook/page[2]" position="after">
+                    <page string="Eway-Bill Details">
+                        <group>
+                            <group>
+                        <!--         <field name= "vehicleNo" string="Vehicle Number"/> -->
+                                <field name="transMOde" string="Transport Mode"/>
+                                <field name="transporterName" string="Transporter Name"/>
+                                <field name="transDocDate" string="E-way Bill Date"/>
+                            </group>
+                            <group>
+                                <field name ="transDocNo" string="E-way Bill Number"/>
+                                <field name="transporterId" string="Transportation ID"/>
+                                <field name="transDistance" string="Distance"/>
+                            </group>
+                        </group>
+                    </page>
+                </xpath>
+                <xpath expr="/form/header/button[@name='action_invoice_sent']" position="after">
+                    <button name="action_reopen" type="object" states="open" string="Reset to Draft" groups="account.group_account_invoice,eon_invoice_reopen.display_reopen_invoice_button"/>
+                  <button name="jscall" type="object" string="E-Way bill" class="oe_highlight"/>
+                    <a href="https://ewaybill.nic.in/" target="blank">E-Way bill</a>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="invoice_supplier_reopen_form_inherit" model="ir.ui.view">
+            <field name="name">invoice.supplier.reopen.form.inherit</field>
+            <field name="model">account.move</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="account.view_move_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="/form/header/button[@name='action_invoice_sent']" position="after">
+                    <button name="action_reopen" type="object" states="open" string="Reset To Draft" icon="gtk-convert" groups="account.group_account_invoice,eon_invoice_reopen.display_reopen_invoice_button"/>
+                </xpath>
+            </field>
+        </record>
+	</data>
+</openerp>

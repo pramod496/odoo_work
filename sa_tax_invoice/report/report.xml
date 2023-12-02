@@ -1,0 +1,36 @@
+<odoo>
+ <data>
+
+     <record id="paperformat_tax_invoice_template_02" model="report.paperformat">
+            <field name="name">US Letter</field>
+            <field name="default" eval="True" />
+            <field name="format">custom</field>
+            <field name="page_height">297</field>
+            <field name="page_width">210</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">12</field>
+            <field name="margin_bottom">11</field>
+            <field name="margin_left">10</field>
+            <field name="margin_right">10</field>
+            <field name="header_line" eval="False" />
+            <field name="header_spacing">15</field>
+            <field name="dpi">90</field>
+        </record>
+
+    <report id="report_tax_invoice_menu"
+            string="Tax Invoice Report(sa)"
+            model="account.move"
+            report_type="qweb-pdf"
+            file="sa_tax_invoice.report_tax_invoice_template_02"
+            name="sa_tax_invoice.report_tax_invoice_template_02"
+            paperformat="sa_tax_invoice.paperformat_tax_invoice_template_02"/>
+
+     <report id="report_tax_einvoice_menu"
+            string="Tax E-Invoice Report(sa)"
+            model="account.move"
+            report_type="qweb-pdf"
+            file="sa_tax_invoice.report_tax_einvoice_template"
+            name="sa_tax_invoice.report_tax_einvoice_template"
+            paperformat="sa_tax_invoice.paperformat_tax_invoice_template_02"/>
+</data>
+</odoo>

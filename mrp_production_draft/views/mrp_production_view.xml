@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="mrp_production_form_view" model="ir.ui.view">
+            <field name="name">mrp.production.form</field>
+            <field name="model">mrp.production</field>
+            <field name="inherit_id" ref="mrp.mrp_production_form_view"/>
+            <field name="arch" type="xml">
+                <button name="button_mark_done" position="before">
+                    <button name="action_confirm" attrs="{'invisible': [('state', '!=', 'draft')]}" string="Confirm" type="object" class="oe_highlight"/>
+                </button>
+                <button name="%(mrp.action_change_production_qty)d" position="attributes">
+                    <attribute name="attrs">{'invisible': [('state','in',['draft','done'])]}</attribute>
+                </button>
+                <field name="state" position="attributes">
+                    <attribute name="statusbar_visible">draft,confirmed,progress,done</attribute>
+                </field>
+                <field name="product_uom_id" position="replace">
+                    <field name="product_uom_id" options="{'no_open':True,'no_create':True}" groups="uom.group_uom" attrs="{'readonly': [('has_moves', '=', True)],'required': [('product_id', '!=', False)]}"/>
+                </field>
+
+            </field>
+        </record>
+
+        <record id="view_mrp_production_filter_extend" model="ir.ui.view">
+            <field name="name">mrp.production.select</field>
+            <field name="model">mrp.production</field>
+            <field name="inherit_id" ref="mrp.view_mrp_production_filter"/>
+            <field name="arch" type="xml">
+                <xpath expr="//filter[@name='todo']" position="replace">
+                    <filter string="To Do" name="todo" domain="[('state','in',('draft','confirmed', 'planned','progress'))]"
+                        help="Manufacturing Orders which are in confirmed state."/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="view_mrp_production_tree_view_extend" model="ir.ui.view">
+            <field name="name">mrp.production.tree</field>
+            <field name="model">mrp.production</field>
+            <field name="inherit_id" ref="mrp.mrp_production_tree_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='name']" position="attributes">
+                     <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='origin']" position="replace">
+                     <field name="origin" string ='Source/IWO Reference'/>
+                </xpath>
+
+            </field>
+        </record>
+
+        <record id="mrp.mrp_production_action" model="ir.actions.act_window">
+            <field name="name">Manufacturing Orders</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">mrp.production</field>
+<!--            <field name="view_type">form</field>-->
+            <field name="view_mode">tree,kanban,form,calendar,pivot,graph</field>
+            <field name="view_id" eval="False"/>
+            <field name="search_view_id" ref="view_mrp_production_filter_extend"/>
+            <field name="context">{'search_default_todo': True}</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click to create a manufacturing order.
+              </p><p>
+                A manufacturing order, based on a bill of materials, will
+                consume raw materials and produce finished products.
+              </p><p>
+                Manufacturing orders are usually proposed automatically based
+                on customer requirements or automated rules like the minimum
+                stock rule.
+              </p>
+            </field>
+        </record>
+
+          <record id="view_stock_picking_type_inherites" model="ir.ui.view">
+            <field name="name">stock.picking.type</field>
+            <field name="model">stock.picking.type</field>
+            <field name="inherit_id" ref="stock.view_picking_type_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='barcode']" position="after">
+                   <field name="subcontract"/>
+                    <field name="shoop_floor"/>
+                     <field name="mrp_confirm"/>
+                </xpath>
+            </field>
+        </record>
+
+          <record id="view_stocklocation_inherites" model="ir.ui.view">
+            <field name="name">stock.location</field>
+            <field name="model">stock.location</field>
+            <field name="inherit_id" ref="stock.view_location_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='return_location']" position="after">
+                    <field name="shoop_floor"/>
+                    <field name="finished_product"/>
+                    <field name="logistics"/>
+                </xpath>
+            </field>
+        </record>
+        <record id="vpicktree_inherited" model="ir.ui.view">
+            <field name="name">stock.picking.tree</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="stock.vpicktree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//tree" position="replace">
+                    <tree decoration-info="state == 'draft'" decoration-muted="state == 'cancel'" decoration-danger="state not in ('cancel', 'done', 'assigned') and scheduled_date &lt; current_date" decoration-success="state == 'assigned'" string="Picking list">
+                        <field name="name"/>
+                        <field name="location_dest_id" groups="stock.group_stock_multi_locations"/>
+                        <field name="partner_id"/>
+                        <field name="date" invisible="1"/>
+                        <field name="scheduled_date"/>
+                        <field name="origin"/>
+                        <field name="group_id" invisible="1"/>
+                        <field name="backorder_id"/>
+                        <field name="state"/>
+                        <field name="priority" invisible="1"/>
+                        <field name="picking_type_id" invisible="1"/>
+                    </tree>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

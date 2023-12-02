@@ -1,0 +1,37 @@
+.o_main_navbar{
+	background-color: #446cb3;
+	border-bottom:1px solid #446cb3;
+}
+.o_main_navbar > a:hover, .o_main_navbar > a:focus, .o_main_navbar > button:hover, .o_main_navbar > button:focus{
+	background-color: #4b77be;
+}
+.o_main_navbar > ul > li > a:hover, .o_main_navbar > ul > li > label:hover{
+	background-color: #4b77be;
+}
+.o_main_navbar .show .dropdown-toggle{
+	background-color: #4b77be;
+}
+.o_loading{
+	background-color: #446cb3;
+}
+.o_home_menu_background{
+	background: linear-gradient(to right bottom, #4b77be, #3a539b)
+}
+.o_searchview .o_searchview_facet .o_searchview_facet_label{
+	background-color: #446cb3;
+}
+.o_calendar_container .o_calendar_sidebar_container .ui-datepicker table .ui-state-active{
+    background-color: #4b77be;
+}
+.o_calendar_container .o_calendar_sidebar_container .ui-datepicker table .ui-state-default:hover{
+	background: none;
+    background-color: rgb(58, 83, 155, 0.5);
+    border-color: #4b77be;
+    color: white;
+}
+.o_calendar_container .o_calendar_sidebar_container .ui-datepicker table .ui-state-default{
+	color: #4b77be;
+}
+.o_calendar_container .o_calendar_sidebar_container .ui-datepicker table .ui-state-active{
+	color: white;
+}

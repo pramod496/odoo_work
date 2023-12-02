@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+<!--    <record id="grn_screen_report_wizard_form" model="ir.ui.view">-->
+<!--        <field name="name">grn.screen.report.wizard</field>-->
+<!--        <field name="model">grn.screen.report.wizard</field>-->
+<!--        <field name="arch" type="xml">-->
+<!--            <form string="GRN Report">-->
+<!--                <group>-->
+<!--                    <field name="scheduled_date" />-->
+<!--                </group>-->
+<!--            </form>-->
+<!--        </field>-->
+<!--    </record>-->
+
+<!--    <record id="grn_screen_report_wizard" model="ir.actions.act_window">-->
+<!--        <field name="name">GRN Report</field>-->
+<!--        <field name="type">ir.actions.act_window</field>-->
+<!--        <field name="res_model">grn.screen.report.wizard</field>-->
+<!--        <field name="view_mode">form</field>-->
+<!--        <field name="view_id" ref="grn_screen_report_wizard_form"/>-->
+<!--        <field name="target">new</field>-->
+<!--    </record>-->
+</odoo>

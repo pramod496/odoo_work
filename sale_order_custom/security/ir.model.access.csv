@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_sale_order_line_materials_users,sale.order.line.materials.user,model_sale_order_line_materials,sales_team.group_sale_salesman,1,1,1,1
+
+access_sale_order_line_materials_managers,sale.order.line.materials.manager,model_sale_order_line_materials,sales_team.group_sale_manager,1,1,1,1
+access_sale_order_schedule,sale.order.line.schedule,model_sale_order_line_schedule,sales_team.group_sale_salesman,1,1,1,1

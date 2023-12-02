@@ -1,0 +1,346 @@
+<odoo>
+
+    <template id="report_grir_report_template">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="grir_report.grir_report_document" t-lang="doc.name"/>
+            </t>
+        </t>
+    </template>
+
+    <template id="grir_report_document">
+        <t t-set="o" t-value="doc.with_context({'lang':doc.partner_id.lang})" />
+
+        <t>
+            <div class="page">
+                <style>
+                        .table, tr,td{
+                        padding:2px;
+                        font-size:14px;
+                        empty-cells: show;
+                        }
+
+                        table, th, td {
+                        border: 1px solid black;
+                        border-collapse: collapse;
+                        }
+
+                        th, td {
+                        padding: 1px;
+                        }
+
+                </style>
+
+<!--                 <t t-if="doc.company_id.doc_num_grir">
+                    <b><div style="font-size:14px;text-align:right">Doc No: 
+                        <span t-field="doc.company_id.doc_num_grir"/>
+                    </div></b>
+                </t>
+ -->
+                <div class="oe_structure"/>
+                    <div class="row">
+                        <div class="col-12">
+                            <table cellpadding="0" cellspacing="0" width="100%">
+                                <tr>
+                                    <td style="padding-left:5px;padding-top:20px;">
+                                        <h2 style="padding-left: 5px;">
+                                            <t t-if="o.company_id.name">
+                                                <b style="font-size:20px" class="text-uppercase">
+                                                    <t t-esc="o.company_id.name"/>
+                                                    <t t-esc="o.company_id.city" />
+                                                </b>
+                                            </t>
+                                        </h2>
+                                    </td>
+	                                <td  width="30%" style="border-left:hidden;">
+	                                    <img t-if="doc.company_id.logo" t-att-src="image_data_uri(doc.company_id.logo)" style="max-height: 60px;" alt="Logo"/>
+	                                </td>
+                                </tr>
+                            </table>
+
+                            <table  cellpadding="0" cellspacing="0" width="100%">
+                                <tr>
+                                    <td width="100%" style="padding:10px;margin: 10px;border-top:hidden;border-bottom:hidden;">
+                                        <span style="padding-left:260px;font-size:18px"><b>Goods Receipt &amp; Inspection Report</b></span>
+                                        <span style="padding-left:215px;"> <t t-esc="o.company_id.doc_num_grn"/></span>
+                                    </td>
+                                </tr>
+                            </table>
+
+                            <table cellpadding="0" cellspacing="0" width="100%">
+                                <tr>
+                                    <td rowspan="6" width="50%"  valign="top" style="border-bottom:hidden;padding-left:5px;">
+                                        <span>Supplier</span>
+                                        <br/>
+                                        <b>
+                                            <t t-esc="o.partner_id.name"/>
+                                        </b>
+                                        <br/>
+                                            <t t-esc="o.partner_id.street"/>
+                                        <br/>
+                                            <t t-esc="o.partner_id.street2"/>
+                                        <br/>
+                                            <t t-esc="o.partner_id.city"/> -
+                                            <t t-esc="o.partner_id.zip"/>
+                                        <br/>
+                                        Contact:                                        
+                                        <t t-if="o.kind_attn"> 
+                                        <t t-if="o.kind_attn.title"><t t-esc="o.kind_attn.title.name"/> </t>
+                                        <t t-esc="o.kind_attn.name"/></t>
+                                        <br/>
+                                        Phone:
+                                        <t t-esc="o.partner_id.phone"/>
+                                        <br/>
+                                        Vendor Code:
+                                        <t t-esc="o.partner_id.vendor_code"/>
+                                        <br/>
+                                        GSTIN/UIN :
+                                        <t t-esc="o.partner_id.vat"/>
+                                        <br/>
+                                        State Name:
+                                        <t t-esc="o.partner_id.state_id.name"/> ,
+                                        Code:
+                                        <t t-esc="doc.partner_id.state_id.code"/>
+                                    </td>
+
+                                    <td rowspan="2" width="25" style="text-align:center;">
+                                       <span>GRIR No. </span>
+                                    </td>
+
+                                    <td rowspan="2" width="50" style="text-align:center;">
+                                       <t t-esc="doc.name"/>
+                                    </td>
+
+                                    <td height="25" width="12.5%" style="text-align:center;">
+                                       <span>Schedule Date</span>
+                                    </td>
+
+                                    <td height="25" width="12.5%" style="text-align:center;">
+                                       <span t-field="doc.scheduled_date" t-options='{"format": "dd-MM-y"}'/>
+                                    </td>
+
+                                </tr>
+
+                                <tr>
+                                    <td height="25" width="12.5%" style="text-align:center;">
+                                       <span>Effective Date</span>
+                                    </td>
+
+                                    <td height="25" width="12.5%" style="text-align:center;">
+                                       <span t-field="doc.date_done" t-options='{"format": "dd-MM-y"}'/>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td height="50" width="12.5%" style="text-align:center;">
+                                       <span>Supplier Test Certificate</span>
+                                    </td>
+
+                                    <td height="50" width="12.5%" style="text-align:center;">
+                                        <t t-esc="doc.suppliers_test_certificate"/>
+                                    </td>
+
+                                    <td height="50" width="12.5%" style="text-align:center;">
+                                       <span>Supplier Test certificate Date</span>
+                                    </td>
+
+                                    <td height="50" width="12.5%" style="text-align:center;">
+                                       <span t-field="doc.suppliers_test_certificate_date" t-options='{"format": "dd-MM-y"}'/>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                   <td height="50" width="12.5%" style="text-align:center;">
+                                        <span>Inspection Report No.</span>
+                                    </td>
+
+                                    <td height="50" width="12.5%" style="text-align:center;">
+                                       <t t-esc="doc.test_certificate"/>
+                                    </td>
+
+                                    <td height="50" width="12.5%" style="text-align:center;">
+                                       <span>Inspection Report Date</span>
+                                    </td>
+
+                                    <td height="50" width="12.5%" style="text-align:center;">
+                                       <span t-field="doc.test_certificate_date" t-options='{"format": "dd-MM-y"}'/>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                   <td height="50" width="12.5%" style="text-align:center;">
+                                       <span>Supplier Invoice No.</span>
+                                    </td>
+
+                                    <td height="50" width="12.5%" style="text-align:center;">
+                                       <t t-esc="doc.inv_no"/>
+                                    </td>
+
+                                    <td height="50" width="12.5%" style="text-align:center;">
+                                        <span>Invoice Date</span>
+                                    </td>
+
+                                    <td height="50" width="12.5%" style="text-align:center;">
+                                       <span t-field="doc.suppliers_invoice_date" t-options='{"format": "dd-MM-y"}'/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td height="50" width="12.5%" style="text-align:center;border-bottom:hidden;">
+                                        <span>PO No.</span>
+                                    </td>
+
+                                    <td height="50" width="12.5%" style="text-align:center;border-bottom:hidden;">
+                                        <t t-foreach="doc.po_id" t-as="po">
+                                            <t t-esc="po.name"/>,
+                                        </t>
+                                    </td>
+
+                                    <td height="50" width="12.5%" style="text-align:center;border-bottom:hidden;">
+                                       <span>PO Date</span>
+                                    </td>
+
+                                    <td height="50" width="12.5%" style="text-align:center;border-bottom:hidden;">
+                                        <t t-foreach="doc.po_id" t-as="po">
+                                            <span t-field="po.date_order" t-options='{"format": "dd-MM-y"}'/>,
+                                        </t>
+                                    </td>
+
+                                </tr>
+                            </table>
+
+                            <table>
+                                <tr>
+                                    <td style="font-weight:bold;text-align:center;">
+                                        SI. No.
+                                    </td>
+                                    <td style="font-weight:bold;text-align:center;">
+                                        Material Description
+                                    </td>
+                                    <td style="font-weight:bold;text-align:center;">
+                                        UOM
+                                    </td>
+                                    <td style="font-weight:bold;text-align:center;">
+                                        Quanity Ordered
+                                    </td>
+                                    <td style="font-weight:bold;text-align:center;">
+                                        Quantity Received
+                                    </td>
+                                    <td style="font-weight:bold;text-align:center;">
+                                        Inspection Parameter
+                                    </td>
+                                    <td style="font-weight:bold;text-align:center;">
+                                        Specification
+                                    </td>
+                                    <td style="font-weight:bold;text-align:center;">
+                                        Observation
+                                    </td>
+                                    <td style="font-weight:bold;text-align:center;"> 
+                                        Quantity Inspected*
+                                    </td>
+                                    <td style="font-weight:bold;text-align:center;">
+                                        Quantity Accepted
+                                    </td>
+                                    <td style="font-weight:bold;text-align:center;">
+                                        Quantity Accepted Under Deviation
+                                    </td>
+                                    <td style="font-weight:bold;text-align:center;">
+                                        Quantity Rejected
+                                    </td>
+                                </tr>
+
+                                <tr t-foreach="move_ids" t-as="l">
+
+                                    <td>
+                                        <t t-esc="l['sl_no']"/>
+                                    </td>
+
+                                    <td  style="text-align:left;">
+                                        <t t-esc="l['product_id']"/>
+                                    </td>
+
+                                    <td  style="text-align:center;">
+                                        <t t-esc="l['uom']"/>
+                                    </td>
+
+                                    <td  style="text-align:center;">
+                                        <t t-esc="l['po_quantity']"/>
+                                    </td>
+
+                                    <td  style="text-align:center;">
+                                        <t t-esc="l['qty_done']"/>
+                                    </td>
+
+                                    <td  style="text-align:left;">
+                                        <t t-esc="l['inspection']"/>
+                                    </td>
+
+                                    <td style="text-align:center;">
+                                        <t t-esc="l['specification']"/>
+                                    </td>
+
+                                    <td style="text-align:center;">
+                                        <t t-esc="l['observation']"/>
+                                    </td>
+
+                                    <td style="text-align:center;">
+                                        <t t-esc="l['qty_inspected']"/>
+                                    </td>
+
+                                    <td style="text-align:center;">
+                                        <t t-esc="l['qty_accepted']"/>
+                                    </td>
+
+                                    <td style="text-align:center;">
+                                        <t t-esc="l['qty_accepted_dev']" />
+                                    </td>
+
+                                    <td style="text-align:center;">
+                                        <t t-esc="l['qty_rejected']" />
+                                    </td>
+
+                                </tr>
+
+                                <tr>
+                                    <td valign="top" height="60" colspan="13"> Details of Rejection (in words) :
+                                        <t t-esc="doc.details_of_rejection" />
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td valign="top" height="60" colspan="13"> Remarks (if any) :
+                                        <t t-esc="doc.remarks" />
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td height="20" colspan="7"> Inspected By :
+                                        <t>
+	                                        <span t-esc="user_id"/>
+	                         			</t>
+                                        <br/>
+                                        <t t-if="doc.company_id.doc_num_grir">
+                                            <p style="font-size:14px;text-align:left">Doc No: 
+                                                <span t-field="doc.company_id.doc_num_grir"/>
+                                            </p>
+                                        </t>
+                                    </td>
+
+                                    <td height="30" style="border-left: 1px solid white;" valign="top" 
+                                        colspan="6">Approved By :
+                                        <t>
+                                            <span t-esc="doc.approved_by.name"/>
+                                        </t>
+                                    </td>
+                                </tr>
+
+                       </table>
+                   </div>
+               </div>
+
+           </div>
+         </t>
+
+    </template>
+
+</odoo>
+

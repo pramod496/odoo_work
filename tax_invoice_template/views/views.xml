@@ -1,0 +1,85 @@
+<odoo>
+    <data>
+		<record id="stock_pick_inherit" model="ir.ui.view">
+            <field name="name">stock.picking.form</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="stock.view_picking_form"/>
+            <field name="arch" type="xml">
+	            <xpath expr="//page/group/group/field[@name='move_type']" position="after">
+		          	<field name="despatched_through"/>
+		          	<field name="despatch_document_no"/>
+		          	<field name="delivery_note"/>
+		          	<field name="delivery_note_date"/>
+		          	<field name="delivery_terms"/>
+		  		</xpath>
+	           	<xpath expr="//field[@name='origin']" position="after">
+		        	<field name="no_of_packages"/>
+		  		</xpath>
+    	    </field>
+		</record>
+
+		<record id="bank_acc_inherit" model="ir.ui.view">
+            <field name="name">res.partner.bank.form</field>
+            <field name="model">res.partner.bank</field>
+            <field name="inherit_id" ref="base.view_partner_bank_form"/>
+            <field name="arch" type="xml">
+	            <xpath expr="//field[@name='acc_holder_name']" position="after">
+		            <field name="branch_ifsc"/>
+		            <field name="ifsc_code"/>
+		            <field name="bank_cif"/>
+		  		</xpath>
+    	    </field>
+		</record>
+
+		<record id="res_company_inherit" model="ir.ui.view">
+            <field name="name">res.company.form</field>
+            <field name="model">res.company</field>
+            <field name="inherit_id" ref="base.view_company_form"/>
+            <field name="arch" type="xml">
+	            <xpath expr="//field[@name='phone']" position="after">
+		          	<field name="mobile"/>
+		        </xpath>
+	            <xpath expr="//field[@name='currency_id']" position="after">
+		          	<field name="cin"/>
+		          	<field name="service_tax_no"/>
+		          	<field name="pan_no"/>
+		          	<field name="remarks"/>
+		          	<field name="iso"/>
+                    <field name="exporter_id"/>
+                    <field name="ad_code"/>
+                    <field name="declare"/>
+		  		</xpath>
+    	    </field>
+		</record>
+
+		<record id="invoice_inherit" model="ir.ui.view">
+            <field name="name">account.move.form</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_move_form"/>
+            <field name="arch" type="xml">
+	            <xpath expr="//field[@name='payment_reference']" position="after">
+		           	<field name="hsn_total_tax" invisible="1"/>
+				   	<field name="cgst_val" invisible="1" />
+				   	<field name="sgst_val" invisible="1"/>
+				   	<field name="igst_val" invisible="1"/>
+				   	<field name="total_val" invisible="1"/>
+				   	<field name="total_tax_val" invisible="1"/>
+		        </xpath>
+    		</field>
+		</record>
+  	</data>
+</odoo>
+
+
+
+
+
+
+
+
+
+
+
+
+
+

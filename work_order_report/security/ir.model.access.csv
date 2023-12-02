@@ -1,0 +1,62 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+,,,,,,,
+access_vfs_line_user_mrp_line,vfs_line group_mrp_manager,model_vfs_line,mrp.group_mrp_manager,1,1,1,1
+access_vfs_line_manager_mrp,vfs_line group_mrp_user,model_vfs_line,mrp.group_mrp_user,1,1,1,1
+,,,,,,,
+access_cls_line_user_mrp_line,cls_line group_mrp_manager,model_cls_line,mrp.group_mrp_manager,1,1,1,1
+access_cls_line_manager_mrp,cls_line group_mrp_user,model_cls_line,mrp.group_mrp_user,1,1,1,1
+,,,,,,,
+access_flx_line_user_mrp_line,flx_line group_mrp_manager,model_flx_line,mrp.group_mrp_manager,1,1,1,1
+access_flx_line_manager_mrp,flx_line group_mrp_user,model_flx_line,mrp.group_mrp_user,1,1,1,1
+,,,,,,,
+access_sli_line_user_mrp_line,sli_line group_mrp_manager,model_sli_line,mrp.group_mrp_manager,1,1,1,1
+access_sli_line_manager_mrp,sli_line group_mrp_user,model_sli_line,mrp.group_mrp_user,1,1,1,1
+,,,,,,,
+access_hfs_line_user_mrp_line,hfs_line group_mrp_manager,model_hfs_line,mrp.group_mrp_manager,1,1,1,1
+access_hfs_line_manager_mrp,hfs_line group_mrp_user,model_hfs_line,mrp.group_mrp_user,1,1,1,1
+,,,,,,,
+access_mli_line_user_mrp_line,mli_line group_mrp_manager,model_mli_line,mrp.group_mrp_manager,1,1,1,1
+access_mli_line_manager_mrp,mli_line group_mrp_user,model_mli_line,mrp.group_mrp_user,1,1,1,1
+,,,,,,,
+access_excs_line_user_mrp_line,excs_line group_mrp_manager,model_excs_line,mrp.group_mrp_manager,1,1,1,1
+access_excs_line_manager_mrp,excs_line group_mrp_user,model_excs_line,mrp.group_mrp_user,1,1,1,1
+,,,,,,,
+access_non_line_user_mrp_line,non_line group_mrp_manager,model_non_line,mrp.group_mrp_manager,1,1,1,1
+access_non_line_manager_mrp,non_line group_mrp_user,model_non_line,mrp.group_mrp_user,1,1,1,1
+,,,,,,,
+access_work_order_magnets_user_mrp_line,work_order_magnets group_mrp_manager,model_work_order_magnets,mrp.group_mrp_manager,1,1,1,1
+access_work_order_magnets_manager_mrp,work_order_magnets group_mrp_user,model_work_order_magnets,mrp.group_mrp_user,1,1,1,1
+,,,,,,,
+access_work_order_testing_options_user_mrp_line,work_order_testing_options group_mrp_manager,model_work_order_testing_options,mrp.group_mrp_manager,1,1,1,1
+access_work_order_testing_options_manager_mrp,work_order_testing_options group_mrp_user,model_work_order_testing_options,mrp.group_mrp_user,1,1,1,1
+,,,,,,,
+access_work_order_approval_cert_user_mrp_line,work_order_approval_cert group_mrp_manager,model_work_order_approval_cert,mrp.group_mrp_manager,1,1,1,1
+access_work_order_approval_cert_manager_mrp,work_order_approval_cert group_mrp_user,model_work_order_approval_cert,mrp.group_mrp_user,1,1,1,1
+,,,,,,,
+access_moc,access.moc,model_moc,,1,1,1,1
+access_stem_moc,access.stem.moc,model_stem_moc,,1,1,1,1
+access_stem_dia,access.stem.dia,model_stem_dia,,1,1,1,1
+access_gasket_moc,access.gasket.moc,model_gasket_moc,,1,1,1,1
+access_packing_details,access.packing.details,model_packing_details,,1,1,1,1
+access_enclosure,access.enclosure,model_enclosure,,1,1,1,1
+access_potting,access.potting,model_potting,,1,1,1,1
+access_magnetic_switches,access.magnetic.switches,model_magnetic_switches,,1,1,1,1
+access_level_transmitter,access.level.transmitter,model_level_transmitter,,1,1,1,1
+access_chamber_moc,access.chamber.moc,model_chamber_moc,,1,1,1,1
+access_chamber_flange_type,access.chamber.flange.type,model_chamber_flange_type,,1,1,1,1
+access_process_pipe_size,access.process.pipe.size,model_process_pipe_size,,1,1,1,1
+access_process_connection,access.process.connection,model_process_connection,,1,1,1,1
+access_process_flange_rating,access.process.flange.rating,model_process_flange_rating,,1,1,1,1
+access_vent,access.vent,model_vent,,1,1,1,1
+access_drain,access.drain,model_drain,,1,1,1,1
+access_mount_type,access.mount.type,model_mount_type,,1,1,1,1
+access_float_moc,access.float.moc,model_float_moc,,1,1,1,1
+access_connection_type,access.connection.type,model_connection_type,,1,1,1,1
+access_flange_moc,access.flange.moc,model_flange_moc,,1,1,1,1
+access_adaptor_moc,access.adaptor.moc,model_adaptor_moc,,1,1,1,1
+access_connector,access.connector,model_connector,,1,1,1,1
+access_connector_vfs,access.connector.vfs,model_connector_vfs,,1,1,1,1
+access_connector_flx,access.connector.flx,model_connector_flx,,1,1,1,1
+access_wetted_moc,access.wetted.moc,model_wetted_moc,,1,1,1,1
+access_insulation,access.insulation,model_insulation,,1,1,1,1
+access_fasteners_moc,access.fasteners.moc,model_fasteners_moc,,1,1,1,1

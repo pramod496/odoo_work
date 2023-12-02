@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <!-- Sequences for sale.order -->
+        <record id="seq_vendor_code" model="ir.sequence">
+            <field name="name">Vendor Code</field>
+            <field name="code">vendor.code</field>
+            <field name="prefix"></field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
+        </record>
+        <record id="seq_project_order" model="ir.sequence">
+            <field name="name">PRO-FORMA Invoice</field>
+            <field name="code">proforma.account.move</field>
+            <field name="prefix">PRO-FORMA/</field>
+            <field name="padding">7</field>
+            <field name="company_id" eval="False"/>
+        </record>
+        <record id="seq_proforma_indian" model="ir.sequence">
+            <field name="name">PRO-FORMA Invoice</field>
+            <field name="code">proforma.india</field>
+            <field name="prefix">PI/</field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+        <record id="seq_proforma_foreign" model="ir.sequence">
+            <field name="name">PRO-FORMA Invoice</field>
+            <field name="code">proforma.foreign</field>
+            <field name="prefix">PE/</field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+        <record id="seq_work_order" model="ir.sequence">
+            <field name="name">Work Order</field>
+            <field name="code">work.order.quotation.seq</field>
+            <field name="prefix">2K20-</field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+	    <field name="implementation">no_gap</field>
+        </record>
+        <record id="seq_sale_quotation" model="ir.sequence">
+            <field name="name">Sales Quotation</field>
+            <field name="code">sale.quotation</field>
+            <field name="prefix">SQ</field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+        <record id="seq_proforma" model="ir.sequence">
+            <field name="name">Shridhan Proforma</field>
+            <field name="code">proforma.shridhan</field>
+            <field name="prefix">-</field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+	    <field name="implementation">no_gap</field>
+        </record>
+
+        <record id="seq_quotation" model="ir.sequence">
+            <field name="name">Shridhan Quotation</field>
+            <field name="code">quotation.shridhan</field>
+            <field name="prefix"></field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="seq_quotation_prefix" model="ir.sequence">
+            <field name="name">Shridhan Quotation Prefix</field>
+            <field name="code">quotation.shridhan.prefix</field>
+            <field name="prefix">SAPL/20-21/</field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+	    <field name="implementation">no_gap</field>
+        </record>
+       <!--  <record id="seq_sale_quotation_indian" model="ir.sequence">
+            <field name="name">Sales Quotation</field>
+            <field name="code">sale.quotation.india</field>
+            <field name="prefix">SQI</field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+        <record id="seq_sale_quotation_foreign" model="ir.sequence">
+            <field name="name">Sales Quotation</field>
+            <field name="code">sale.quotation.foreign</field>
+            <field name="prefix">SQE</field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record> -->
+
+        <record id="seq_mrp_production_subcontract" model="ir.sequence">
+            <field name="name">Mrp Production Subcontract</field>
+            <field name="code">mrp.production.subcontract</field>
+            <field name="prefix">SMO-</field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+	    <field name="implementation">no_gap</field>
+
+        </record>
+        <record id="seq_mrp_production_shop_floor" model="ir.sequence">
+            <field name="name">Mrp Production Shop Floor</field>
+            <field name="code">mrp.production.shop.floor</field>
+            <field name="prefix">SP/MO/</field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+	    <field name="implementation">no_gap</field>
+        </record>
+
+     </data>
+
+</odoo>

@@ -1,0 +1,32 @@
+<odoo>
+    <data>
+        <record id="paperformat_tax_invoice_template" model="report.paperformat">
+            <field name="name">Proforma</field>
+            <field name="default" eval="True"/>
+            <field name="format">custom</field>
+            <field name="page_height">297</field>
+            <field name="page_width">210</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">8</field>
+            <field name="margin_bottom">12</field>
+            <field name="margin_left">5</field>
+            <field name="margin_right">5</field>
+            <field name="header_line" eval="False"/>
+            <field name="header_spacing">15</field>
+            <field name="dpi">90</field>
+        </record>
+
+        <report id="report_account_invoice1"
+                model="account.move"
+                string="Proforma Invoice"
+                report_type="qweb-pdf"
+                name="proforma.report_account_invoice"
+                file="proforma.report_account_invoice"
+                paperformat="proforma.paperformat_tax_invoice_template"/>
+
+        <record id="report_account_invoice1" model="ir.actions.report">
+            <field name="paperformat_id" ref="proforma.paperformat_tax_invoice_template"/>
+        </record>
+
+    </data>
+</odoo>

@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>   
+        <record id="view_account_invoice_inherit_freight" model="ir.ui.view" >
+            <field name="name">account.move_form</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_move_form"/>
+<!--            <field name="inherit_id" ref="sale_to_mrp.account_inherited_form_view"/>-->
+
+<!--            <field name="inherit_id" ref="account.view_move_form"/>-->
+            <field name="arch" type="xml">
+              <xpath expr="//page[1]" position="after">
+                <page string="Freight and Packing Pricing" name="freight_info">
+                    <group>
+                        <group>
+<!--                             <span class = "o_td_label"><b>Type of Freight Pricing</b></span>
+                             <select class="form-control oe_right" style = "width:100%" name="freight_type">
+                               <option t-attf-value="'none'">Select Freight Pricing Type</option>
+                               <option t-attf-value="'fixed'">Fixed Price</option>
+                               <option t-attf-value="'percentage'">Percentage of Untaxed Total</option>
+                             </select> -->
+                            <field name="freight_tax_ids" widget='many2many_tags'/>
+                            <field name="packing_tax_ids" widget='many2many_tags'/>
+                            <field name="testing_tax_ids" widget='many2many_tags'/>
+                            <field name="loading_tax_ids" widget='many2many_tags'/>
+                            <field name="tcs"/>
+                        </group>
+                        <group>
+                            <field name="freight_value" string = "Freight Amount"/>
+                            <field name="packing_value" string = "Packing Amount"/>
+                            <field name="testing_value" string = "Testing Amount"/>
+                            <field name="loading_value" string = "Loading Amount"/>
+                            <field name="tcs_value"/>
+                        </group>
+                    </group>
+                </page>
+              </xpath>
+              <xpath expr="//field[@name='tax_totals_json']" position = "before">
+                  <group class="oe_subtotal_footer oe_right">
+                      <field name="freight_amount" readonly="True"/>
+                      <field name="packing_amount" readonly="True"/>
+                      <field name="testing_amount" readonly="True"/>
+                      <field name="loading_amount" readonly="True"/>
+                      <field name="tcs_amount" style="padding-right:10px;"/>
+                  </group>
+              </xpath>
+            </field>
+        </record>
+        <record id="view_sale_to_mrp_invoice_inherit_freight_1" model="ir.ui.view" >
+            <field name="name">sale_to_mrp.account_inherited_form_view</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="sale_to_mrp.account_inherited_form_view"/>
+<!--            <field name="inherit_id" ref="account.view_move_form"/>-->
+
+            <field name="arch" type="xml">
+              <xpath expr="//page[@name='other_info']" position="before">
+                <page string="Freight and Packing Pricing" name="freight_info">
+                    <group>
+                        <group>
+<!--                             <span class = "o_td_label"><b>Type of Freight Pricing</b></span>
+                             <select class="form-control oe_right" style = "width:100%" name="freight_type">
+                               <option t-attf-value="'none'">Select Freight Pricing Type</option>
+                               <option t-attf-value="'fixed'">Fixed Price</option>
+                               <option t-attf-value="'percentage'">Percentage of Untaxed Total</option>
+                             </select> -->
+                             <field name="freight_tax_ids" widget='many2many_tags'/>
+                             <field name="packing_tax_ids" widget='many2many_tags'/>
+                             <field name="testing_tax_ids" widget='many2many_tags'/>
+                             <field name="loading_tax_ids" widget='many2many_tags'/>
+                             <field name="tcs"/>
+                        </group>
+                        <group>
+                             <field name="freight_value" string = "Freight Amount"/>
+                             <field name="packing_value" string = "Packing Amount"/>
+                             <field name="testing_value" string = "Testing Amount"/>
+                             <field name="loading_value" string = "Loading Amount"/>
+                             <field name="tcs_value"/>
+                        </group>
+                    </group>
+                </page>
+              </xpath>
+              <xpath expr="//field[@name='amount_residual']" position = "before">
+                <field name="freight_amount" readonly = "True"/>
+                <field name="packing_amount" readonly = "True"/>
+                <field name="testing_amount" readonly = "True"/>
+                <field name="loading_amount" readonly = "True"/>
+                <field name="freight_total" invisible = "True"/>
+                <field name="packing_total" invisible = "True"/>
+                <field name="testing_total" invisible = "True"/>
+                <field name="loading_total" invisible = "True"/>
+                  <field name="tcs_amount" style="padding-right:10px;"/>
+              </xpath>
+            </field>
+        </record>
+        <record id="view_sale_to_mrp_freight" model="ir.ui.view">
+            <field name="name">sale.view_order_form</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//notebook/page[@name='order_lines']" position="after">
+                    <page string="Freight and Packing Pricing" name="freight_info">
+                        <group>
+                            <group>
+                                <field name="freight_tax_ids" widget='many2many_tags'/>
+                                <field name="packing_tax_ids" widget='many2many_tags'/>
+                            </group>
+                            <group>
+                                <field name="freight_value" string="Freight Amount"/>
+                                <field name="packing_value" string="Packing Amount"/>
+                            </group>
+                        </group>
+                    </page>
+                </xpath>
+                <xpath expr="//field[@name='tax_totals_json']" position="before">
+                    <field name="amount_untaxed" readonly="True"/>
+                    <field name="freight_amount" readonly="True"/>
+                    <field name="packing_amount" readonly="True"/>
+                    <field name="amount_tax" readonly="True"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

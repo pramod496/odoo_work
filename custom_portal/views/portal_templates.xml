@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<template id="homepage_inherited" name="Home Page" inherit_id="website.homepage">
+		<xpath expr="//div[@id='wrap']" position="replace">
+            <div id="wrap" class="oe_structure oe_empty">
+				<section class="s_text_image oe_img_bg oe_custom_bg pb246" t-attf-style="background-image: url('../custom_portal/static/src/img/back.png');min-height: 460px;">
+					<div class="oe_structure" />
+					<div class="col-md-12">
+					<div class="container">
+						<div class="col-md-6">
+				    	<div class="row align-items-center">
+				        	<div class="col-lg-10 mt8 pb16">
+								<h2 class="mb10" style="text-align:center;"><font style="color: rgb(245, 245, 245);"><strong>Welcome to Shridhan Automation</strong></font></h2>
+				          		<t t-if="website.user_id == user_id">				          		
+									<form style="max-width: 300px;position: relative;margin: 10px auto 18px;" role="form" 
+										t-attf-action="/web/login{{ '?debug' if debug else '' }}" method="post" onsubmit="this.action = this.action + location.hash">
+						                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>										
+						                <div class="form-group field-login">
+						                    <label for="login">Email</label>
+						                    <input type="text" placeholder="Email" name="login" t-att-value="login" id="login" t-attf-class="form-control #{'form-control-sm' if form_small else ''}" required="required" autofocus="autofocus" autocapitalize="off"/>
+						                </div>
+						
+						                <div class="form-group field-password">
+						                    <label for="password">Password</label>
+						                    <input type="password" placeholder="Password" name="password" id="password" t-attf-class="form-control #{'form-control-sm' if form_small else ''}" required="required" autocomplete="current-password" t-att-autofocus="'autofocus' if login else None" maxlength="4096"/>
+						                </div>
+						
+						                <p class="alert alert-danger" t-if="error" role="alert">
+						                    <t t-esc="error"/>
+						                </p>
+						                <p class="alert alert-success" t-if="message" role="status">
+						                    <t t-esc="message"/>
+						                </p>
+						
+						                <div t-attf-class="clearfix oe_login_buttons text-center mb-1 {{'pt-2' if form_small else 'pt-2'}}">
+						                    <button type="submit" class="btn btn-primary btn-block">Log in</button>
+						                    <div class="justify-content-between mt-2 d-flex small">
+							                    <a t-attf-href="/web/reset_password?{{ keep_query() }}">Reset Password</a>
+							                </div>
+						                    <div class="o_login_auth"/>
+						                </div>
+						
+						                <input type="hidden" name="redirect" t-att-value="redirect"/>
+						            </form>
+						    	</t>
+				        	</div>
+				      	</div></div><div class="col-md-6"/>
+				    </div>
+				    </div>
+				    <div class="oe_structure" />
+				</section>
+			</div>
+        </xpath>
+    </template>
+
+
+
+	<template id="login_background_inherit" name="Login Background Page" inherit_id="odoo-debrand-12.login_layout_extend_11">
+		<xpath expr="//div[hasclass('row')]" position="attributes">
+			<attribute name="style">background-image: url('../custom_portal/static/src/img/back.png');min-height: 460px;</attribute>
+		</xpath>
+		<xpath expr="//div[hasclass('o_database_list')]" position="replace">
+			<div class="col-lg-6 o_database_list">
+	            <div class="text-center" t-if="website_id and website_id[0] and website_id[0].company_logo">
+	                <img t-att-src="'data:image/png;base64,%s' % to_text(website_id[0].company_logo or '')"
+	                width="180px" height="80px"/>
+	            </div>
+	            <div class="text-center" t-if="not website_id and website_id[0] and website_id[0].company_logo">
+	                <img t-attf-src="/web/binary/company_logo{{ '?dbname='+db if db else '' }}"/>
+	            </div>
+	            <t t-raw="0"/>
+<!-- 	            <div class="text-center" t-if="not disable_footer">
+	                <t t-if="not disable_database_manager">
+	                    <a class="" href="/web/database/manager">Manage Databases</a> |
+	                </t>
+	                <t>
+	                    <a t-att-href="website_id and website_id[0] and website_id[0].company_website or ''"
+	                       target="_blank">Powered by
+	                    <span t-esc="website_id and website_id[0] and website_id[0].company_name or ''"/></a>
+	                </t>
+	            </div> -->
+	        </div>
+		</xpath>
+	</template>
+	
+	<template id="login_forminherit" name="Login Page" inherit_id="web.login">
+		<xpath expr="//form[hasclass('oe_login_form')]" position="replace">
+			<form style="max-width: 300px;position: relative;margin: 18px auto 18px;" role="form"
+				t-attf-action="/web/login{{ '?debug' if debug else '' }}" method="post" onsubmit="this.action = '/web/login' + location.hash">
+                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+				<h2 class="mb10" style="text-align: left;padding-top: 5px;padding-left: 200px;">
+					<font style="color: rgb(245, 245, 245);"><strong>Welcome to Shridhan Automation</strong></font>
+				</h2>
+<!--                <div class="form-group field-db" t-if="databases and len(databases) &gt; 1">-->
+<!--                    <label for="db" class="col-form-label">Database</label>-->
+<!--                    <div t-attf-class="input-group {{'input-group-sm' if form_small else ''}}">-->
+<!--                        <input type="text" name="db" t-att-value="request.db" id="db" t-attf-class="form-control #{'form-control-sm' if form_small else ''}" required="required" readonly="readonly"/>-->
+<!--                        <span class="input-group-append">-->
+<!--                            <a role="button" href="/web/database/selector" class="btn btn-secondary">Select <i class="fa fa-database" role="img" aria-label="Database" title="Database"></i></a>-->
+<!--                        </span>-->
+<!--                    </div>-->
+<!--                </div>-->
+
+                <div class="form-group field-login" style="padding-left: 250px;">
+                    <label for="login">Email</label>
+                    <input type="text" style="max-width: 300px;" placeholder="Email" name="login" t-att-value="login" id="login" t-attf-class="form-control #{'form-control-sm' if form_small else ''}" required="required" autofocus="autofocus" autocapitalize="off"/>
+                </div>
+
+                <div class="form-group field-password" style="padding-left: 250px;">
+                    <label for="password">Password</label>
+                    <input type="password" style="max-width: 300px;" placeholder="Password" name="password" id="password" t-attf-class="form-control #{'form-control-sm' if form_small else ''}" required="required" autocomplete="current-password" t-att-autofocus="'autofocus' if login else None" maxlength="4096"/>
+                </div>
+
+                <p class="alert alert-danger" t-if="error" role="alert">
+                    <t t-esc="error"/>
+                </p>
+                <p class="alert alert-success" t-if="message" role="status">
+                    <t t-esc="message"/>
+                </p>
+
+                <div style="padding-left: 250px;" t-attf-class="clearfix oe_login_buttons text-center mb-1 {{'pt-2' if form_small else 'pt-2'}}">
+                    <button type="submit" style="max-width: 300px;" class="btn btn-primary btn-block">Log in</button>
+                    <div class="justify-content-between mt-2 d-flex small">
+	                    <a t-if="signup_enabled" t-attf-href="/web/signup?{{ keep_query() }}">Don't have an account?</a>
+	                    <a t-if="reset_password_enabled" t-attf-href="/web/reset_password?{{ keep_query() }}">Reset Password</a>
+	                </div>
+                    <!-- <t t-if="debug">
+                        <button type="submit" name="redirect" value="/web/become" class="btn btn-link btn-sm btn-block">Log in as superuser</button>
+                    </t> -->
+                    <div class="o_login_auth"/>
+                </div>
+
+                <input type="hidden" name="redirect" t-att-value="redirect"/>
+            </form>
+		</xpath>
+	</template>
+
+	<template id="login" inherit_id="web.login" name="Custom Login" >
+		 <xpath expr="//form" position="attributes">
+			 <attribute name="style">background-image: url('../custom_portal/static/src/img/back.png');min-height: 460px;</attribute>
+		</xpath>
+	</template>
+	
+</odoo>
